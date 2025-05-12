@@ -200,8 +200,11 @@ window.Quarto = {
   <li><a href="#proceso-poisson-espacial-homogéneo" id="toc-proceso-poisson-espacial-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-homogéneo"><span class="header-section-number">3.2</span> Proceso Poisson espacial homogéneo</a></li>
   <li><a href="#proceso-poisson-espacial-no-homogéneo" id="toc-proceso-poisson-espacial-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson espacial no homogéneo</a></li>
   <li><a href="#proceso-poisson-no-homogéneo" id="toc-proceso-poisson-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson no homogéneo</a></li>
-  <li><a href="#inferencia-en-procesos-de-poisson" id="toc-inferencia-en-procesos-de-poisson" class="nav-link" data-scroll-target="#inferencia-en-procesos-de-poisson"><span class="header-section-number">3.5</span> Inferencia en procesos de Poisson</a></li>
-  <li><a href="#pruebas-de-clústering" id="toc-pruebas-de-clústering" class="nav-link" data-scroll-target="#pruebas-de-clústering"><span class="header-section-number">3.6</span> Pruebas de clústering</a></li>
+  <li><a href="#pruebas-de-clústering" id="toc-pruebas-de-clústering" class="nav-link" data-scroll-target="#pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</a>
+  <ul class="collapse">
+  <li><a href="#prueba-con-quadrat" id="toc-prueba-con-quadrat" class="nav-link" data-scroll-target="#prueba-con-quadrat"><span class="header-section-number">3.5.1</span> Prueba con quadrat</a></li>
+  <li><a href="#las-funciones-k-y-l-de-ripley" id="toc-las-funciones-k-y-l-de-ripley" class="nav-link" data-scroll-target="#las-funciones-k-y-l-de-ripley"><span class="header-section-number">3.5.2</span> Las funciones K y L de Ripley</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -250,23 +253,23 @@ window.Quarto = {
 <ul>
 <li><p>Dado que <span class="math inline">\(N_{T_0}=n\)</span>, la densidad conjunta de los tiempos de ocurrencia es <span class="math display">\[f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=\frac{n!}{T_0^n},\qquad\text{para}\ 0\leq w_1&lt;\cdots&lt;w_n\leq T_0.\]</span></p></li>
 <li><p>La función de verosimilitud para <span class="math inline">\(\lambda\)</span> es <span class="math display">\[L(\lambda;\underline{x})=\lambda^ne^{-\lambda T_0}.\]</span></p></li>
-<li><p>El estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</p></li>
+<li><p>Bajo esta formulación, el estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</p></li>
 </ul>
 <p><span class="math display">\[\widehat{\lambda}=\frac{N_{T_0}}{T_0}.\]</span></p>
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Prueba</em>. </span></p>
 <ul>
-<li><p>Esta primera afirmación es un resultado clásico de los procesos de Poisson homogéneos y puede revisarse por ejemplo en <span class="citation" data-cites="Kingman">(<a href="../references.html#ref-Kingman" role="doc-biblioref">Kingman 2007</a>)</span>.</p></li>
+<li><p>Esta primera afirmación es un resultado clásico de los procesos de Poisson homogéneos y puede revisarse por ejemplo en <span class="citation" data-cites="Kingman">(<a href="../references.html#ref-Kingman" role="doc-biblioref">Kingman 2007</a>)</span> o en <span class="citation" data-cites="KarlinTaylor2">(<a href="../references.html#ref-KarlinTaylor2" role="doc-biblioref">Karlin y Taylor 1981</a>)</span>.</p></li>
 <li><p>Como <span class="math inline">\(N\)</span> es un proceso Poisson homogéneo, la probabilidad de observar exactamente <span class="math inline">\(n\)</span> eventos en el intervalo <span class="math inline">\((0,T_0]\)</span> es</p></li>
 </ul>
 <p><span class="math display">\[\mathbb{P}[N_{T_0}=n]=e^{-\lambda T_0}\frac{{(\lambda T_0)}^n}{n!}\Bbb{1}_{\mathbb{N}\cup\{0\}}(n).\]</span></p>
 <p>Entonces, por el punto anterior, la función de verosimilitud de <span class="math inline">\(\lambda\)</span> es</p>
-<p><span class="math display">\[L(\lambda)=\mathbb{P}[N_{T_0}=n]f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=e^{-\lambda T_0}\frac{{(\lambda T_0)}^n}{n!}\frac{n!}{T_0^n}=\lambda^n e^{-\lambda T_0}.\]</span></p>
+<p><span class="math display">\[L(\lambda;\underline{x})\propto\mathbb{P}[N_{T_0}=n]f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=e^{-\lambda T_0}\frac{{(\lambda T_0)}^n}{n!}\frac{n!}{T_0^n}=\lambda^n e^{-\lambda T_0}.\]</span></p>
 <ul>
 <li>Tomamos la log-verosimilitud a partir del inciso anterior, de modo que</li>
 </ul>
-<p><span class="math display">\[\ell(\lambda)=\ln L(\lambda)=n\ln\lambda-\lambda T_0.\]</span></p>
+<p><span class="math display">\[\ell(\lambda;\underline{x})=\ln L(\lambda)=n\ln\lambda-\lambda T_0.\]</span></p>
 <p>El punto crítico de esta función lo encontramos como</p>
 <p><span class="math display">\[\left.\frac{d\ell}{d\lambda}\right|_{\lambda=\lambda^*}=0\iff\frac{n}{\lambda^*}-T_0=0\implies\lambda^*=\frac{n}{T_0}.\]</span></p>
 <p>Verificamos que es un máximo con el criterio de la segunda derivada, ya que</p>
@@ -278,28 +281,69 @@ window.Quarto = {
 </section>
 <section id="proceso-poisson-espacial-homogéneo" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="proceso-poisson-espacial-homogéneo"><span class="header-section-number">3.2</span> Proceso Poisson espacial homogéneo</h2>
+<p>Siguiendo la idea de que un proceso de Poisson sobre el tiempo cuenta cuántos puntos caen en cada intervalo de <span class="math inline">\(\mathbb{R}_+\)</span> tras arrojarlos a una intensidad <span class="math inline">\(\lambda&gt;0\)</span>, es posible extender la noción del proceso Poisson a espacios más generales.</p>
+<div id="def-pPhesp" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 3.3 (Proceso Poisson espacial homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson homogéneo</em> de intensidad <span class="math inline">\(\lambda&gt;0\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\lambda|A|)\)</span>, donde <span class="math inline">\(|A|\)</span> representa la medida de Lebesgue del conjunto <span class="math inline">\(A\)</span>. - Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes. - Dado que <span class="math inline">\(N(A)=n\)</span>, las ubicaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> de los eventos son uniformes en <span class="math inline">\(A\)</span>, es decir</p>
+<p><span class="math display">\[f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{{|A|}^n}.\]</span></p>
+</div>
+<p>Así, un proceso Poisson espacial homogéneo es un proceso donde la intensidad con la que se arrojan puntos a una región <span class="math inline">\(A\)</span> del espacio, es proporcional al tamaño de éste. Esto hace sentido con la idea intuitiva de que ‘’es más probable que contemos más puntos si el área es más grande’’.</p>
+<p>En analogía, metodológica e intuitivamente, al caso temporal, tenemos el siguiente estimador para la intensidad de un proceso Poisson espacial homogéneo.</p>
+<div id="thm-emvpPhe" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 3.2 (Estimador máximo verosímil)</strong></span> Sea <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> un proceso Poisson espacial homogéneo con intensidad <span class="math inline">\(\lambda&gt;0\)</span> observado en la región <span class="math inline">\(A_0\)</span>, de tamaño <span class="math inline">\(|A_0|\)</span>. Supongamos que se registran <span class="math inline">\(n\)</span> eventos en las posiciones <span class="math inline">\(x_1,x_2,\ldots,x_n\in A_0\)</span>. Entonces el estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</p>
+<p><span class="math display">\[\widehat{\lambda}=\frac{N(A_0)}{|A_0|}.\]</span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Prueba</em>. </span>Siguiendo la idea del caso temporal, la función de verosimilitud de <span class="math inline">\(\lambda\)</span> se puede calcular con las distribuciones conocidas como</p>
+<p><span class="math display">\[L(\lambda;\underline{x})\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\mathbb{P}[N(A_0)=n]=e^{-\lambda|A_0|}\frac{{(\lambda|A_0|)}^n}{n!}\frac{1}{{|A_0|}^n}=\frac{\lambda^n}{n!}e^{-\lambda|A|}.\]</span></p>
+<p>La log-verosimilitud es</p>
+<p><span class="math display">\[\ell(\lambda;\underline{x})=n\ln\lambda-\lambda|A_0|\]</span></p>
+<p>El punto crítico de esta función lo encontramos como</p>
+<p><span class="math display">\[\left.\frac{d\ell}{d\lambda}\right|_{\lambda=\lambda^*}=0\iff\frac{n}{\lambda^*}-|A_0|=0\implies\lambda^*=\frac{n}{|A_0|}.\]</span></p>
+<p>Verificamos que es un máximo con el criterio de la segunda derivada, ya que</p>
+<p><span class="math display">\[\left.\frac{d^2\ell}{d\lambda^2}\right|_{\lambda=\lambda^*}=-\frac{n}{\lambda^2}&lt;0.\]</span></p>
+<p>De lo anterior, se concluye que el estimador máximo verosímil es</p>
+<p><span class="math display">\[\widehat{\lambda}=\frac{N(A_0)}{|A_0|}.\]</span></p>
+</div>
+<p>El valor del estimador es intuitivo ya que dice que <em>la intensidad estimada es el número de eventos por unidad de volumen</em>, lo cual es consistente con la intuición tras la palabra <em>tasa</em>. Además, se puede verificar que este es un estimador consistente e insesgado que además alcanza la cota de Cramér-Rao.</p>
 </section>
 <section id="proceso-poisson-espacial-no-homogéneo" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson espacial no homogéneo</h2>
 </section>
 <section id="proceso-poisson-no-homogéneo" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="proceso-poisson-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson no homogéneo</h2>
+<p>Este modelo no se limita únicamente a que tome valores de puntos en el espacio. La definición contempla casos en los que la función de intensidad sea de la forma <span class="math inline">\(\lambda:[0,\infty)\times\mathbb{R}^d\to\mathbb{R}_+\)</span> como <span class="math inline">\(\lambda=\lambda(t,x)\)</span>, es decir, que la intensidad dependa del instante y de la ubicación. Un problema para ilustrar esta forma de <span class="math inline">\(\lambda\)</span> es el de las lluvias, que su intensidad puede depender de la hora del día y del lugar del mundo del que se trate.</p>
 </section>
-<section id="inferencia-en-procesos-de-poisson" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="inferencia-en-procesos-de-poisson"><span class="header-section-number">3.5</span> Inferencia en procesos de Poisson</h2>
+<section id="pruebas-de-clústering" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</h2>
+<p>La última propiedad enunciada en la definición <a href="#def-pPhesp" class="quarto-xref">Definición&nbsp;<span>3.3</span></a> hace que al proceso Poisson espacial homogéneo también se le llame el modelo de <em>aleatoriedad espacial completa</em> o <em>CSR</em> por sus siglas en inglés (<strong>c</strong>omplete <strong>s</strong>patial <strong>r</strong>andomness). Si bien la mayoría de procesos están lejos de ser CSR, éste ayuda a diferenciar entre patrones regulares y conglomerados (o clusterizados).</p>
+<p>Dada una muestra de puntos, un buen primer paso es preguntarse si hay evidencia para rechazar la hipótesis de que se trate de un CSR.</p>
+<section id="prueba-con-quadrat" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="prueba-con-quadrat"><span class="header-section-number">3.5.1</span> Prueba con quadrat</h3>
+<p>Un método para dar evidencia a favor o en contra de la hipótesis nula <span class="math inline">\(H_0\)</span> ser CSR es con una prueba <span class="math inline">\(\chi^2\)</span> (ver <span class="citation" data-cites="Moraga">(<a href="../references.html#ref-Moraga" role="doc-biblioref">Moraga 2023</a>)</span>). El <em>método quadrat</em> coincide en particionar la región de estudio en <span class="math inline">\(r\)</span> renglones y <span class="math inline">\(c\)</span> columnas, de modo que se obtenga una retícula de regiones disjuntas de la misma área (quadrats). Así, bajo <span class="math inline">\(H_0\)</span>, el número esperado de observaciones en cualquier región de la retícula es el mismo: sean <span class="math inline">\(n\)</span> el número de observaciones, <span class="math inline">\(m\)</span> el número de quadrats y <span class="math inline">\(n_i\)</span> el número de puntos en el <span class="math inline">\(i\)</span>-ésimo quadrat; entonces el número esperado de puntos en cada quadrat es <span class="math inline">\(n^*=n/m\)</span>.</p>
+<p>Dado lo anterior, el estadístico de prueba se puede calcular por</p>
+<p><span class="math display">\[X^2=\sum_{i=1}^m\frac{{(n_i-n^*)}^2}{n^*}.\]</span></p>
+<p>Se puede verificar que, dada <span class="math inline">\(H_0\)</span>, entonces <span class="math inline">\(X^2\sim\chi^2_{m-1}\)</span>.</p>
+<p>Es muy importante destacar que este método depende de la configuración de quadrats (puede haber regiones sin puntos). También esta prueba no puede distinguir entre distintos patrones localmente.</p>
 </section>
-<section id="pruebas-de-clústering" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="pruebas-de-clústering"><span class="header-section-number">3.6</span> Pruebas de clústering</h2>
+<section id="las-funciones-k-y-l-de-ripley" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="las-funciones-k-y-l-de-ripley"><span class="header-section-number">3.5.2</span> Las funciones K y L de Ripley</h3>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-KarlinTaylor2" class="csl-entry" role="listitem">
+Karlin, Samuel, y Howard Taylor. 1981. <em>A Second Course in Stochastic Processes</em>. First. Academic Press.
+</div>
 <div id="ref-Kingman" class="csl-entry" role="listitem">
 Kingman, John. 2007. <em>Poisson Processes</em>. Second. Claredon Press.
 </div>
 <div id="ref-Klenke" class="csl-entry" role="listitem">
 Klenke, Achim. 2020. <em>Probability Theory: A Comprehensive Course</em>. Third. Wiley.
 </div>
+<div id="ref-Moraga" class="csl-entry" role="listitem">
+Moraga, Paula. 2023. <em>Spatial Statistics for Data Science: Theory and Practice with R</em>. First. Chapman &amp; Hall/CRC.
 </div>
+</div>
+</section>
 </section>
 
 </main> <!-- /main -->
