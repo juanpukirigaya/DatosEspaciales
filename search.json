@@ -60,6 +60,76 @@
     ]
   },
   {
+    "objectID": "Caps/03-Poisson.html",
+    "href": "Caps/03-Poisson.html",
+    "title": "3  Procesos de Poisson",
+    "section": "",
+    "text": "3.1 Proceso Poisson homogéneo\nEn este capítulo se presenta uno de los modelos básicos para el tratamiento de datos puntuales: el proceso Poisson. Para motivar su uso en problemas espaciales, primero recordaremos la génesis de éste en el contexto de los procesos en el tiempo.\nUno de los objetivos principales en el análisis de datos puntuales, es caracterizar conteos de eventos que ocurren de manera (presuntamente) aleatoria. Primero recordemos qué es un proceso de conteo.\nHay diversas variables aleatorias de conteo, pero la ley de eventos raros de Poisson (ver por ejemplo, (Klenke 2020)), sugiere que para el conteo de eventos con probabilidad ‘’baja’’ de ocurrir, es razonable utilizar variables aleatorias Poisson.\nExisten definiciones del proceso Poisson homogéneo equivalentes a Definition 3.2, pero ésta es de particular utilidad porque nos proporciona una manera de calcular explícitamente las distribuciones finito dimensionales de un proceso Poisson homogéneo.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/03-Poisson.html#proceso-poisson-homogéneo",
+    "href": "Caps/03-Poisson.html#proceso-poisson-homogéneo",
+    "title": "3  Procesos de Poisson",
+    "section": "",
+    "text": "Definition 3.1 (Proceso de conteo) Sea \\(N={(N_t)}_{t\\geq 0}\\) un proceso estocástico. \\(N\\) es un proceso de conteo si toma valores en \\(\\mathbb{N}\\cup\\{0\\}\\) y si \\(s&lt;t\\), entonces, \\(N_s\\leq N_t\\).\n\n\n\nDefinition 3.2 (Proceso Poisson homogéneo) Un proceso de conteo \\(N={(N_t)}_{t\\geq 0}\\) es un proceso Poisson homogéneo de intensidad \\(\\lambda&gt;0\\) tal que\n\n\\(N_0=0\\), casi seguramente.\nTiene incrementos independientes y estacionarios, casi seguramente.\nPara \\(s&lt;t\\), un incremento es tal que \\((N_t-N_s)\\sim\\text{Poi}(\\lambda(t-s))\\).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/03-Poisson.html#proceso-poisson-espacial-homogéneo",
+    "href": "Caps/03-Poisson.html#proceso-poisson-espacial-homogéneo",
+    "title": "3  Procesos de Poisson",
+    "section": "3.2 Proceso Poisson espacial homogéneo",
+    "text": "3.2 Proceso Poisson espacial homogéneo",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/03-Poisson.html#proceso-poisson-espacial-no-homogéneo",
+    "href": "Caps/03-Poisson.html#proceso-poisson-espacial-no-homogéneo",
+    "title": "3  Procesos de Poisson",
+    "section": "3.3 Proceso Poisson espacial no homogéneo",
+    "text": "3.3 Proceso Poisson espacial no homogéneo",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/03-Poisson.html#proceso-poisson-no-homogéneo",
+    "href": "Caps/03-Poisson.html#proceso-poisson-no-homogéneo",
+    "title": "3  Procesos de Poisson",
+    "section": "3.4 Proceso Poisson no homogéneo",
+    "text": "3.4 Proceso Poisson no homogéneo",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/03-Poisson.html#inferencia-en-procesos-de-poisson",
+    "href": "Caps/03-Poisson.html#inferencia-en-procesos-de-poisson",
+    "title": "3  Procesos de Poisson",
+    "section": "3.5 Inferencia en procesos de Poisson",
+    "text": "3.5 Inferencia en procesos de Poisson",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/03-Poisson.html#pruebas-de-clústering",
+    "href": "Caps/03-Poisson.html#pruebas-de-clústering",
+    "title": "3  Procesos de Poisson",
+    "section": "3.6 Pruebas de clústering",
+    "text": "3.6 Pruebas de clústering\n\n\n\n\nKlenke, Achim. 2020. Probability Theory: A Comprehensive Course. Third. Wiley.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Procesos de Poisson</span>"
+    ]
+  },
+  {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",
