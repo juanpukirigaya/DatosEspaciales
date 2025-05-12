@@ -198,8 +198,8 @@ window.Quarto = {
   <ul>
   <li><a href="#proceso-poisson-homogéneo" id="toc-proceso-poisson-homogéneo" class="nav-link active" data-scroll-target="#proceso-poisson-homogéneo"><span class="header-section-number">3.1</span> Proceso Poisson homogéneo</a></li>
   <li><a href="#proceso-poisson-espacial-homogéneo" id="toc-proceso-poisson-espacial-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-homogéneo"><span class="header-section-number">3.2</span> Proceso Poisson espacial homogéneo</a></li>
-  <li><a href="#proceso-poisson-espacial-no-homogéneo" id="toc-proceso-poisson-espacial-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson espacial no homogéneo</a></li>
-  <li><a href="#proceso-poisson-no-homogéneo" id="toc-proceso-poisson-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson no homogéneo</a></li>
+  <li><a href="#proceso-poisson-no-homogéneo" id="toc-proceso-poisson-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson no homogéneo</a></li>
+  <li><a href="#proceso-poisson-espacial-no-homogéneo" id="toc-proceso-poisson-espacial-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson espacial no homogéneo</a></li>
   <li><a href="#pruebas-de-clústering" id="toc-pruebas-de-clústering" class="nav-link" data-scroll-target="#pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</a>
   <ul class="collapse">
   <li><a href="#prueba-con-quadrat" id="toc-prueba-con-quadrat" class="nav-link" data-scroll-target="#prueba-con-quadrat"><span class="header-section-number">3.5.1</span> Prueba con quadrat</a></li>
@@ -251,9 +251,15 @@ window.Quarto = {
 <div id="thm-emvpPh" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 3.1 (Distribución conjunta y estimador máximo verosímil)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo con intensidad <span class="math inline">\(\lambda&gt;0\)</span> observado en el intervalo <span class="math inline">\((0,T_0]\)</span>. Supongamos que se registran <span class="math inline">\(n\)</span> eventos en los tiempos <span class="math inline">\(0&lt;w_1&lt;w_2&lt;\cdots&lt;w_n\leq T_0\)</span>. Entonces</p>
 <ul>
-<li><p>Dado que <span class="math inline">\(N_{T_0}=n\)</span>, la densidad conjunta de los tiempos de ocurrencia es <span class="math display">\[f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=\frac{n!}{T_0^n},\qquad\text{para}\ 0\leq w_1&lt;\cdots&lt;w_n\leq T_0.\]</span></p></li>
-<li><p>La función de verosimilitud para <span class="math inline">\(\lambda\)</span> es <span class="math display">\[L(\lambda;\underline{x})=\lambda^ne^{-\lambda T_0}.\]</span></p></li>
-<li><p>Bajo esta formulación, el estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</p></li>
+<li>Dado que <span class="math inline">\(N_{T_0}=n\)</span>, la densidad conjunta de los tiempos de ocurrencia es</li>
+</ul>
+<p><span class="math display">\[f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=\frac{n!}{T_0^n},\qquad\text{para}\ 0\leq w_1&lt;\cdots&lt;w_n\leq T_0.\]</span></p>
+<ul>
+<li>La función de verosimilitud para <span class="math inline">\(\lambda\)</span> es</li>
+</ul>
+<p><span class="math display">\[L(\lambda;\underline{x})=\lambda^ne^{-\lambda T_0}.\]</span></p>
+<ul>
+<li>Bajo esta formulación, el estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</li>
 </ul>
 <p><span class="math display">\[\widehat{\lambda}=\frac{N_{T_0}}{T_0}.\]</span></p>
 </div>
@@ -306,11 +312,64 @@ window.Quarto = {
 </div>
 <p>El valor del estimador es intuitivo ya que dice que <em>la intensidad estimada es el número de eventos por unidad de volumen</em>, lo cual es consistente con la intuición tras la palabra <em>tasa</em>. Además, se puede verificar que este es un estimador consistente e insesgado que además alcanza la cota de Cramér-Rao.</p>
 </section>
-<section id="proceso-poisson-espacial-no-homogéneo" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson espacial no homogéneo</h2>
+<section id="proceso-poisson-no-homogéneo" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="proceso-poisson-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson no homogéneo</h2>
+<p>Regresamos al contexto temporal para motivar el siguiente modelo. Una de las principales debilidades del proceso Poisson homogéneo viene de la <em>homogeneidad</em>. El asumir que la intensidad es constante puede llevar a ideas como que los accidentes de tránsito ocurren a la misma tasa en la madrugada que en la tarde, y eso no es una hipótesis razonable, en general. La manera más inmediata de resolver esto es considerando que la intensidad ahora también varía en el tiempo.</p>
+<div id="def-pPnh" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 3.4 (Proceso Poisson no homogéneo)</strong></span> Sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función tal que</p>
+<p><span class="math display">\[\int_0^\infty\lambda(t)dt=\infty.\]</span></p>
+<p>Un proceso de contar <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda(t)\)</span> si satisface que</p>
+<ol type="1">
+<li><span class="math inline">\(N_0=0\)</span> casi seguramente.</li>
+<li>Tiene incrementos independientes.</li>
+<li><span class="math inline">\(\mathbb{P}[N_{t+h}-N_t=1]=\lambda(t)h+o(h)\)</span>.</li>
+<li><span class="math inline">\(\mathbb{P}[N_{t+h}-N_t\geq 2]=o(h)\)</span>.</li>
+</ol>
+</div>
+<p>Como consecuencia de esta formulación infinitesimal, se tiene el siguiente resultado, el cual da la función de densidad de los incrementos de un proceso Poisson no homogéneo.</p>
+<div id="thm-denspPnh" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 3.3 (Densidad de los incrementos)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>. Entonces, para cada <span class="math inline">\(n\geq 0\)</span> y <span class="math inline">\(0\leq s&lt;t\)</span>, se tiene que</p>
+<p><span class="math display">\[\mathbb{P}[N_{t+s}-N_t=n]=\exp\left[-(\Lambda(t+s)-\Lambda(t))\right]\frac{{(\Lambda(t+s)-\Lambda(t))}^n}{n!},\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[\Lambda(t)=\int_0^t\lambda(u)du\]</span></p>
+<p>es la intensidad acumulada. Más aún, dado que han ocurrido <span class="math inline">\(n\)</span> eventos en el intervalo <span class="math inline">\((0,T]\)</span>, los tiempos de ocurrencia de éstos son tales que</p>
+<p><span class="math display">\[f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,t_n|n)\propto\frac{1}{\Lambda(t)}\prod_{i=1}^n\lambda(w_i).\]</span></p>
+</div>
+<p>Es importante notar que ahora se busca estimar <em>una función</em>. La función de verosimilitud de este problema es</p>
+<p><span class="math display">\[L(\lambda(t))=\left[\prod_{i=1}^n\lambda(t_i)\right]\exp\left(-\Lambda(T)\right).\]</span></p>
+<p>Los métodos utilizados para estos problemas, son métodos para estimación de funciones. Hay distintas maneras de abordar este problema. El problema es que, como la función <span class="math inline">\(\lambda\)</span> no es propiamente una densidad, es necesario trabajar con alguna función relacionada que sí lo sea. Si consideramos la función <span class="math inline">\(f:[0,T]\to\mathbb{R}\)</span> dada por</p>
+<p><span class="math display">\[f(t)=\frac{\lambda(t)}{\Lambda(T)},\]</span></p>
+<p>ahora sí tenemos una función de densidad en el intervalo <span class="math inline">\([0,T]\)</span>. Hay muchas maneras de resolver este problema de estimación de funciones. La manera más directa y como secuencia natural al <a href="http://personal.cimat.mx:8181/~leticia.ramirez/Modelos_Estadisticos_I/Cap5.html#estructura-de-los-modelos-lineales-generalizados">Curso de Modelos Estadísticos</a>, más específicamente al tema de <em>regresión Poisson</em>. Entonces, utilizando una función de enlace <span class="math inline">\(\log\)</span>, se tiene el <em>modelo Log-Lineal</em></p>
+<p><span class="math display">\[\log\lambda(t)=\beta_0+\beta_1Z_1(t)+\cdots+\beta_pZ_p(t),\]</span></p>
+<p>donde <span class="math inline">\(Z_1,\ldots,Z_p\)</span> son covariables temporales y <span class="math inline">\(\beta_0,\ldots,\beta_p\)</span> son los coeficientes a estimar (podría verse como un problema de estimación de tendencia y estacionalidad de una serie de tiempo, por ejemplo). Otra manera sería considerar la versión empírica de <span class="math inline">\(\lambda\)</span> que se tiene por los tiempos <span class="math inline">\(t_1,\ldots,t_n\)</span> y utilizar algún método de suavizamiento por kernel de modo que se tendría</p>
+<p><span class="math display">\[\widehat{\lambda}(t)=\sum_{i=1}^n\frac{1}{h}K\left(\frac{t-t_i}{h}\right),\]</span></p>
+<p>para <span class="math inline">\(K\)</span> un kernel Gaussiano y un ancho de banda <span class="math inline">\(h\)</span>.</p>
+<p>Una manera de validar modelos de procesos Poisson no homogéneos y también de simularlos es el siguiente, que relaciona un proceso Poisson homogéneo con uno no homogéneo a partir de un cambio de tiempo determinista.</p>
+<div id="thm-pPhtopPnh" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 3.4 (Relación entre procesos Poisson homogéneos y no homogéneos)</strong></span> &nbsp;</p>
+<ul>
+<li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson no homogéneo con funciones de intensidad <span class="math inline">\(\lambda\)</span> y de intensidad acumulada <span class="math inline">\(\Lambda\)</span>, con inversa generalizada <span class="math inline">\(\Lambda^{-1}\)</span>. Entonces el proceso <span class="math inline">\({(N_{\Lambda^{-1}(t)})}_{t\geq 0}\)</span> es un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span>.</li>
+<li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span> y sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función no negativa tal que</li>
+</ul>
+<p><span class="math display">\[\int_0^\infty\lambda(t)dt=\infty.\]</span></p>
+<p>Definimos la función <span class="math inline">\(\Lambda\)</span> como</p>
+<p><span class="math display">\[\Lambda(t)=\int_0^t\lambda(u)du.\]</span></p>
+<p>Entonces el proceso <span class="math inline">\({(N_{\Lambda(t)})}_{t\geq 0}\)</span> es un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>.</p>
+</div>
 </section>
-<section id="proceso-poisson-no-homogéneo" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="proceso-poisson-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson no homogéneo</h2>
+<section id="proceso-poisson-espacial-no-homogéneo" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson espacial no homogéneo</h2>
+<p>Con las ideas de la sección anterior, un proceso Poisson espacial no homogéneo, intuitivamente, es uno en que la intensidad depende del punto del espacio en el que uno se encuentre. Teóricamente, la extensión no es tan directa como se pensaría en primera instancia.</p>
+<div id="def-pPenh" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 3.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\lambda(A)\)</span>, donde</p>
+<p><span class="math display">\[\Lambda(A)=\int_A\lambda(x)dx.\]</span></p>
+<ul>
+<li>Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes.</li>
+<li>Dado que <span class="math inline">\(N(A)=n\)</span>, las ubicaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> de los eventos son tales que</li>
+</ul>
+<p><span class="math display">\[ f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{\Lambda(A)}\prod_{i=1}^n\lambda(x_i). \]</span></p>
+</div>
+<p>En este caso, la función de intensidad en realidad se toma como densidad para una medida, a la cual se le llama también <em>medida de Poisson</em>.</p>
 <p>Este modelo no se limita únicamente a que tome valores de puntos en el espacio. La definición contempla casos en los que la función de intensidad sea de la forma <span class="math inline">\(\lambda:[0,\infty)\times\mathbb{R}^d\to\mathbb{R}_+\)</span> como <span class="math inline">\(\lambda=\lambda(t,x)\)</span>, es decir, que la intensidad dependa del instante y de la ubicación. Un problema para ilustrar esta forma de <span class="math inline">\(\lambda\)</span> es el de las lluvias, que su intensidad puede depender de la hora del día y del lugar del mundo del que se trate.</p>
 </section>
 <section id="pruebas-de-clústering" class="level2" data-number="3.5">
