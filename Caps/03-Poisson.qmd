@@ -1,0 +1,241 @@
+# Procesos de Poisson
+En este capítulo se presenta uno de los modelos básicos para el tratamiento de datos puntuales: **el proceso Poisson**. Para motivar su uso en problemas espaciales, primero recordaremos la génesis de éste en el contexto de los procesos en el tiempo.
+
+## Proceso Poisson homogéneo
+Uno de los objetivos principales en el análisis de datos puntuales, es caracterizar conteos de eventos que ocurren de manera (presuntamente) aleatoria. Primero recordemos qué es un proceso de conteo.
+
+::: {#def-conteo}
+
+### Proceso de conteo
+
+Sea $N={(N_t)}_{t\geq 0}$ un proceso estocástico. $N$ es un *proceso de conteo* si toma valores en $\mathbb{N}\cup\{0\}$ y si $s<t$, entonces, $N_s\leq N_t$.
+
+:::
+
+Hay diversas variables aleatorias de conteo, pero la *ley de eventos raros de Poisson* (ver por ejemplo, [@Klenke]), sugiere que para el conteo de eventos con probabilidad ''baja'' de ocurrir, es razonable utilizar variables aleatorias Poisson.
+
+::: {#def-pPh}
+
+### Proceso Poisson homogéneo
+
+Un proceso de conteo $N={(N_t)}_{t\geq 0}$ es un *proceso Poisson homogéneo* de intensidad $\lambda>0$ si cumple que
+
+1. $N_0=0$, casi seguramente.
+2. Tiene incrementos independientes y estacionarios, casi seguramente.
+3. Para $s<t$, un incremento es tal que $(N_t-N_s)\sim\text{Poi}(\lambda(t-s))$.
+
+:::
+
+Existen definiciones del proceso Poisson homogéneo equivalentes a @def-pPh, pero ésta es de particular utilidad porque nos proporciona una manera de calcular explícitamente las distribuciones finito dimensionales de un proceso Poisson homogéneo y además éstas únicamente dependen de la longitud de los incrementos.
+
+Con estas propiedades, tenemos el siguiente estimador de máxima verosimilitud para el parámetro de intensidad $\lambda$.
+
+::: {#thm-emvpPh}
+
+### Distribución conjunta y estimador máximo verosímil
+
+Sea $N={(N_t)}_{t\geq 0}$ un proceso Poisson homogéneo con intensidad $\lambda>0$ observado en el intervalo $(0,T_0]$. Supongamos que se registran $n$ eventos en los tiempos $0<w_1<w_2<\cdots<w_n\leq T_0$. Entonces
+
+- Dado que $N_{T_0}=n$, la densidad conjunta de los tiempos de ocurrencia es
+$$f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=\frac{n!}{T_0^n},\qquad\text{para}\ 0\leq w_1<\cdots<w_n\leq T_0.$$
+
+- La función de verosimilitud para $\lambda$ es
+$$L(\lambda;\underline{x})=\lambda^ne^{-\lambda T_0}.$$
+
+- Bajo esta formulación, el estimador máximo verosímil de $\lambda$ es
+
+$$\widehat{\lambda}=\frac{N_{T_0}}{T_0}.$$
+
+:::
+
+::: {.proof}
+
+- Esta primera afirmación es un resultado clásico de los procesos de Poisson homogéneos y puede revisarse por ejemplo en [@Kingman] o en [@KarlinTaylor2].
+
+- Como $N$ es un proceso Poisson homogéneo, la probabilidad de observar exactamente $n$ eventos en el intervalo $(0,T_0]$ es
+
+$$\mathbb{P}[N_{T_0}=n]=e^{-\lambda T_0}\frac{{(\lambda T_0)}^n}{n!}\Bbb{1}_{\mathbb{N}\cup\{0\}}(n).$$
+
+Entonces, por el punto anterior, la función de verosimilitud de $\lambda$ es
+
+$$L(\lambda;\underline{x})\propto\mathbb{P}[N_{T_0}=n]f_{W_1,\ldots,W_n|N_{T_0}}(w_1,\ldots,w_n|n)=e^{-\lambda T_0}\frac{{(\lambda T_0)}^n}{n!}\frac{n!}{T_0^n}=\lambda^n e^{-\lambda T_0}.$$
+
+- Tomamos la log-verosimilitud a partir del inciso anterior, de modo que
+
+$$\ell(\lambda;\underline{x})=\ln L(\lambda)=n\ln\lambda-\lambda T_0.$$
+
+El punto crítico de esta función lo encontramos como
+
+$$\left.\frac{d\ell}{d\lambda}\right|_{\lambda=\lambda^*}=0\iff\frac{n}{\lambda^*}-T_0=0\implies\lambda^*=\frac{n}{T_0}.$$
+
+Verificamos que es un máximo con el criterio de la segunda derivada, ya que
+
+$$\left.\frac{d^2\ell}{d\lambda^2}\right|_{\lambda=\lambda^*}=-\frac{n}{\lambda^2}<0.$$
+
+De lo anterior, se concluye que el estimador máximo verosímil es
+
+$$\widehat{\lambda}=\frac{N_{T_0}}{T_0}.$$
+
+:::
+
+El valor del estimador es intuitivo ya que dice que *la intensidad estimada es el número de eventos por unidad de tiempo*, lo cual es consistente con la intuición tras la palabra *tasa*. Además, se puede verificar que este es un estimador consistente e insesgado que además alcanza la cota de Cramér-Rao.
+
+## Proceso Poisson espacial homogéneo
+
+Siguiendo la idea de que un proceso de Poisson sobre el tiempo cuenta cuántos puntos caen en cada intervalo de $\mathbb{R}_+$ tras arrojarlos a una intensidad $\lambda>0$, es posible extender la noción del proceso Poisson a espacios más generales.
+
+::: {#def-pPhesp}
+
+### Proceso Poisson espacial homogéneo
+
+Sea $S\subseteq\mathbb{R}^d$ un conjunto Lebesgue-medible y $\mathcal{A}$ una familia de subconjuntos Lebesgue-medibles de $S$ cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial $N={(N(A))}_{A\in\mathcal{A}}$ es un *proceso Poisson homogéneo* de intensidad $\lambda>0$ en la región $S$ si 
+- Para todo $A\in\mathcal{A}$ se tiene que $N(A)\sim\text{Poi}(\lambda|A|)$, donde $|A|$ representa la medida de Lebesgue del conjunto $A$.
+- Para todos $A_1,\ldots,A_n\in\mathcal{A}$ disjuntos, las variables aleatorias $N(A_1),\ldots,N(A_n)$ son independientes.
+- Dado que $N(A)=n$, las ubicaciones $X_1,\ldots,X_n$ de los eventos son uniformes en $A$, es decir
+
+$$f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{{|A|}^n}.$$
+
+:::
+
+Así, un proceso Poisson espacial homogéneo es un proceso donde la intensidad con la que se arrojan puntos a una región $A$ del espacio, es proporcional al tamaño de éste. Esto hace sentido con la idea intuitiva de que ''es más probable que contemos más puntos si el área es más grande''.
+
+En analogía, metodológica e intuitivamente, al caso temporal, tenemos el siguiente estimador para la intensidad de un proceso Poisson espacial homogéneo.
+
+::: {#thm-emvpPhe}
+
+### Estimador máximo verosímil
+
+Sea $N={(N(A))}_{A\in\mathcal{A}}$ un proceso Poisson espacial homogéneo con intensidad $\lambda>0$ observado en la región $A_0$, de tamaño $|A_0|$. Supongamos que se registran $n$ eventos en las posiciones $x_1,x_2,\ldots,x_n\in A_0$. Entonces el estimador máximo verosímil de $\lambda$ es
+
+$$\widehat{\lambda}=\frac{N(A_0)}{|A_0|}.$$
+
+:::
+
+::: {.proof}
+
+Siguiendo la idea del caso temporal, la función de verosimilitud de $\lambda$ se puede calcular con las distribuciones conocidas como
+
+$$L(\lambda;\underline{x})\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\mathbb{P}[N(A_0)=n]=e^{-\lambda|A_0|}\frac{{(\lambda|A_0|)}^n}{n!}\frac{1}{{|A_0|}^n}=\frac{\lambda^n}{n!}e^{-\lambda|A|}.$$
+
+La log-verosimilitud es
+
+$$\ell(\lambda;\underline{x})=n\ln\lambda-\lambda|A_0|$$
+
+El punto crítico de esta función lo encontramos como
+
+$$\left.\frac{d\ell}{d\lambda}\right|_{\lambda=\lambda^*}=0\iff\frac{n}{\lambda^*}-|A_0|=0\implies\lambda^*=\frac{n}{|A_0|}.$$
+
+Verificamos que es un máximo con el criterio de la segunda derivada, ya que
+
+$$\left.\frac{d^2\ell}{d\lambda^2}\right|_{\lambda=\lambda^*}=-\frac{n}{\lambda^2}<0.$$
+
+De lo anterior, se concluye que el estimador máximo verosímil es
+
+$$\widehat{\lambda}=\frac{N(A_0)}{|A_0|}.$$
+
+:::
+
+El valor del estimador es intuitivo ya que dice que *la intensidad estimada es el número de eventos por unidad de volumen*, lo cual es consistente con la intuición tras la palabra *tasa*. Además, se puede verificar que este es un estimador consistente e insesgado que además alcanza la cota de Cramér-Rao.
+
+## Proceso Poisson no homogéneo
+
+Regresamos al contexto temporal para motivar el siguiente modelo. Una de las principales debilidades del proceso Poisson homogéneo viene de la *homogeneidad*. El asumir que la intensidad es constante puede llevar a ideas como que los accidentes de tránsito ocurren a la misma tasa en la madrugada que en la tarde, y eso no es una hipótesis razonable, en general. La manera más inmediata de resolver esto es considerando que la intensidad ahora también varía en el tiempo.
+
+::: {#def-pPnh}
+
+### Proceso Poisson no homogéneo
+
+Sea $\lambda:[0,\infty)\to[0,\infty)$ una función tal que $\displaystyle\int_0^\infty\lambda(t)dt=\infty$. Un proceso de contar $N={(N_t)}_{t\geq 0}$ es un *proceso Poisson no homogéneo* con función de intensidad $\lambda(t)$ si satisface que
+
+1. $N_0=0$ casi seguramente.
+2. Tiene incrementos independientes.
+3. $\mathbb{P}[N_{t+h}-N_t=1]=\lambda(t)h+o(h)$.
+4. $\mathbb{P}[N_{t+h}-N_t\geq 2]=o(h)$.
+
+:::
+
+Como consecuencia de esta formulación infinitesimal, se tiene el siguiente resultado, el cual da la función de densidad de los incrementos de un proceso Poisson no homogéneo.
+
+::: {#thm-denspPnh}
+
+### Densidad de los incrementos
+
+Sea $N={(N_t)}_{t\geq 0}$ un proceso Poisson no homogéneo con función de intensidad $\lambda$. Entonces, para cada $n\geq 0$ y $0\leq s<t$, se tiene que
+
+$$\mathbb{P}[N_{t+s}-N_t=n]=\exp\left[-(\Lambda(t+s)-\Lambda(t))\right]\frac{{(\Lambda(t+s)-\Lambda(t))}^n}{n!},$$
+
+donde $\displaystyle\Lambda(t)=\int_0^t\lambda(u)du$ es la intensidad acumulada. Más aún, dado que han ocurrido $n$ eventos en el intervalo $(0,T]$, los tiempos de ocurrencia de éstos son tales que
+
+$$f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,t_n|n)\propto\frac{1}{\Lambda(t)}\prod_{i=1}^n\lambda(w_i).$$
+
+:::
+
+Es importante notar que ahora se busca estimar *una función*. La función de verosimilitud de este problema es
+
+$$L(\lambda(t))=\left[\prod_{i=1}^n\lambda(t_i)\right]\exp\left(-\Lambda(T)\right).$$
+
+Los métodos utilizados para estos problemas, son métodos para estimación de funciones. Hay distintas maneras de abordar este problema. El problema es que, como la función $\lambda$ no es propiamente una densidad, es necesario trabajar con alguna función relacionada que sí lo sea. Si consideramos la función $f:[0,T]\to\mathbb{R}$ dada por
+
+$$f(t)=\frac{\lambda(t)}{\Lambda(T)},$$
+
+ahora sí tenemos una función de densidad en el intervalo $[0,T]$. Hay muchas maneras de resolver este problema de estimación de funciones. La manera más directa y como secuencia natural al [Curso de Modelos Estadísticos](http://personal.cimat.mx:8181/~leticia.ramirez/Modelos_Estadisticos_I/Cap5.html#estructura-de-los-modelos-lineales-generalizados), más específicamente al tema de *regresión Poisson*. Entonces, utilizando una función de enlace $\log$, se tiene el *modelo Log-Lineal*
+
+$$\log\lambda(t)=\beta_0+\beta_1Z_1(t)+\cdots+\beta_pZ_p(t),$$
+
+donde $Z_1,\ldots,Z_p$ son covariables temporales y $\beta_0,\ldots,\beta_p$ son los coeficientes a estimar (podría verse como un problema de estimación de tendencia y estacionalidad de una serie de tiempo, por ejemplo). Otra manera sería considerar la versión empírica de $\lambda$ que se tiene por los tiempos $t_1,\ldots,t_n$ y utilizar algún método de suavizamiento por kernel de modo que se tendría
+
+$$\widehat{\lambda}(t)=\sum_{i=1}^n\frac{1}{h}K\left(\frac{t-t_i}{h}\right),$$
+
+para $K$ un kernel Gaussiano y un ancho de banda $h$.
+
+Una manera de validar modelos de procesos Poisson no homogéneos y también de simularlos es el siguiente, que relaciona un proceso Poisson homogéneo con uno no homogéneo a partir de un cambio de tiempo determinista.
+
+::: {#thm-pPhtopPnh}
+
+### Relación entre procesos Poisson homogéneos y no homogéneos
+
+- Sea ${(N_t)}_{t\geq 0}$ un proceso Poisson no homogéneo con funciones de intensidad $\lambda$ y de intensidad acumulada $\Lambda$, con inversa generalizada $\Lambda^{-1}$. Entonces el proceso ${(N_{\Lambda^{-1}(t)})}_{t\geq 0}$ es un proceso Poisson homogéneo de intensidad $\lambda=1$.
+- Sea ${(N_t)}_{t\geq 0}$ un proceso Poisson homogéneo de intensidad $\lambda=1$ y sea $\lambda:[0,\infty)\to[0,\infty)$ una función no negativa tal que $\displaystyle\int_0^\infty\lambda(t)dt=\infty$. Definimos la función $\Lambda$ como $\displaystyle\Lambda(t)=\int_0^t\lambda(u)du$. Entonces el proceso ${(N_{\Lambda(t)})}_{t\geq 0}$ es un proceso Poisson no homogéneo con función de intensidad $\lambda$.
+
+:::
+
+## Proceso Poisson espacial no homogéneo
+Con las ideas de la sección anterior, un proceso Poisson espacial no homogéneo, intuitivamente, es uno en que la intensidad depende del punto del espacio en el que uno se encuentre. Teóricamente, la extensión no es tan directa como se pensaría en primera instancia.
+
+::: {#def-pPenh}
+
+### Proceso Poisson espacial no homogéneo
+
+Sea $S\subseteq\mathbb{R}^d$ un conjunto Lebesgue-medible y $\mathcal{A}$ una familia de subconjuntos Lebesgue-medibles de $S$ cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial $N={(N(A))}_{A\in\mathcal{A}}$ es un *proceso Poisson no homogéneo* con función de intensidad $\lambda:S\to[0,\infty)$ en la región $S$ si 
+- Para todo $A\in\mathcal{A}$ se tiene que $N(A)\sim\text{Poi}(\lambda(A)$, donde $\displaystyle\Lambda(A)=\int_A\lambda(x)dx$.
+- Para todos $A_1,\ldots,A_n\in\mathcal{A}$ disjuntos, las variables aleatorias $N(A_1),\ldots,N(A_n)$ son independientes.
+- Dado que $N(A)=n$, las ubicaciones $X_1,\ldots,X_n$ de los eventos son tales que
+
+$$f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{\Lambda(A)}\prod_{i=1}^n\lambda(x_i).$$
+
+:::
+
+En este caso, la función de intensidad en realidad se toma como densidad para una medida, a la cual se le llama también *medida de Poisson*.
+
+Este modelo no se limita únicamente a que tome valores de puntos en el espacio. La definición contempla casos en los que la función de intensidad sea de la forma $\lambda:[0,\infty)\times\mathbb{R}^d\to\mathbb{R}_+$ como $\lambda=\lambda(t,x)$, es decir, que la intensidad dependa del instante y de la ubicación. Un problema para ilustrar esta forma de $\lambda$ es el de las lluvias, que su intensidad puede depender de la hora del día y del lugar del mundo del que se trate.
+
+## Pruebas de clústering
+
+La última propiedad enunciada en la definición [@def-pPhesp] hace que al proceso Poisson espacial homogéneo también se le llame el modelo de *aleatoriedad espacial completa* o *CSR* por sus siglas en inglés (**c**omplete **s**patial **r**andomness). Si bien la mayoría de procesos están lejos de ser CSR, éste ayuda a diferenciar entre patrones regulares y conglomerados (o clusterizados).
+
+Dada una muestra de puntos, un buen primer paso es preguntarse si hay evidencia para rechazar la hipótesis de que se trate de un CSR.
+
+### Prueba con quadrat
+
+Un método para dar evidencia a favor o en contra de la hipótesis nula $H_0$ ser CSR es con una prueba $\chi^2$ (ver [@Moraga]). El *método quadrat* coincide en particionar la región de estudio en $r$ renglones y $c$ columnas, de modo que se obtenga una retícula de regiones disjuntas de la misma área (quadrats). Así, bajo $H_0$, el número esperado de observaciones en cualquier región de la retícula es el mismo: sean $n$ el número de observaciones, $m$ el número de quadrats y $n_i$ el número de puntos en el $i$-ésimo quadrat; entonces el número esperado de puntos en cada quadrat es $n^*=n/m$.
+
+Dado lo anterior, el estadístico de prueba se puede calcular por
+
+$$X^2=\sum_{i=1}^m\frac{{(n_i-n^*)}^2}{n^*}.$$
+
+Se puede verificar que, bajo $H_0$, entonces $X^2\sim\chi^2_{m-1}$.
+
+Es muy importante destacar que este método depende de la configuración de quadrats (puede haber regiones sin puntos). También esta prueba no puede distinguir entre distintos patrones localmente.
+
+### Las funciones K y L de Ripley
+

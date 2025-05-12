@@ -21,7 +21,7 @@ Sean $I\subseteq\mathbb{R}$ y $A\subseteq\mathbb{R}^d$. Una familia de variables
 
 :::
 
-En este texto se manejarán únicamente procesos espaciales, es decir, consideraremos que $t$ es fijo. A una realización del proceso le denotaremos por $z={(z_x)}_{x\in A}$. En el contexto del análisis estadístico, se consideran distintos tipos de datos (o realizaciones ed $Z$).
+En este texto se manejarán únicamente procesos espaciales, es decir, consideraremos que $t$ es fijo. A una realización del proceso le denotaremos por $z={(z(x))}_{x\in A}$. En el contexto del análisis estadístico, se consideran distintos tipos de datos (o realizaciones ed $Z$).
 
 ::: {#def-dato-espacial}
 
@@ -56,7 +56,7 @@ plot(d)
 ```
 
 
-### Datos geoestadísticos
+### Datos geoestadísticos {#sec-datgeost}
 Estos datos se miden de manera continua en el espacio, por lo que se consideran formas posiblemente irregulares. Una complicación de este tipo de datos es que normalmente sólo se dispone de observaciones en algunos puntos del espacio. Estos datos aparecen típicamente en cuestiones mineras, de ciencias del suelo, hidrológicas, meteorológicas u otros temas geológicos.
 
 Como ejemplo, se muestra la distribución de plomo superficial en mg por kg de tierra, en un terreno muestreado tras una inundación del río Meuse en Países Bajos. Estos datos son de la librería **sp** de R.
@@ -90,5 +90,99 @@ plot(longleaf, use.marks = FALSE, pch = 20, cex = 0.5, main = "Pinos de hoja lar
 Se pueden considerar versiones más generales de este tipo de datos, como los datos puntuales marcados. En los datos puntuales marcados se considera que las observaciones pueden ser de distintos tipos dada alguna característica cualitativa.
 
 La característica principal de este tipo de datos es que el interés está centrado en la posición de los eventos, ya que no hay variables medidas continuamente en el espacio. 
+
+## Herramientas descriptivas
+
+### El variograma
+Una herramienta de gran utilidad en el análisis de este tipo de procesos con estructura adicional es el *variograma*. La idea de este estadístico es estudiar empíricamente la estructura de covarianza del proceso espacial.
+
+La idea se toma del contexto de series de tiempo, donde se busca medir la influencia de tiempos anteriores en el instante de estudio. Algunas de las definiciones de interés en el contexto de las series de tiempo se presentan a continuación, como se enuncian en [@Rincon].
+
+::: {#def-covTS}
+
+### Estructura de covarianza y estacionareidad
+
+Sea $X={(X_t)}_{t\in\mathbb{Z}}$ una serie de tiempo.
+
+1. Si $X$ tiene media finita, la *función media* es $t\mapsto\mu(t)=\mathbb{E}[X_t]$ para cada $t\in\mathbb{Z}$.
+2. Si $X$ tiene segundo momento finito, la *función varianza* es $t\mapsto\text{Var}(X_t)$ para cada $t\in\mathbb{Z}$.
+3. Si $X$ tiene segundo momento, la *función de autocovarianza* es $(s,t)\mapsto\gamma(s,t)=\text{Cov}[X_s,X_t]$.
+4. $X$ es *estrictamente estacionaria* si para cualesquiera $k\geq 1$ y $\tau\in\mathbb{Z}$ se cumple que $(X_1,\ldots,X_k)\overset{d}{=}(X_{1+\tau},\ldots,X_{k+\tau})$.
+5. $X$ es *débilmente estacionaria* si satisface que $\mu(t)=\mu$ y $\gamma(t,t+\tau)=\gamma(\tau)$.
+6. Si $X$ es estacionaria, la *función de autocorrelación* es $\displaystyle\rho(\tau)=\frac{\gamma(\tau)}{\gamma(0)}$.
+
+:::
+
+La propiedad de *ser estacionaria* quiere decir que la estructura de correlación depende únicamente del tamaño del periodo que se revise y no de los instantes específicos en los que se vea el proceso, tal tamaño del periodo es la separación entre el inicio y el final del periodo. En el contexto de los datos espaciales, las nociones de estacionaridad se definen en términos de la distancia entre dos puntos.
+
+::: {#def-covSP}
+
+### Proceso espacial estacionario
+
+Sea $Z={(Z(s))}_{s\in A\subseteq\mathbb{R}^d}$ un proceso espacial. Decimos que $Z$ es un *proceso intrínsecamente estacionario* si satisface que para todos $s,h\in\mathbb{R}^d$
+
+$$\mathbb{E}[Z(s+h)-Z(s)]=0\quad\text{y}\quad\text{Var}(Z(s+h)-Z(t))=2\gamma(h),$$
+
+donde $\gamma$ es el *variograma* de $Z$. $\gamma$ satisface que, para todos $s_1,\ldots,s_k\in A$ y $\alpha_1,\ldots,\alpha_n\in\mathbb{C}$ tales que $\alpha_1+\cdots+\alpha_n=0$
+
+$$\sum_{i=1}^k\sum_{k=1}^k\alpha_i\overline{\alpha}_j2\gamma(s_i-s_j)\leq 0.$$
+
+:::
+
+En pocas palabras, el variograma es una medida de la tendencia a ser diferentes de los valores según su distancia. Algunos comentarios que se pueden hacer a partir del variograma son las siguientes.
+
+- Cuando $h$ es pequeño, se espera que $\gamma(h)$ sea pequeño, es decir, que las observaciones sean similares.
+- Cuando $h$ crece, usualmente $\gamma(h)$ suele aumentar.
+- A partir de cierto $h_0$, usualmente para $h\geq h_0$ se tiene que $\gamma(h)\approx\text{cte.}$. A este $h_0$ se le llama *rango*.
+- Hay veces que $\gamma(h)\to\gamma_0>0$ cuando $h\to 0$. A este valor $\gamma_0$ se le llama *efecto nugget* (por las pepitas de oro encontradas en ríos, o en inglés, los ''gold nuggets'').
+
+A continuación se presenta un estimador clásico del variograma, el cual fue propuesto por Mathéron en 1962.
+
+::: {#def-variogmuest}
+
+### Variograma muestral
+
+El *variograma muestral* del proceso espacial $Z$ es
+
+$$2\widehat{\gamma}(h)=\frac{1}{|N(h)|}\sum_{N(h)}{(Z(s_i)-Z(s_j))}^2,$$
+
+donde $N(h)=\{(i,j)\ :\ s_i-s_j=h\}$ y $|N(h)|$ es el número de elementos distintos en $N(h)$.
+
+:::
+
+Una de las principales desventajas de este estimador es su sensibilidad a valores grandes de $Z$. En [@Cressie1] se puede revisar una variedad de ejemplos del uso de variograma. Aquí se da seguimiento al ejemplo del río Meuse de la sección [@sec-datgeost], presentando el variograma de los datos del plomo.
+
+```{r, message=FALSE, warning=FALSE}
+library(sp)
+library(sf)
+library(gstat)
+
+data(meuse)
+meuse_sp <- meuse
+coordinates(meuse_sp) <- ~x + y
+
+vg_lead <- variogram(log(lead) ~ 1, data = meuse_sp, cloud = FALSE)
+
+plot(vg_lead$dist, vg_lead$gamma, 
+     xlab = "Distancia (m)", 
+     ylab = "Semivarianza",
+     pch = 19, col = "red",
+     main = "Variograma muestral de Plomo (log-escala)",
+     cex.main = 1.2, cex.lab = 1.1)
+
+text(vg_lead$dist, vg_lead$gamma, 
+     labels = vg_lead$np, 
+     pos = 3, cex = 0.8, col = "blue")
+```
+
+Los números sobre cada punto en el mapa representan el número de pares de observaciones de $|N(h)|$ usados para la semivarianza. La utilidad de estos números radica en que
+
+- Dan un criterio para medir la confiabilidad de cada punto: si un punto se basa en pocos pares, la estimación es menos confiable.
+- Ayudan a evaluar la dispersión de las distancias: muchos pares en una banda significa que esa distancia es común en el diseño del experimento.
+
+
+
+
+
 
 
