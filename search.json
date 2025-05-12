@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introducción al análisis de datos espaciales",
+    "section": "",
+    "text": "Presentación\nAquí se encontrarán herramientas para un análisis básico de datos espaciales.\nComo en muchas otras áreas de la estadística, se busca hacer el análisis en tres etapas:\n\nDescriptivo. Resumir visual y numéricamente los datos espaciales.\nIndicación. Explorar evidencia de estructuras espaciales o patrones.\nEstimación. Ajustar modelos estadísticos que permitan realizar inferencias o predicciones.",
+    "crumbs": [
+      "Presentación"
+    ]
+  },
+  {
+    "objectID": "Caps/01-Introduccion.html",
+    "href": "Caps/01-Introduccion.html",
+    "title": "1  Introducción",
+    "section": "",
+    "text": "1.1 Motivación\nGran parte del desarrollo clásico de la estadísticoa se basa en la suposición de que las observaciones corresponden a realizaciones independientes e idénticamente distribuidas. Esta hipótesis es sensata en muestreos aleatorios o en experimentos controlados, y en particular implica que las observaciones no se influencían entre sí. La hipótesis es poco realista en muchos contextos donde las observaciones están influenciadas por su tiempo de ocurrencia, su ubicación en el espacio o alguna relación estructural propia del fenómeno.\nPara la incorporación de estructura espacial, podemos pensar en varias situaciones:\nLas herramientas con las que se cuenta hasta el momento son para preguntas del tipo quiero saber cómo se explica(n) la(s) propiedad(es) \\(Y\\) a partir de la(s) variable(s) \\(X\\), lo cual se planteó como un problema de regresión. Sin descartar esta herramienta, el considerar datos distribuidos en el espacio agrega una capa de complejidad al tener una estructura intrínseca a los fenómenos. Dicha estructura surge precisamente de considerar la ubicación del fenómeno y las condiciones de dicha ubicación. Los modelos espaciales surgen al reconocer que los datos están asociados a ubicaciones y que observaciones cercanas tienden a estar correlacionadas.\nPodemos considerar que entre las motivaciones principales para considerar modelos espaciales que muchos fenómenos reales como el clima, ecosistemas, epidemias, por mencionar algunos, no se comportan de manera independiente y la ubicación tiene un papel fundamental en su variabilidad. Basta pensar en que es más probable que sea parecida la temperatura entre dos puntos cercanos que entre dos puntos lejanos o que la prevalencia de una enfermedad dependa de factores ambientales o socioeconómicos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/01-Introduccion.html#motivación",
+    "href": "Caps/01-Introduccion.html#motivación",
+    "title": "1  Introducción",
+    "section": "",
+    "text": "Los lugares donde se puede encontrar agua en un país.\nLa popularidad de cierto artista en distintos lugares del mundo.\nPlayas susceptibles a tener problemas por huracanes.\nLa distribución de distintos recursos naturales (como recursos mineros).\nLa calidad de vida de la población en determinado territorio.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/01-Introduccion.html#antecedentes-históricos",
+    "href": "Caps/01-Introduccion.html#antecedentes-históricos",
+    "title": "1  Introducción",
+    "section": "1.2 Antecedentes históricos",
+    "text": "1.2 Antecedentes históricos\nEl interés por los datos espaciales se remonta a siglos atrás, cuando se comenzaron a representar fenómenos geográficos mediante mapas. Un ejemplo temprano es el trabajo de Halley (1686), quien superpuso en un mapa terrestre las direcciones de los vientos alisios y monzones, con el objetivo de comprender sus causas físicas.\nAunque estas representaciones eran esencialmente descriptivas, los modelos estadísticos espaciales surgieron mucho después. Student (1907) fue uno de los primeros en cuantificar datos espaciales al analizar conteos de partículas por unidad de área, encontrando que el número de células de levadura por cuadrado seguía una distribución de Poisson.\nFisher reconoció explícitamente la existencia de correlación espacial en experimentos agrícolas y de muestreo. En la Estación Experimental de Rothamsted, en las décadas de 1920 y 1930, promovió técnicas como aleatorización, bloqueo y replicación para controlar los efectos de la dependencia espacial. No obstante, estas estrategias sólo son eficaces para escalas espaciales comparables a las dimensiones experimentales; la correlación a otras escalas persiste.\nFairfield Smith (1938) también abordó la dependencia espacial al estudiar cómo el tamaño de las parcelas influye en la varianza del error, reconociendo implícitamente la necesidad de modelar la estructura espacial. Sin embargo, no fue hasta trabajos como el de Whittle (1954) que comenzaron a desarrollarse modelos formales para describir procesos espaciales.\nHoy en día, el análisis de datos espaciales es fundamental en disciplinas como la geología, la ecología, las ciencias ambientales y la medicina. En muchos de estos contextos, no es viable aplicar métodos experimentales clásicos, lo que impulsa la necesidad de modelos estadísticos que reconozcan explícitamente la dependencia espacial.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/02-Exploratorio.html",
+    "href": "Caps/02-Exploratorio.html",
+    "title": "2  Análisis Exploratorio",
+    "section": "",
+    "text": "2.1 Tipos de datos espaciales\nEn esta primera sección se revisan herramientas básicas para un análisis descriptivo de datos espaciales.\nComo en otros modelos estadísticos, un punto de partida es revisar sobre qué tipo de objeto probabilista se busca hacer inferencia. Es muy útil recordar primero la noción de proceso estocástico tal como se da en (Klenke 2020).\nMuchas de las técnicas para estudiar estos procesos que varían en el tiempo dependen de que \\(I\\) es un conjunto ordenado. Además, para cada \\(\\omega\\in\\Omega\\), el mapeo \\(t\\mapsto Z_t(\\omega)\\) indica lo que hace el proceso a tiempo \\(t\\). A partir de esto, es inmediato extender la definición a un proceso espacial (o espacio-temporal).\nEn este texto se manejarán únicamente procesos espaciales, es decir, consideraremos que \\(t\\) es fijo. A una realización del proceso le denotaremos por \\(z={(z_x)}_{x\\in A}\\). En el contexto del análisis estadístico, se consideran distintos tipos de datos (o realizaciones ed \\(Z\\)).\nA partir de la estructura de esta realización \\(z\\), se pueden considerar distintos tipos de datos espaciales. De manera no exhaustiva, a continuación se presentan algunos de estos tipos de datos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Análisis Exploratorio</span>"
+    ]
+  },
+  {
+    "objectID": "Caps/02-Exploratorio.html#tipos-de-datos-espaciales",
+    "href": "Caps/02-Exploratorio.html#tipos-de-datos-espaciales",
+    "title": "2  Análisis Exploratorio",
+    "section": "",
+    "text": "2.1.1 Datos de área o en retícula\nSi \\(A\\) es una unión numerable de unidades de área, decimos que la muestra \\(z\\) son datos de área o de retícula. Este tipo de estructuras es común en imágenes satelitales, en el análisis de suelos y algunos estudios experimentales en agricultura. También se encuentran las imágenes médicas y la teledetección. Los datos pueden representar toda la población (imagen completa) o una submuestra.\nEl énfasis en hablar de “unidades de área” tiene más sentido al considerar que un mapa con división territorial cumple con estas propiedades. Siguiendo a (Moraga 2023), a continuación se presentan un mapa del número de muertes repentinas de niños en cada condado de Carolina del Norte, EE.UU., en el año de 1974, reportado originalmente en (Pebesma 2022a).\n\n\nCódigo\nlibrary(sf)\nlibrary(mapview)\nd &lt;- st_read(system.file(\"shape/nc.shp\", package = \"sf\"), quiet = TRUE)\nmapview(d, zcol = \"SID74\")\n\n\n\n\n\n\nEn el anterior ejemplo, cada región del espacio es un condado. A continuación se presenta un mapa sobre la elevación de Luxemburgo, en el cual todas las regiones del mismo tamaño y están distribuidas de manera uniforme en el espacio, también tomado de (Moraga 2023).\n\n\nCódigo\nlibrary(terra)\nd &lt;- rast(system.file(\"ex/elev.tif\", package = \"terra\"))\nplot(d)\n\n\n\n\n\n\n\n\n\n\n\n2.1.2 Datos geoestadísticos\nEstos datos se miden de manera continua en el espacio, por lo que se consideran formas posiblemente irregulares. Una complicación de este tipo de datos es que normalmente sólo se dispone de observaciones en algunos puntos del espacio. Estos datos aparecen típicamente en cuestiones mineras, de ciencias del suelo, hidrológicas, meteorológicas u otros temas geológicos.\nComo ejemplo, se muestra la distribución de plomo superficial en mg por kg de tierra, en un terreno muestreado tras una inundación del río Meuse en Países Bajos. Estos datos son de la librería sp de R.\n\n\nCódigo\nlibrary(sp)\nlibrary(sf)\nlibrary(mapview)\n\ndata(meuse)\nmeuse &lt;- st_as_sf(meuse, coords = c(\"x\", \"y\"), crs = 28992)\nmapview(meuse, zcol = \"lead\",  map.types = \"CartoDB.Voyager\")\n\n\n\n\n\n\nEste tipo de datos se obtienen con mediciones de infiltrómetros revisando la capacidad del suelo para absorber agua.\nEn este tipo de datos, las ubicaciones de muestreo son generalmente irregulares y se tiene como objetivo predecir la variable en ubicaciones no observadas. Esto se hace bajo la hipótesis de continuidad espacial del campo y que la correlación entre observaciones depende de la distancia.\n\n\n2.1.3 Patrones puntuales\nEn este tipo de datos se centra el estudio en capítulos posteriores y en el caso de estudio. Aquí el dominio \\(A\\) se toma como aleatorio y las variables en \\(Z\\) sólo valen 1 o 0, indicando la ocurrencia o no de un evento. Estos patrones surgen de ubicar eventos, tales como aparición de enfermedades, nacimiento de especies, ubicación de viviendas, entre otros.\nComo ejemplo, se presentan los datos de pinos de hoja larga en Georgia, los cuales se pueden encontrar en la biblioteca spatstat de R. Lo que se mide es la presencia de pinos con longitud de hoja mayor a cierto parámetro. El objetivo del estudio era ver si los árboles con estas características están distribuidos uniformemente al azar en la región o si se tiene algún tipo de agrupamiento o regularidad.\n\n\nCódigo\nlibrary(spatstat)\n\ndata(longleaf)\n\nplot(longleaf, use.marks = FALSE, pch = 20, cex = 0.5, main = \"Pinos de hoja larga en Georgia\")\n\n\n\n\n\n\n\n\n\nSe pueden considerar versiones más generales de este tipo de datos, como los datos puntuales marcados. En los datos puntuales marcados se considera que las observaciones pueden ser de distintos tipos dada alguna característica cualitativa.\nLa característica principal de este tipo de datos es que el interés está centrado en la posición de los eventos, ya que no hay variables medidas continuamente en el espacio.\n\n\n\n\nKlenke, Achim. 2020. Probability Theory: A Comprehensive Course. Third. Wiley.\n\n\nMoraga, Paula. 2023. Spatial Statistics for Data Science: Theory and Practice with r. First. Chapman & Hall/CRC.\n\n\nPebesma, Edzer. 2022a. Simple Features for r. R-project.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Análisis Exploratorio</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Klenke, Achim. 2020. Probability Theory: A Comprehensive\nCourse. Third. Wiley.\n\n\nMoraga, Paula. 2023. Spatial Statistics for Data Science: Theory and\nPractice with r. First. Chapman & Hall/CRC.\n\n\nPebesma, Edzer. 2022a. Simple Features for r. R-project.",
+    "crumbs": [
+      "References"
+    ]
+  }
+]
