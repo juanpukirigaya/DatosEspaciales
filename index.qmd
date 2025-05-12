@@ -1,0 +1,9 @@
+# Presentación {.unnumbered}
+
+Aquí se encontrarán herramientas para un análisis básico de datos espaciales.
+
+Como en muchas otras áreas de la estadística, se busca hacer el análisis en tres etapas:
+
+1. **Descriptivo.** Resumir visual y numéricamente los datos espaciales.
+2. **Indicación.** Explorar evidencia de estructuras espaciales o patrones.
+3. **Estimación.** Ajustar modelos estadísticos que permitan realizar inferencias o predicciones.

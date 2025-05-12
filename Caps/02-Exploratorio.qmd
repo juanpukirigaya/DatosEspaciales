@@ -1,0 +1,94 @@
+# Análisis Exploratorio
+En esta primera sección se revisan herramientas básicas para un análisis descriptivo de datos espaciales.
+
+Como en otros modelos estadísticos, un punto de partida es revisar sobre qué tipo de objeto probabilista se busca hacer inferencia. Es muy útil recordar primero la noción de *proceso estocástico* tal como se da en [@Klenke].
+
+::: {#def-proceso-estocastico}
+
+### Proceso estocástico
+
+Sea $I\subseteq\mathbb{R}$. Una familia de variables aleatorias $Z={(Z_t)}_{t\in I}$, en un espacio de probabilidad $(\Omega,\mathcal{F},\mathbb{P})$, que toma valores en $(E,\mathcal{E})$, es un *proceso estocástico* con conjunto de tiempo $I$ y espacio de estados $E$.
+
+:::
+
+Muchas de las técnicas para estudiar estos procesos que varían en el tiempo dependen de que $I$ es un conjunto ordenado. Además, para cada $\omega\in\Omega$, el mapeo $t\mapsto Z_t(\omega)$ indica *lo que hace el proceso a tiempo $t$*. A partir de esto, es inmediato extender la definición a un proceso espacial (o espacio-temporal).
+
+::: {#def-proceso-espacio-temporal}
+
+### Proceso espacio-temporal
+
+Sean $I\subseteq\mathbb{R}$ y $A\subseteq\mathbb{R}^d$. Una familia de variables aleatorias $Z={(Z_{x,t})}_{(x,t)\in A\times I}$, en un espacio de probabilidad $(\Omega,\mathcal{F},\mathbb{P})$, que toma valores en $(E,\mathcal{E})$, es un *proceso espacio-temporal* en la región $A$ con conjunto de tiempo $I$ y espacio de estados $E$.
+
+:::
+
+En este texto se manejarán únicamente procesos espaciales, es decir, consideraremos que $t$ es fijo. A una realización del proceso le denotaremos por $z={(z_x)}_{x\in A}$. En el contexto del análisis estadístico, se consideran distintos tipos de datos (o realizaciones ed $Z$).
+
+::: {#def-dato-espacial}
+
+### Dato espacial
+
+Un *dato espacial* es aquel que incluye, además de su valor (numérico, categórico, conteo, etc.), información de localización. Esta información puede ser en forma de coordenadas, ubicaciones discretas en una red o cualquier otra manera de localización.
+
+:::
+
+## Tipos de datos espaciales
+
+A partir de la estructura de esta realización $z$, se pueden considerar distintos tipos de datos espaciales. De manera no exhaustiva, a continuación se presentan algunos de estos tipos de datos.
+
+### Datos de área o en retícula 
+Si $A$ es una unión numerable de unidades de área, decimos que la muestra $z$ son *datos de área o de retícula*. Este tipo de estructuras es común en imágenes satelitales, en el análisis de suelos y algunos estudios experimentales en agricultura. También se encuentran las imágenes médicas y la teledetección. Los datos pueden representar toda la población (imagen completa) o una submuestra.
+
+El énfasis en hablar de "unidades de área" tiene más sentido al considerar que un mapa con división territorial cumple con estas propiedades. Siguiendo a [@Moraga], a continuación se presentan un mapa del número de muertes repentinas de niños en cada condado de Carolina del Norte, EE.UU., en el año de 1974, reportado originalmente en [@Pebesma].
+
+```{r, message=FALSE, warning=FALSE}
+library(sf)
+library(mapview)
+d <- st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
+mapview(d, zcol = "SID74")
+```
+
+En el anterior ejemplo, cada región del espacio es un condado. A continuación se presenta un mapa sobre la elevación de Luxemburgo, en el cual todas las regiones del mismo tamaño y están distribuidas de manera uniforme en el espacio, también tomado de [@Moraga].
+
+```{r, message=FALSE, warning=FALSE}
+library(terra)
+d <- rast(system.file("ex/elev.tif", package = "terra"))
+plot(d)
+```
+
+
+### Datos geoestadísticos
+Estos datos se miden de manera continua en el espacio, por lo que se consideran formas posiblemente irregulares. Una complicación de este tipo de datos es que normalmente sólo se dispone de observaciones en algunos puntos del espacio. Estos datos aparecen típicamente en cuestiones mineras, de ciencias del suelo, hidrológicas, meteorológicas u otros temas geológicos.
+
+Como ejemplo, se muestra la distribución de plomo superficial en mg por kg de tierra, en un terreno muestreado tras una inundación del río Meuse en Países Bajos. Estos datos son de la librería **sp** de R.
+
+```{r, message=FALSE, warning=FALSE}
+library(sp)
+library(sf)
+library(mapview)
+
+data(meuse)
+meuse <- st_as_sf(meuse, coords = c("x", "y"), crs = 28992)
+mapview(meuse, zcol = "lead",  map.types = "CartoDB.Voyager")
+```
+
+Este tipo de datos se obtienen con mediciones de infiltrómetros revisando la capacidad del suelo para absorber agua.
+
+En este tipo de datos, las ubicaciones de muestreo son generalmente irregulares y se tiene como objetivo predecir la variable en ubicaciones no observadas. Esto se hace bajo la hipótesis de continuidad espacial del campo y que la correlación entre observaciones depende de la distancia.
+
+### Patrones puntuales
+En este tipo de datos se centra el estudio en capítulos posteriores y en el caso de estudio. Aquí el dominio $A$ se toma como aleatorio y las variables en $Z$ sólo valen 1 o 0, indicando la ocurrencia o no de un evento. Estos patrones surgen de *ubicar* eventos, tales como aparición de enfermedades, nacimiento de especies, ubicación de viviendas, entre otros.
+
+Como ejemplo, se presentan los datos de *pinos de hoja larga en Georgia*, los cuales se pueden encontrar en la biblioteca **spatstat** de R. Lo que se mide es la presencia de pinos con longitud de hoja mayor a cierto parámetro. El objetivo del estudio era ver si los árboles con estas características están distribuidos uniformemente al azar en la región o si se tiene algún tipo de agrupamiento o regularidad.
+```{r, message=FALSE, warning=FALSE}
+library(spatstat)
+
+data(longleaf)
+
+plot(longleaf, use.marks = FALSE, pch = 20, cex = 0.5, main = "Pinos de hoja larga en Georgia")
+```
+
+Se pueden considerar versiones más generales de este tipo de datos, como los datos puntuales marcados. En los datos puntuales marcados se considera que las observaciones pueden ser de distintos tipos dada alguna característica cualitativa.
+
+La característica principal de este tipo de datos es que el interés está centrado en la posición de los eventos, ya que no hay variables medidas continuamente en el espacio. 
+
+

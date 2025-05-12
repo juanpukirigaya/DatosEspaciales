@@ -1,0 +1,29 @@
+# Introducción
+
+## Motivación
+
+Gran parte del desarrollo clásico de la estadísticoa se basa en la suposición de que las observaciones corresponden a realizaciones *independientes e idénticamente distribuidas*. Esta hipótesis es sensata en muestreos aleatorios o en experimentos controlados, y en particular implica que las observaciones no se influencían entre sí. La hipótesis es poco realista en muchos contextos donde las observaciones están influenciadas por su *tiempo de ocurrencia*, su *ubicación en el espacio* o alguna relación estructural propia del fenómeno.
+
+Para la incorporación de estructura espacial, podemos pensar en varias situaciones:
+
+- Los lugares donde se puede encontrar agua en un país.
+- La popularidad de cierto artista en distintos lugares del mundo.
+- Playas susceptibles a tener problemas por huracanes.
+- La distribución de distintos recursos naturales (como recursos mineros).
+- La calidad de vida de la población en determinado territorio.
+
+Las herramientas con las que se cuenta hasta el momento son para preguntas del tipo *quiero saber cómo se explica(n) la(s) propiedad(es) $Y$ a partir de la(s) variable(s) $X$*, lo cual se planteó como un problema de regresión. Sin descartar esta herramienta, el considerar datos distribuidos en el espacio agrega una capa de complejidad al tener una estructura intrínseca a los fenómenos. Dicha estructura surge precisamente de considerar la ubicación del fenómeno y las condiciones de dicha ubicación. Los modelos espaciales surgen al reconocer que los datos están asociados a ubicaciones y que observaciones cercanas tienden a estar correlacionadas.
+
+Podemos considerar que entre las motivaciones principales para considerar modelos espaciales que muchos fenómenos reales como el clima, ecosistemas, epidemias, por mencionar algunos, no se comportan de manera independiente y la ubicación tiene un papel fundamental en su variabilidad. Basta pensar en que es más probable que sea parecida la temperatura entre dos puntos cercanos que entre dos puntos lejanos o que la prevalencia de una enfermedad dependa de factores ambientales o socioeconómicos.
+
+## Antecedentes históricos
+
+El interés por los datos espaciales se remonta a siglos atrás, cuando se comenzaron a representar fenómenos geográficos mediante mapas. Un ejemplo temprano es el trabajo de Halley (1686), quien superpuso en un mapa terrestre las direcciones de los vientos alisios y monzones, con el objetivo de comprender sus causas físicas.
+
+Aunque estas representaciones eran esencialmente descriptivas, los modelos estadísticos espaciales surgieron mucho después. Student (1907) fue uno de los primeros en cuantificar datos espaciales al analizar conteos de partículas por unidad de área, encontrando que el número de células de levadura por cuadrado seguía una distribución de Poisson.
+
+Fisher reconoció explícitamente la existencia de correlación espacial en experimentos agrícolas y de muestreo. En la *Estación Experimental de Rothamsted*, en las décadas de 1920 y 1930, promovió técnicas como aleatorización, bloqueo y replicación para controlar los efectos de la dependencia espacial. No obstante, estas estrategias sólo son eficaces para escalas espaciales comparables a las dimensiones experimentales; la correlación a otras escalas persiste.
+
+Fairfield Smith (1938) también abordó la dependencia espacial al estudiar cómo el tamaño de las parcelas influye en la varianza del error, reconociendo implícitamente la necesidad de modelar la estructura espacial. Sin embargo, no fue hasta trabajos como el de Whittle (1954) que comenzaron a desarrollarse modelos formales para describir procesos espaciales.
+
+Hoy en día, el análisis de datos espaciales es fundamental en disciplinas como la geología, la ecología, las ciencias ambientales y la medicina. En muchos de estos contextos, no es viable aplicar métodos experimentales clásicos, lo que impulsa la necesidad de modelos estadísticos que reconozcan explícitamente la dependencia espacial.

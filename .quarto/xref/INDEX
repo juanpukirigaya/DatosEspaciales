@@ -1,0 +1,23 @@
+{
+  "index.qmd": {
+    "index.html": "2e84ba6b"
+  },
+  "Caps/intro.qmd": {
+    "intro.html": "9ce0e8d6"
+  },
+  "Caps/summary.qmd": {
+    "summary.html": "3df84df9"
+  },
+  "references.qmd": {
+    "references.html": "d1c841dc"
+  },
+  "Caps/01-Exploratorio.qmd": {
+    "01-Exploratorio.html": "83d8b1fb"
+  },
+  "Caps/01-Introduccion.qmd": {
+    "01-Introduccion.html": "a745106c"
+  },
+  "Caps/02-Exploratorio.qmd": {
+    "02-Exploratorio.html": "acc6bf87"
+  }
+}
