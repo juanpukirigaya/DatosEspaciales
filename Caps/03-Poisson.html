@@ -85,7 +85,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../references.html" rel="next">
+<link href="../Caps/05-Ejemplo.html" rel="next">
 <link href="../Caps/02-Exploratorio.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -217,6 +217,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Caps/05-Ejemplo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -248,7 +254,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></h1>
+<h1 class="title"><span id="cap-Pois" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></h1>
 </div>
 
 
@@ -432,7 +438,7 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 </ul>
 <p><span class="math display">\[Z(s)=\sum_{i=1}^nZ_i\phi_i(s),\]</span></p>
 <p>donde <span class="math inline">\((Z_1,\ldots,Z_n)\)</span> es un vector Gaussiano y <span class="math inline">\({(\phi_i(s))}_{i=1}^n\)</span> es una base de funciones deterministas. Una alternativa usual es considerar que el campo Gaussiano tiene matriz de covarianza como en el variograma de Mathéron presentado en la sección <a href="02-Exploratorio.html#sec-variograma" class="quarto-xref"><span>Sección 2.2.2</span></a>.</p>
-<p>Este modelo no se limita únicamente a que tome valores de puntos en el espacio. La definición contempla casos en los que la función de intensidad sea de la forma <span class="math inline">\(\lambda:[0,\infty)\times\mathbb{R}^d\to\mathbb{R}_+\)</span> como <span class="math inline">\(\lambda=\lambda(t,x)\)</span>, es decir, que la intensidad dependa del instante y de la ubicación. Un problema para ilustrar esta forma de <span class="math inline">\(\lambda\)</span> es el de las lluvias, que su intensidad puede depender de la hora del día y del lugar del mundo del que se trate.</p>
+<p>Este modelo no se limita únicamente a que tome valores de puntos en el espacio. La definición contempla casos en los que la función de intensidad sea de la forma <span class="math inline">\(\lambda:[0,\infty)\times\mathbb{R}^d\to\mathbb{R}_+\)</span> como <span class="math inline">\(\lambda=\lambda(t,x)\)</span>, es decir, que la intensidad dependa del instante y de la ubicación. Un problema para ilustrar esta forma de <span class="math inline">\(\lambda\)</span> es el de las lluvias, que su intensidad puede depender de la hora del día y del lugar del mundo del que se trate. Más aún, podría ser que la función de intensidad dependiera del espacio pero sea más fácil expresar esa dependencia a partir de covariables: para medir propensión a lluvia, podría ser que de interés primero conocer la temperatura <span class="math inline">\(T=T(x,y)\)</span>, la humedad <span class="math inline">\(H=H(x,y)\)</span>, los niveles de contaminantes en el aire <span class="math inline">\(C=C(x,y)\)</span>, la hora del día <span class="math inline">\(t\)</span>, entre otros posibles factores. Este tipo de covariables pueden incluirse en la estructura de regresión del modelo Log-Lineal.</p>
 <p>De la misma manera que con el análisis de procesos temporales, es posible usar suavizamiento por kernel para estimar <span class="math inline">\(\lambda\)</span> a partir de una medida empírica. Como se mencionó en el caso temporal, la función <span class="math inline">\(\lambda\)</span> no necesariamente es una densidad, pero la función</p>
 <p><span class="math display">\[f(x)=\frac{1}{\Lambda(A)}\lambda(x)\]</span></p>
 <p>sí es una densidad en la región <span class="math inline">\(A\)</span>. Entonces, los estimadores de kernel para <span class="math inline">\(f\)</span> y <span class="math inline">\(\lambda\)</span> basados en un conjunto de observaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> están dados por</p>
@@ -1170,8 +1176,8 @@ Moraga, Paula. 2023. <em>Spatial Statistics for Data Science: Theory and Practic
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Caps/05-Ejemplo.html" class="pagination-link" aria-label="Caso de estudio: torres de telefonía">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

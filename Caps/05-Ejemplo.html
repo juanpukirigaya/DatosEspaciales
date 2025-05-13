@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.29">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Caso de estudio: torres de telefonía – Introducción al análisis de datos espaciales</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
+<link href="../Caps/03-Poisson.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="../site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+
+<script src="../site_libs/leaflet-1.3.1/leaflet.js"></script>
+
+<link href="../site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+
+<script src="../site_libs/proj4-2.6.2/proj4.min.js"></script>
+
+<script src="../site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+
+<link href="../site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+
+<script src="../site_libs/leaflet-binding-2.2.2/leaflet.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/05-Ejemplo.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introducción al análisis de datos espaciales</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Caps/01-Introduccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Caps/02-Exploratorio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análisis Exploratorio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Caps/03-Poisson.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Caps/05-Ejemplo.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#datos-de-sydney" id="toc-datos-de-sydney" class="nav-link active" data-scroll-target="#datos-de-sydney"><span class="header-section-number">4.1</span> Datos de Sydney</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>La motivación para hacer este ejemplo viene de una observación curiosa que se dio al investigar para el capítulo <span class="citation" data-cites="cap-Pois">(<a href="../references.html#ref-cap-Pois" role="doc-biblioref"><strong>cap-Pois?</strong></a>)</span>.</p>
+<p>En la <a href="https://en.wikipedia.org/wiki/Poisson_point_process">página de Wikipedia sobre los procesos de Poisson puntuales</a>, al hablar de la aleatoriedad espacial completa (CSR), se menciona que la posición de celulares en Sydney, Australia, cumple aproximadamente con la propiedad de ser CSR, comparando con otros territorios. Al revisar el artículo donde se publicó este resultado <span class="citation" data-cites="Celulares">(<a href="../references.html#ref-Celulares" role="doc-biblioref">Lee, Shih, y Chen 2013</a>)</span>, se puede ver que se utilizan herramientas un tanto más complejas que las desarrolladas aquí pero el espíritu es el mismo: examinar la posibilidad de un proceso Poisson espacial.</p>
+<p>Un trabajo similar que se revisó es el artículo <span class="citation" data-cites="CelularesArg">(<a href="../references.html#ref-CelularesArg" role="doc-biblioref">Fattori, Groisman, y Sarraute 2018</a>)</span>, en el que se hace el estudio en el territorio de Buenos Aires, Argentina. El objetivo de este artículo es comparar distintos estimadores de funciones de intensidad y métodos para probar la propiedad CSR.</p>
+<section id="datos-de-sydney" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="datos-de-sydney"><span class="header-section-number">4.1</span> Datos de Sydney</h2>
+<p>Es imposible replicar el resultado del artículo <span class="citation" data-cites="Celulares">(<a href="../references.html#ref-Celulares" role="doc-biblioref">Lee, Shih, y Chen 2013</a>)</span> ya que el criterio es distinto. El conjunto de datos utilizado es el cual se recuperó de <a href="https://www.kaggle.com/datasets/zakariaeyoussefi/cell-towers-worldwide-location-data-by-continent/code">OpenCellId (versión sin API)</a>, que tiene los datos de las torres de celulares hasta el 2024.</p>
+<p>El número de torres de celulares registradas en el conjunto de datos para la región de Sydney (aproximada por un rectángulo), tras eliminar datos repetidos y faltantes, es grande <span class="math inline">\(N=147743\)</span>. La distribución de puntos se muestra a continuación.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>oceania <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Oceania-towers.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sydney_bbox <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">lon_min =</span> <span class="fl">150.5</span>, <span class="at">lon_max =</span> <span class="fl">151.5</span>, <span class="at">lat_min =</span> <span class="sc">-</span><span class="fl">34.2</span>, <span class="at">lat_max =</span> <span class="sc">-</span><span class="fl">33.5</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>sydney_towers <span class="ot">&lt;-</span> oceania <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    LON <span class="sc">&gt;=</span> sydney_bbox[<span class="st">"lon_min"</span>] <span class="sc">&amp;</span> LON <span class="sc">&lt;=</span> sydney_bbox[<span class="st">"lon_max"</span>],</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    LAT <span class="sc">&gt;=</span> sydney_bbox[<span class="st">"lat_min"</span>] <span class="sc">&amp;</span> LAT <span class="sc">&lt;=</span> sydney_bbox[<span class="st">"lat_max"</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(LON), <span class="sc">!</span><span class="fu">is.na</span>(LAT))  <span class="co"># Eliminar NA</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>sydney_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(sydney_towers, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"LON"</span>, <span class="st">"LAT"</span>), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>sydney_utm <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sydney_sf, <span class="dv">32756</span>)  <span class="co"># UTM para Sydney (EPSG:32756)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(sydney_utm)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>sydney_ppp <span class="ot">&lt;-</span> <span class="fu">as.ppp</span>(coords, <span class="at">W =</span> <span class="fu">owin</span>(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">xrange =</span> <span class="fu">range</span>(coords[, <span class="st">"X"</span>]),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">yrange =</span> <span class="fu">range</span>(coords[, <span class="st">"Y"</span>])</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sydney_ppp, <span class="at">main =</span> <span class="st">"Distribución de torres celulares en Sydney"</span>, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="fl">0.3</span>, <span class="at">cols =</span> <span class="st">"darkblue"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Ejemplo_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>El siguiente mapa interactivo se obtuvo de tomar una muestra uniforme de 1000 de estas torres.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sydney_sample <span class="ot">&lt;-</span> sydney_towers <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">1000</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(sydney_sample) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> <span class="sc">~</span>LON, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="sc">~</span>LAT,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">2</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">"Operador:"</span>, Network, <span class="st">"&lt;br&gt;MCC:"</span>, MCC, <span class="st">"| MNC:"</span>, MNC)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addControl</span>(<span class="st">"Torres celulares en Sydney (muestra de 1000)"</span>, <span class="at">position =</span> <span class="st">"topright"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-784ad228a90f6b0c9755" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-784ad228a90f6b0c9755">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addCircleMarkers","args":[[-33.797881,-33.914746,-33.849354,-33.847995,-33.889389038086,-33.85368347168,-33.91302,-33.80003,-33.948440551758,-33.861237,-33.755818,-33.997149,-33.834629,-33.908741,-33.785533,-33.878024,-33.858082,-33.870162963867,-33.938236,-33.832667,-33.975883,-33.711548,-33.719100952148,-33.951839,-33.928234,-33.756943,-33.778877,-33.944320678711,-33.732033,-33.872759,-33.878033,-33.755161,-33.919802,-33.807182,-33.918138,-33.829596,-34.073779,-33.815231,-33.841436,-33.811111,-33.959426879883,-33.883895874023,-33.962723,-33.810129,-33.898899,-34.0418,-33.79464,-33.920974731445,-33.784288,-33.802807,-34.044695,-33.889179,-33.876205,-33.838154,-33.901818,-33.730747,-33.851581,-33.830612,-33.755443,-33.882396,-33.839950561523,-33.875946,-34.017876,-33.944320678711,-34.052795,-33.877417,-33.909228,-33.939938,-33.767129,-33.923555,-33.91960144043,-33.87894,-33.925159,-33.922584,-33.832199,-33.770861,-33.939989,-33.874794,-33.959654,-33.946384,-33.953082,-34.057739,-33.839145,-33.749313,-33.809656,-33.839950561523,-33.847914,-33.857346,-33.752468,-33.693633,-33.749313354492,-34.186288,-33.849384,-33.851261,-33.811118,-33.868842,-33.881149291992,-33.931931,-33.839950561523,-33.944418,-33.804831,-33.850071,-33.873975,-33.835391,-33.759059,-33.888016,-33.88801574707,-33.65243,-33.859776,-33.712254,-33.881149291992,-33.865707,-33.787162,-33.86604309082,-33.76749,-33.72391,-33.896255493164,-33.738708,-33.881149291992,-33.773319,-33.996498,-33.704805,-33.859086,-33.773346,-33.939514,-33.941544,-33.910454,-34.000625610352,-33.808364868164,-33.819294,-33.868319,-33.900904,-33.961879,-33.790412,-33.865806,-34.04402,-33.87565612793,-33.908997,-33.853865,-33.809587,-33.788066,-33.733413,-33.936080932617,-34.065170288086,-33.802871704102,-33.722916,-33.861923217773,-33.890409,-33.882244,-33.788567,-33.847118,-33.796631,-33.885472,-33.757553100586,-33.639194,-33.821683,-33.882849,-33.769939,-33.9022,-33.868927,-33.794907,-33.906166,-33.650707,-33.805416,-33.927078,-33.849478,-33.784435,-33.879796,-33.95742,-33.876814,-33.903673,-33.907993,-33.651809692383,-33.790386,-33.924037,-33.806538,-33.873391,-33.856974,-33.897954,-33.757498,-33.692406,-33.905631,-33.887086,-33.88801574707,-33.891861,-33.85368347168,-34.015093,-33.722267,-33.886125,-33.811111450195,-33.843258,-33.893508911133,-33.704316,-33.701799,-33.880608,-34.052446,-33.695559,-33.75617980957,-33.73447,-34.06517,-33.900375366211,-33.796547,-33.885242,-33.741074,-33.664005,-33.885886,-33.820718,-33.900375366211,-33.937326,-33.816604614258,-33.693814,-34.04773,-33.891155,-33.87051,-33.830337524414,-33.819351,-33.835830688477,-34.067878,-33.914108276367,-33.881906,-33.80084,-33.873941,-34.066543579102,-34.052937,-33.892153,-33.763119,-33.817528,-34.005965,-33.916664,-33.950832,-33.871582,-33.785475,-33.854065,-33.816206,-33.87779,-33.89657,-34.008408,-33.84407043457,-33.936080932617,-33.813858,-33.668289,-33.858768,-33.745193481445,-33.897091,-33.872124,-33.910568,-33.607864379883,-33.87097,-33.888966,-33.90581,-33.858428,-33.956505,-33.76865,-33.893508911133,-33.802871704102,-33.764024,-33.950977,-34.121178,-33.863296508789,-34.041387,-33.811962,-33.951187133789,-33.862511,-33.81842,-33.83956,-33.822052,-33.813107,-33.950343,-33.758532,-33.884401,-33.777611,-33.77597,-33.844999,-33.767209,-34.027308,-33.593987,-33.7561,-33.895647,-33.887657,-33.808364868164,-33.923721313477,-33.880297,-33.795815,-33.778764,-33.898266,-33.860817,-33.758639,-33.943732,-33.957138,-33.960038,-33.776054,-33.878376,-33.927841186523,-33.959426879883,-33.846051,-33.866284,-33.82209777832,-33.836955,-33.937806,-33.907241821289,-33.893436,-33.937314,-33.96354675293,-33.875908,-33.836245,-33.860549926758,-33.902239,-33.774814,-33.940029,-33.822832,-33.5855,-33.909182,-33.904891,-33.818195,-33.860549926758,-34.040459,-33.89543,-33.768452,-33.855056762695,-33.860549926758,-33.808696,-33.861815,-33.729676,-33.994435,-33.785547,-33.789906,-33.912789,-33.846817016602,-33.903641,-33.82494,-33.853017,-33.678737,-33.804244995117,-34.030743,-33.874743,-33.811832,-33.848465,-33.87528,-33.801498413086,-33.75617980957,-33.924306,-33.913422,-33.785805,-33.944508,-33.888692,-33.894882,-33.860549926758,-33.72576,-33.774417,-33.940792,-33.937033,-33.799593,-33.725281,-33.796147,-33.790534,-33.764469,-33.820816,-33.929241,-33.885448,-33.991012573242,-33.848190307617,-33.95483,-33.830337524414,-33.85849,-34.018171,-33.820616,-33.853134,-34.018392,-33.997925,-33.900319,-33.934992,-33.88801574707,-33.960512,-33.831268,-33.84201,-33.94623,-33.861153,-33.869108,-33.683816,-33.988671,-33.671869,-33.871013,-34.013573,-33.87291,-33.89629,-33.754806518555,-33.712121,-33.791642,-33.911718,-33.851852,-33.525943,-33.811409,-33.893517,-33.751389,-33.871536,-33.815795,-33.901356,-33.873342,-34.039617,-33.884875,-33.609722,-33.757176,-33.816604614258,-33.75877,-33.961847,-33.90998840332,-33.796005,-33.905868530273,-33.915225,-33.88755,-33.868789672852,-33.965199,-33.757388,-33.956834,-33.82209777832,-33.836592,-33.955649,-34.061723,-33.928508,-33.80012512207,-33.864491,-33.707995,-33.902496,-33.891582,-33.966293334961,-33.865372,-34.160374,-33.763214,-33.687515,-33.838178,-33.860862,-33.864669799805,-33.969039916992,-33.867154,-33.873201,-33.838362,-33.781902,-34.090553,-33.747253417969,-33.80973815918,-33.705384,-33.969955,-33.870162963867,-34.109115600586,-33.908931,-33.773453,-33.618036,-33.874287,-33.582432,-33.815614,-33.86174,-33.910873,-33.891118,-33.74382019043,-33.871027,-33.797379,-33.898434,-33.878435,-34.04182434082,-33.905602,-33.503857,-33.851295,-33.765335,-33.778629,-33.964979,-33.894402,-33.864669799805,-33.884101,-33.739941,-33.718077,-33.807035,-33.549011,-33.852310180664,-34.001998901367,-33.807354,-33.982772827148,-33.905488,-33.768076,-33.863708,-33.829354,-33.958677,-33.71104,-33.875482,-34.159927368164,-33.769912719727,-33.793296,-33.802599,-33.887998,-34.066543579102,-33.842697143555,-33.868852,-33.761196,-33.94093,-33.838339,-33.876604,-33.872847,-33.863105,-33.74064,-33.8373,-33.808364868164,-33.767166137695,-33.91421,-33.783772,-33.921768,-34.073582,-33.925094604492,-33.792923,-33.873276,-33.90177,-33.830282,-33.870162963867,-33.964359,-34.102864,-33.548569,-33.87703,-33.587901,-33.906219,-33.75146,-33.896942,-33.881149291992,-33.897426,-33.821487,-33.737091,-33.847281,-33.619068,-33.916943,-33.799109,-33.671539,-33.918071,-33.809719,-33.802871704102,-33.942802,-33.935581,-33.732834,-33.933914,-33.878697,-33.716989,-33.908272,-33.878191,-33.958005,-33.601172,-33.94483,-33.878403,-33.9393,-34.05429,-33.796705,-33.725967407227,-33.830075,-33.748106,-33.769912719727,-33.873184,-33.731460571289,-33.7917,-33.7715,-33.792879,-33.84549,-33.829422,-33.825333,-33.874679,-33.924545,-33.886435,-33.735172,-33.599624633789,-33.819041,-33.921319,-33.877754,-33.95393371582,-33.915481567383,-33.926607,-34.028779,-33.823471069336,-33.757055,-33.839950561523,-33.776133,-33.960228,-33.932343,-33.844261,-33.934707641602,-33.794631958008,-34.062011,-33.874282836914,-33.878402709961,-33.646271,-33.833408,-33.876957,-33.838293,-33.777367,-33.91960144043,-34.094102,-33.961731,-33.925781,-33.891792,-33.935886,-33.960281,-33.723911,-34.055012,-33.774032592773,-33.826653,-33.812968,-33.885269165039,-33.820724487305,-33.752919,-33.771798,-33.806102,-33.846817016602,-33.722853,-33.9497,-34.04182434082,-33.862238,-33.638184,-34.062571,-33.842385,-33.993349,-33.690769,-33.872909545898,-33.59338,-33.755493,-33.764895,-33.78451,-33.939697,-33.792904,-33.684768676758,-33.990223,-33.761408,-33.875295,-33.881013,-33.841824,-33.890671,-34.041824,-33.780448,-33.688812,-33.961345,-33.805618286133,-33.827590942383,-33.935745,-33.797378540039,-33.92606,-33.890414,-33.774977,-33.866691,-33.797243,-33.879776000977,-33.942947387695,-33.610207,-33.861449,-33.89762878418,-33.715802,-33.977913,-33.733214,-33.853029,-33.964920043945,-33.862301,-33.939608,-33.828964233398,-33.894185,-33.900549,-33.947413,-33.657793,-33.821615,-33.972929,-33.841831,-33.864935,-33.923348,-33.80012512207,-33.855023,-33.697831,-33.747514,-33.917855,-33.698169,-33.904734,-33.78248,-33.920974731445,-33.95166,-34.117614,-33.883209,-33.876572,-33.864676,-33.798751831055,-33.891379,-33.774368,-33.689281,-33.864243,-33.700613,-34.003372192383,-34.021225,-33.682022094727,-33.550111,-33.892671,-33.867416,-33.947849,-33.966949,-33.83575,-33.758926391602,-33.852348,-33.698624,-33.88839,-33.897488,-33.793024,-33.780923,-33.830337524414,-33.882522583008,-33.761673,-33.812023,-33.655562,-33.890284,-33.766617,-33.916854858398,-33.948949,-33.856435,-33.868851,-33.840266,-33.80325,-33.611023,-33.879827,-33.870648,-33.840972,-33.827897,-33.945693969727,-33.954792,-33.799853,-33.781651,-33.912734985352,-33.715887,-33.714529,-33.811623,-33.934708,-33.915616,-33.8424,-33.875454,-33.765785,-33.937257,-33.88679,-33.710861206055,-33.813374,-33.817553,-33.802871704102,-33.915319,-33.933647,-33.85121,-34.162701,-33.953867,-33.93618,-33.851254,-33.723220825195,-33.710136,-34.030106,-33.885954,-33.739853,-33.874462,-33.864504,-33.895649,-33.853131,-33.888709,-33.969212,-33.797379,-34.003461,-33.920839,-34.116995,-33.906695,-33.927581,-33.871209,-33.838474,-33.863995,-34.004745483398,-33.958769,-34.033262,-33.889277,-33.72271,-33.874989,-33.844051,-33.975528,-33.717547,-34.061578,-33.877029418945,-33.895636,-33.982369,-33.86747,-33.866714,-33.86982,-33.723220825195,-33.742446899414,-33.83171081543,-33.799506,-33.905823,-33.965307,-33.867804,-33.868779,-33.876984,-33.792945,-33.787373,-33.905237,-33.890079,-33.912205,-33.758803,-33.842697143555,-33.875047,-33.75179,-33.816604614258,-33.85368347168,-33.84339,-34.150314331055,-33.870163,-33.810713,-33.92252,-33.850986,-33.895331,-33.703589,-33.915321,-33.865082,-33.738327026367,-33.766339,-34.007495,-33.915999,-33.809052,-33.784428,-33.880311,-33.947472,-33.644371,-33.958778,-33.923772,-33.742117,-33.773259,-33.751299,-34.013455,-33.789825,-33.846817016602,-33.984146118164,-33.794631958008,-33.85849,-33.892816,-33.896863,-33.883468,-34.011494,-33.834457397461,-33.799745,-33.789138793945,-33.88467,-33.738327026367,-33.778839,-33.868789672852,-33.933321,-33.71441,-33.869927,-33.893508911133,-33.703735,-33.896007,-33.583225,-34.033584594727,-33.888605,-33.720474,-33.762383,-33.966633,-33.860758,-33.814299,-33.741869,-33.878402709961,-34.116991,-33.770653,-33.866666,-33.769881,-33.883687,-33.870294,-33.777252,-33.857269,-34.095398,-33.813444,-33.907276,-33.934179,-33.815231,-33.674824,-33.901278,-33.868789672852,-33.800221,-33.893759,-33.785646,-33.923721,-33.825531,-34.070213,-33.88174,-33.722946,-33.93196105957,-33.917228,-33.937939,-33.795467,-33.878402709961,-33.902684,-33.750686645508,-34.094319,-33.843555,-33.880693,-33.958053588867,-33.817594,-33.781689,-33.916844,-33.884784,-33.894034,-33.753548,-34.026766,-33.979973,-33.859176635742,-33.875302,-33.867416381836,-33.792952,-33.858204,-33.775867,-34.063926,-33.904116,-33.89193,-33.970023,-34.055504,-33.842462,-33.815231323242,-33.84819,-33.764591,-33.939545,-33.906212,-33.77218,-33.881149291992,-33.848190307617,-33.804244995117,-33.813396,-34.058729,-33.959426879883,-33.596878051758,-33.812771,-33.793741,-33.87565612793,-33.932137,-33.798065,-33.712841,-33.612679,-33.88901,-33.905868530273,-33.834407,-33.812,-33.840833,-33.95462,-34.048122,-33.757466,-33.520512,-33.727341,-33.949576,-33.829185,-33.897903,-33.904495239258,-33.874245,-33.797379,-33.880034,-33.805536,-33.780212,-33.877021,-33.868789672852,-33.874111,-33.618332,-33.877716,-33.700362,-33.864289,-33.869076,-33.922929,-33.693008422852,-33.947484,-33.833278,-33.606862,-33.929214477539,-33.877029418945,-33.876935,-33.940233,-33.717251,-33.776584,-33.788394,-33.941343,-33.937454223633,-33.814545,-33.836132,-33.962173461914,-33.690835,-33.817928,-33.779525756836,-33.808364868164,-33.891887,-33.871536254883,-33.879389,-34.093338,-33.686142,-33.882591,-33.850936889648,-33.935974,-33.888502,-33.885644,-33.773913,-33.72184753418,-33.544153,-33.753433227539,-33.746755,-33.705238,-33.833084106445,-33.927586,-33.738419,-33.86432,-34.020538],[150.867842,151.210361,151.104011,151.115371,151.19453430176,150.78804016113,151.1592,151.108139,151.14921569824,151.179428,151.282911,150.846314,151.064598,151.020203,150.703274,151.213615,151.206894,151.1450958252,151.14856,151.207021,151.151154,151.079864,150.6177520752,151.044754,151.037979,150.987272,150.802597,151.25358581543,151.005861,151.186102,151.201579,151.047684,151.182879,151.085922,150.923857,151.08835,150.792483,151.102471,151.060481,151.188354,151.00364685059,151.20826721191,151.12587,151.004254,151.126022,151.124878,151.266541,151.18354797363,150.948328,150.922852,150.842951,151.202194,151.206207,151.208878,151.127253,150.679001,151.124332,151.010239,151.008608,151.208195,151.01875305176,151.064316,151.203102,151.03523254395,151.144079,151.229256,151.177152,151.075981,150.819697,150.986181,151.02424621582,151.238043,151.214767,151.051936,151.206629,151.120078,150.943628,151.205551,151.208007,151.059906,151.038241,150.71347,151.046344,150.921249,150.996883,151.20002746582,151.034137,151.108017,150.75416,150.7185,151.11625671387,150.717467,150.987411,151.277951,151.020048,151.189996,150.88554382324,151.19486,151.16981506348,150.898079,151.007667,151.15136,151.206116,151.134861,151.041099,151.155533,151.15882873535,150.896969,151.149897,150.592957,151.02149963379,151.205246,151.017497,151.19453430176,151.043508,151.052053,151.08329772949,150.974155,151.17256164551,151.076309,150.883652,151.205184,151.208522,150.833359,150.836792,151.192421,150.978806,150.77980041504,151.14784240723,151.007665,151.206336,151.144027,150.983127,150.998912,151.211193,151.028565,151.2247467041,151.174988,151.118195,150.972603,151.081194,151.077046,151.08467102051,150.99678039551,150.83610534668,150.964604,151.17118835449,151.208259,151.200117,150.792969,150.687851,151.18425,151.201743,150.81275939941,151.328857,151.095318,151.208232,150.906291,151.206357,150.986755,151.28627,151.230576,150.962662,150.887894,150.85675,151.248289,150.899932,151.184921,151.133202,151.196041,150.957576,151.185134,150.79216003418,150.946168,151.230722,151.004882,151.209261,151.208543,150.973903,150.644182,150.54213,151.10252,150.8704,151.23573303223,151.215164,151.07917785645,150.719379,151.0249,151.20547,151.18766784668,150.906505,151.05995178223,150.903826,151.096794,151.208908,151.17532,150.54244,150.80863952637,150.963577,150.645905,151.18766784668,151.058235,151.20668,151.276474,150.859848,150.790971,151.021134,150.90751647949,151.000653,151.04484558105,150.848544,151.052124,151.198654,150.903366,151.19316101074,151.168442,151.20826721191,150.6853,151.18629455566,151.178689,151.141537,150.928612,151.14921569824,151.151601,151.204752,151.030506,150.795821,150.977255,151.034371,151.093948,151.238007,150.783338,151.025467,150.999583,151.096563,151.005689,150.859451,151.0668182373,151.03797912598,151.011887,150.687789,151.162251,151.1450958252,151.170583,151.250992,151.104309,151.14372253418,151.208298,151.209596,151.258453,150.89397,150.927704,150.917466,151.1629486084,151.28929138184,150.858078,151.115238,150.608254,151.09428405762,150.82375,151.005722,151.12998962402,151.207306,150.997467,151.037835,150.961426,151.18135,151.248645,151.217601,151.196959,150.937027,150.941372,150.895248,150.697747,151.09361,151.172714,151.188141,151.035134,151.208206,151.06819152832,151.12998962402,151.20808,151.11676,150.97462,151.180004,151.220779,150.77225,150.913507,151.10527,151.123001,150.817363,151.203387,151.14784240723,151.22200012207,151.211586,151.137413,151.23985290527,151.021113,151.08388,151.15882873535,151.223679,150.98748,151.0929107666,151.094963,151.203635,150.8992767334,151.209808,150.90548,150.929489,151.015468,151.2617,151.152946,151.205747,150.956375,151.2068939209,151.115548,150.936907,150.871126,151.08741760254,151.20964050293,151.072394,151.187168,150.853967,151.140303,150.953344,151.114404,151.144899,150.96244812012,151.001434,151.08298,151.030797,151.120232,150.91575622559,151.060181,150.90993,151.244324,150.893234,151.203894,151.21513366699,150.86769104004,151.048793,151.067734,151.20079,150.90152,151.22926,150.89859,151.18217468262,150.719354,150.701384,151.003922,150.926833,151.178724,150.978241,150.995003,150.80409,151.136917,150.983292,151.184399,151.162354,151.13548278809,151.0311126709,151.234541,151.21925354004,151.120376,151.066225,151.114092,151.039352,150.778223,151.037957,151.173683,151.001428,151.1368560791,150.995075,151.20575,151.028366,151.093546,150.992813,151.170831,151.260974,150.853748,150.865963,151.155878,150.516174,150.654144,151.202408,151.26045227051,150.93465,151.020167,151.140693,151.035004,151.197817,151.176376,151.261154,150.831467,151.165695,151.004461,151.250067,151.219434,151.105682,150.892128,151.161849,150.647055,151.0050201416,151.165597,151.25215,151.21925354004,150.988266,151.03660583496,151.038409,151.250636,151.20414733887,151.099594,151.252697,151.031417,150.91850280762,151.206492,151.026408,151.136222,151.237046,151.1808013916,151.172989,151.210791,151.229126,151.145375,151.08879089355,151.201874,151.032145,150.89183,151.233673,151.123011,151.279888,151.20552062988,151.08329772949,150.846778,151.175304,151.187627,151.267639,151.135796,150.78186035156,151.16432189941,151.099138,151.147385,151.20552062988,150.79902648926,151.200896,151.082336,150.824286,151.222214,150.681595,151.159888,151.205521,151.192146,151.149591,151.21788024902,150.977699,151.180344,151.132233,151.195132,150.6616973877,151.167435,151.3302,151.124914,150.626221,150.802124,151.111092,151.212784,151.20414733887,151.181358,150.924026,151.109918,150.774273,150.803318,151.05857849121,150.73997497559,150.985893,151.11488342285,151.107867,150.965143,150.905197,150.956949,151.026728,151.011505,150.978185,150.98304748535,151.08741760254,150.987275,151.172588,151.222439,150.79902648926,151.21238708496,151.184552,150.672743,150.92496,150.74765,151.068315,151.203261,151.203892,151.111608,151.21798,151.24671936035,150.89653015137,151.225464,150.926025,151.230942,150.776703,151.22886657715,150.836138,151.164368,151.206994,151.194302,151.04209899902,151.119263,150.970607,151.207268,151.204147,151.17818,151.181468,151.070846,151.113853,151.20826721191,150.938538,151.204736,151.302505,151.212505,150.920288,151.211807,151.021247,151.198047,151.16717,151.017832,151.0050201416,151.197296,150.708672,150.905228,151.243112,151.210017,150.695046,150.859406,151.211317,151.087418,150.753601,151.186305,151.207993,150.839204,150.685367,150.89709,151.00914001465,151.196387,151.050644,150.72898864746,150.967392,151.00914001465,151.180261,151.051224,151.134997,151.097634,151.208004,150.94635,150.920999,151.217712,151.155736,151.163425,150.7413482666,151.18975,151.189536,151.149487,151.16020202637,151.11213684082,151.10166,150.851634,151.17118835449,150.847075,151.2068939209,151.13717,151.150055,150.919441,151.041168,151.23023986816,151.16844177246,150.81394,151.12724304199,151.2425994873,151.047653,151.08654,151.20018,151.208529,151.168793,151.24946594238,150.760341,151.213898,150.960388,151.039352,150.993444,151.132631,150.970947,150.802744,150.6974029541,150.957752,151.105174,151.19316101074,151.02149963379,150.981675,150.973315,151.085231,151.06269836426,150.935354,151.054669,151.12312316895,150.841111,150.79895,150.819703,150.998483,150.948845,151.301295,150.8992767334,151.242264,151.074371,151.28836,151.195067,150.902811,151.121853,150.72898864746,150.844666,151.126953,151.096938,151.199965,151.210516,150.966827,150.811661,151.138181,151.107315,151.10437,151.08879089355,151.27555847168,151.156027,151.17942810059,151.055603,151.155979,150.910076,151.20743,151.061822,151.20277404785,151.05857849121,150.769562,151.216639,151.17805480957,151.082222,151.246918,151.2706,151.165841,151.13822937012,151.164372,151.145123,151.08329772949,151.169321,151.250857,150.993353,150.941923,150.990298,151.005509,151.107468,151.208123,151.185036,151.14372253418,151.053896,150.952718,150.73096,151.07956,151.099603,151.10182,151.267748,150.92262268066,151.160172,150.757718,151.204147,151.212387,151.204938,151.28105163574,151.207224,151.100101,150.938587,151.042145,151.034726,151.06819152832,151.088897,150.72212219238,151.195374,151.1369,151.186295,151.241022,151.101928,151.205521,151.04484558105,150.771443,150.533676,151.273199,151.259788,150.998174,150.873901,151.21238708496,151.18354797363,151.036132,151.167816,150.792292,151.20055,150.957916,151.23435974121,150.933719,151.132035,150.91275,151.022817,150.902663,151.325684,150.850285,151.02811,150.902345,151.014735,150.97480773926,151.016716,151.24014,151.186752,151.17805480957,151.097931,150.890454,151.180481,151.156278,151.166641,151.038162,151.208252,151.002343,151.242096,151.08295,150.52299499512,151.032074,151.001947,151.28791809082,151.067058,151.191889,151.212789,150.63559,151.109344,151.115945,150.916534,151.09153747559,150.570682,150.817047,151.011994,150.687887,151.202423,151.206777,151.192705,151.230159,151.20531,151.106476,151.065292,150.973023,151.107036,150.665826,151.206404,151.148664,151.224795,150.926117,151.212921,150.95832824707,150.875156,151.003662,151.22596,150.785583,150.687866,151.031072,150.863957,151.10964,151.014059,151.22749328613,151.263901,151.137764,151.208649,151.206842,151.104126,150.6713104248,151.20414733887,151.0132598877,150.899453,151.024154,151.106968,151.226154,151.21749,151.201614,151.179314,151.248681,151.119387,151.282288,151.164727,150.652168,151.06407165527,151.196753,151.230519,151.0050201416,151.17256164551,150.926648,150.67268371582,151.21152,151.104936,151.251215,151.219101,151.181549,151.102661,150.98291,151.172089,151.06132507324,150.622062,150.801084,151.247742,151.096687,151.127579,151.201411,151.167017,151.327813,150.839455,151.099725,150.724067,150.849083,151.286437,150.751663,150.798683,151.06407165527,150.88005065918,150.88829040527,151.214104,151.260436,151.14031,151.196186,151.123632,151.04347229004,151.144168,151.19453430176,150.896378,150.95695495605,151.10939,151.21650695801,151.195198,150.970089,151.210785,150.96244812012,151.101913,151.157336,150.722198,150.90339660645,151.116342,151.031799,151.075617,151.104347,151.153678,151.002237,151.152428,151.17668151855,150.758317,150.962547,151.03607,151.204859,151.021657,151.184514,151.281906,150.925614,150.804211,151.004384,151.147934,151.117342,151.001587,151.30809,151.198658,151.20964050293,150.866944,151.224205,151.183198,151.227951,151.00502,150.703827,151.203257,151.118418,151.0489654541,151.23029,150.973201,151.060556,151.20552062988,151.189246,150.94734191895,150.765637,151.039795,151.242559,151.1011505127,151.001208,150.824959,151.106444,151.142028,151.038256,151.283462,150.847066,150.849258,151.17118835449,151.224289,151.20964050293,151.056099,151.203323,151.280014,151.014555,151.174205,151.24722,150.815137,150.734772,151.270932,151.00227355957,151.212387,151.172047,150.923645,151.21376,151.045076,150.90065002441,150.85395812988,151.02973937988,151.002472,150.637776,151.10252380371,150.74821472168,151.19082,151.135541,151.07231140137,151.182617,151.286201,151.021096,150.746816,151.231399,151.21376037598,151.264584,151.090576,150.855626,150.987682,151.13237,150.624697,150.622208,150.801172,151.244057,151.201324,151.212662,151.1190032959,151.214507,151.011887,151.177495,151.178017,151.092911,151.180669,151.20826721191,151.217365,151.159322,151.207581,150.830705,151.173072,151.198208,151.229817,151.22200012207,151.086357,151.116776,150.898243,150.95420837402,151.21238708496,150.847709,150.997559,150.845443,150.923877,150.85562,150.671959,151.19041442871,150.78186,151.207428,151.0572052002,150.925949,151.00235,151.12998962402,151.16020202637,151.144642,151.20826721191,151.21563,150.78186,150.930863,151.205582,150.92124938965,151.112141,151.152906,151.207301,150.674332,150.59715270996,151.301861,151.1450958252,151.237541,150.868479,151.22749328613,151.106786,150.917831,151.052453,151.087761],2,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,["Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 6","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Lycamobile <br>MCC: 505 | MNC: 19","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Telstra <br>MCC: 505 | MNC: 1","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Optus <br>MCC: 505 | MNC: 2","Operador: Vodafone <br>MCC: 505 | MNC: 3"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addControl","args":["Torres celulares en Sydney (muestra de 1000)","topright",null,"info legend"]}],"limits":{"lat":[-34.186288,-33.503857],"lng":[150.516174,151.3302]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>De una inspección visual se puede afirmar que la distribución de torres de celulares tiene regiones en las que se concentra, por lo que un modelo de Poisson homogéneo en toda la región seleccionada no parece apropiado. Esto se puede sustentar con la prueba quadrat.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>quadrat_test <span class="ot">&lt;-</span> <span class="fu">quadrat.test</span>(sydney_ppp, <span class="at">nx =</span> <span class="dv">6</span>, <span class="at">ny =</span> <span class="dv">6</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(quadrat_test)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test of CSR using quadrat counts
+
+data:  sydney_ppp
+X2 = 553513, df = 35, p-value &lt; 2.2e-16
+alternative hypothesis: two.sided
+
+Quadrats: 6 by 6 grid of tiles</code></pre>
+</div>
+</div>
+<p>Como el <span class="math inline">\(p\)</span>-value es prácticamente 0, no existe evidencia que sustente la hipótesis de ser CSR. La función <span class="math inline">\(K\)</span> de Ripley estimada para estos datos refuerza esta afirmación.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>K_env <span class="ot">&lt;-</span> <span class="fu">envelope</span>(sydney_ppp, Kest, <span class="at">nsim =</span> <span class="dv">20</span>, <span class="at">correction =</span> <span class="st">"Ripley"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generating 20 simulations of CSR  ...
+1, 2, 
+[14:35 remaining, estimate finish 2025-05-13 04:18:38]
+3, 
+[13:58 remaining, estimate finish 2025-05-13 04:18:51]
+4, 
+[13:14 remaining, estimate finish 2025-05-13 04:18:58]
+5, 
+[12:21 remaining, estimate finish 2025-05-13 04:18:53]
+6, 
+[12:46 remaining, estimate finish 2025-05-13 04:20:34]
+7, 
+[12:18 remaining, estimate finish 2025-05-13 04:21:13]
+8, 
+[11:40 remaining, estimate finish 2025-05-13 04:21:43]
+9, 
+[11:09 remaining, estimate finish 2025-05-13 04:22:31]
+10, 
+[10:26 remaining, estimate finish 2025-05-13 04:23:03]
+11,  [9:18 remaining] 12,  [8:12 remaining] 13,  [7:06 remaining] 14,  [6:02 remaining] 15,  [4:59 remaining] 16,  [3:57 remaining] 17,  [2:57 remaining] 18,  [1:57 remaining] 19,  [58 sec remaining] 
+20.
+
+Done.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_env, <span class="at">main =</span> <span class="st">"Función K con bandas de confianza de 20 simulaciones"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Ejemplo_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Más aún, como se mantiene por arriba de la teórica, existen regiones de agrupamiento en el territorio considerado. Ahora que se verificó que el modelo de CSR no es apropiado, es razonable buscar estimar qué función de intensidad podría describir a estos datos.</p>
+<ul>
+<li><em>Estimación por kernel.</em> Se utiliza un suavizamiento por kernel Gaussiano a la distribución empírica de la ubicación de los datos. El ancho de banda se elige a partir del criterio de Diggle que está implementado en <strong>R</strong>.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>h_opt <span class="ot">&lt;-</span> <span class="fu">bw.diggle</span>(sydney_ppp)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>lambda_kernel <span class="ot">&lt;-</span> <span class="fu">density</span>(sydney_ppp, <span class="at">sigma =</span> h_opt)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lambda_kernel, <span class="at">main =</span> <span class="st">"Intensidad estimada por kernel Gaussiano"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Ejemplo_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Si bien el campo aproximado para la función de intensidad representa de manera apropiada a la distribución de puntos en el espacio, tiene la desventaja de que los parámetros no son directamente interpretables. Lo destacable es que la parte iluminada de naranja es la parte donde en promedio se concentran más puntos. Revisando un mapa de Sydney, este punto de concentración corresponde a la zona aldeaña a la Universidad de Sydney.</p>
+<ul>
+<li><em>Estimación por modelo Log-Lineal.</em> Para hacer esta regresión Poisson, de la gráfica de la distribución de puntos se puede hacer la observación de que en el centro de la región de estudio están particularmente concentrados los puntos. Elegimos como covariable espacial la distancia al centro, así, si <span class="math inline">\((x_0,y_0)\)</span> es el centro de la región de estudio, el modelo a ajustar es</li>
+</ul>
+<p><span class="math display">\[\log\lambda(x,y)=\beta_0+\beta_1\sqrt{{(x-x_0)}^2+{(y-y_0)}^2}.\]</span></p>
+<p>Al ajustar este modelo se obtiene el siguiente campo.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>centro <span class="ot">&lt;-</span> <span class="fu">centroid.owin</span>(sydney_ppp<span class="sc">$</span>window)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dist_center <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>((x <span class="sc">-</span> centro<span class="sc">$</span>x)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (y <span class="sc">-</span> centro<span class="sc">$</span>y)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">ppm</span>(sydney_ppp <span class="sc">~</span> dist_center)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Point process model
+Fitted to data: sydney_ppp
+Fitting method: maximum likelihood (Berman-Turner approximation)
+Model was fitted using glm()
+Algorithm converged
+Call:
+ppm.formula(Q = sydney_ppp ~ dist_center)
+Edge correction: "border"
+    [border correction distance r = 0 ]
+--------------------------------------------------------------------------------
+Quadrature scheme (Berman-Turner) = data + dummy + weights
+
+Data pattern:
+Planar point pattern:  147743 points
+Average intensity 2.19e-05 points per square unit
+Window: rectangle = [267861.8, 353251.7] x [6213018, 6292078] units
+                    (85390 x 79060 units)
+Window area = 6750910000 square units
+
+Dummy quadrature points:
+     770 x 770 grid of dummy points, plus 4 corner points
+     dummy spacing: 110.8959 x 102.6752 units
+
+Original dummy parameters: =
+Planar point pattern:  592904 points
+Average intensity 8.78e-05 points per square unit
+Window: rectangle = [267861.8, 353251.7] x [6213018, 6292078] units
+                    (85390 x 79060 units)
+Window area = 6750910000 square units
+Quadrature weights:
+     (counting weights based on 770 x 770 array of rectangular tiles)
+All weights:
+    range: [113, 11400] total: 6.75e+09
+Weights on data points:
+    range: [113, 5690]  total: 4.69e+08
+Weights on dummy points:
+    range: [113, 11400] total: 6.28e+09
+--------------------------------------------------------------------------------
+FITTED :
+
+Nonstationary Poisson process
+
+---- Intensity: ----
+
+Log intensity: ~dist_center
+Model depends on external covariate 'dist_center'
+Covariates provided:
+    dist_center: function(x, y)
+
+Fitted trend coefficients:
+  (Intercept)   dist_center 
+-8.604571e+00 -8.332562e-05 
+
+                 Estimate         S.E.       CI95.lo       CI95.hi Ztest
+(Intercept) -8.604571e+00 5.241220e-03 -8.614843e+00 -8.594298e+00   ***
+dist_center -8.332562e-05 2.310248e-07 -8.377842e-05 -8.287282e-05   ***
+                  Zval
+(Intercept) -1641.7116
+dist_center  -360.6783
+
+----------- gory details -----
+
+Fitted regular parameters (theta):
+  (Intercept)   dist_center 
+-8.604571e+00 -8.332562e-05 
+
+Fitted exp(theta):
+ (Intercept)  dist_center 
+0.0001832662 0.9999166778 </code></pre>
+</div>
+</div>
+<p>Gráficamente, esta intensidad se puede representar como el siguiente mapa de calor.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">predict</span>(model, <span class="at">type =</span> <span class="st">"trend"</span>), <span class="at">main =</span> <span class="st">"Intensidad estimada Log-Lineal dependiente de la distancia al centro"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-Ejemplo_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Combinando la información obtenida de ambos ajustes, se afirma que la intensidad decrece al alejarse del centro, y que en este contexto el <em>centro</em> sería la región cercana a la Universidad de Sydney.</p>
+<p>Del mapa interactivo, al revisar la distribución de los puntos, se aprecia que estos puntos están concentrados en zonas habitables. La razón por la cual no se verificó la hipótesis de <span class="citation" data-cites="Celulares">(<a href="../references.html#ref-Celulares" role="doc-biblioref">Lee, Shih, y Chen 2013</a>)</span> puede ser que la región a considerar no se limitó exclusivamente a la zona habitable de la región. Una revisión a esta técnica de reducir el estudio a calles y casas puede revisarse en <span class="citation" data-cites="Moraga">(<a href="../references.html#ref-Moraga" role="doc-biblioref">Moraga 2023</a>)</span>, donde la función de intensidad se ajusta a nivel calle.</p>
+<p>En atención a los comentarios hechos en la sección del proceso Poisson no homogéneo espacial, el proceso de inferencia podría mejorar si se consideraran otro tipo de covariables. En este contexto serían de relevancia variables socioeconómicas.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-CelularesArg" class="csl-entry" role="listitem">
+Fattori, Ezequiel, Pablo Groisman, y Carlos Sarraute. 2018. <span>«Point Process Models for Distribution of Cell Phone Antennas»</span>. <a href="https://arxiv.org/abs/1807.10975">https://arxiv.org/abs/1807.10975</a>.
+</div>
+<div id="ref-Celulares" class="csl-entry" role="listitem">
+Lee, Chia-Han, Cheng-Yu Shih, y Yu-Sheng Chen. 2013. <span>«Stochastic geometry based models for modeling cellular networks in urban areas»</span>. <em>Wireless Networks</em> 19. <a href="https://doi.org/10.1007/s11276-012-0518-0">https://doi.org/10.1007/s11276-012-0518-0</a>.
+</div>
+<div id="ref-Moraga" class="csl-entry" role="listitem">
+Moraga, Paula. 2023. <em>Spatial Statistics for Data Science: Theory and Practice with R</em>. First. Chapman &amp; Hall/CRC.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../Caps/03-Poisson.html" class="pagination-link" aria-label="Procesos de Poisson">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
