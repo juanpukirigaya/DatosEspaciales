@@ -6,12 +6,14 @@ lang: es
 book:
   title: "Introducción al análisis de datos espaciales"
   author: "Juan Pablo, Luz María y El Chino"
-  date: "13/5/2025"
+  date: "2025-05-13"
   chapters:
     - index.qmd
     - Caps/01-Introduccion.qmd
     - Caps/02-Exploratorio.qmd
     - Caps/03-Poisson.qmd
+    #- Caps/04-Gaussiano.qmd
+    - Caps/05-Ejemplo.qmd
     - references.qmd
 
 bibliography: references.bib
@@ -19,9 +21,8 @@ bibliography: references.bib
 format:
   html:
     theme:
-      light: cosmo
-      dark: darkly
-    appearance: auto
+      - cosmo
+      - brand
     toc: true
     toc-depth: 3
     number-sections: true

@@ -1,0 +1,114 @@
+# Caso de estudio: torres de telefonía
+
+La motivación para hacer este ejemplo viene de una observación curiosa que se dio al investigar para el capítulo [@cap-Pois].
+
+En la [página de Wikipedia sobre los procesos de Poisson puntuales](https://en.wikipedia.org/wiki/Poisson_point_process), al hablar de la aleatoriedad espacial completa (CSR), se menciona que la posición de celulares en Sydney, Australia, cumple aproximadamente con la propiedad de ser CSR, comparando con otros territorios. Al revisar el artículo donde se publicó este resultado [@Celulares], se puede ver que se utilizan herramientas un tanto más complejas que las desarrolladas aquí pero el espíritu es el mismo: examinar la posibilidad de un proceso Poisson espacial.
+
+Un trabajo similar que se revisó es el artículo [@CelularesArg], en el que se hace el estudio en el territorio de Buenos Aires, Argentina. El objetivo de este artículo es comparar distintos estimadores de funciones de intensidad y métodos para probar la propiedad CSR.
+
+## Datos de Sydney
+
+Es imposible replicar el resultado del artículo [@Celulares] ya que el criterio es distinto. El conjunto de datos utilizado es el cual se recuperó de [OpenCellId (versión sin API)](https://www.kaggle.com/datasets/zakariaeyoussefi/cell-towers-worldwide-location-data-by-continent/code), que tiene los datos de las torres de celulares hasta el 2024.
+
+El número de torres de celulares registradas en el conjunto de datos para la región de Sydney (aproximada por un rectángulo), tras eliminar datos repetidos y faltantes, es grande $N=147743$. La distribución de puntos se muestra a continuación.
+
+```{r, message=FALSE, warning=FALSE}
+oceania <- read.csv("Oceania-towers.csv")
+
+library(dplyr)
+library(sf)
+library(spatstat)
+library(leaflet)
+
+sydney_bbox <- c(lon_min = 150.5, lon_max = 151.5, lat_min = -34.2, lat_max = -33.5)
+sydney_towers <- oceania %>% 
+  filter(
+    LON >= sydney_bbox["lon_min"] & LON <= sydney_bbox["lon_max"],
+    LAT >= sydney_bbox["lat_min"] & LAT <= sydney_bbox["lat_max"]
+  ) %>% 
+  filter(!is.na(LON), !is.na(LAT))  # Eliminar NA
+
+sydney_sf <- st_as_sf(sydney_towers, coords = c("LON", "LAT"), crs = 4326)
+sydney_utm <- st_transform(sydney_sf, 32756)  # UTM para Sydney (EPSG:32756)
+coords <- st_coordinates(sydney_utm)
+sydney_ppp <- as.ppp(coords, W = owin(
+  xrange = range(coords[, "X"]),
+  yrange = range(coords[, "Y"])
+))
+
+plot(sydney_ppp, main = "Distribución de torres celulares en Sydney", pch = 20, cex = 0.3, cols = "darkblue")
+```
+
+El siguiente mapa interactivo se obtuvo de tomar una muestra uniforme de 1000 de estas torres.
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(123)
+sydney_sample <- sydney_towers %>% 
+  slice_sample(n = 1000)
+
+leaflet(sydney_sample) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    lng = ~LON, 
+    lat = ~LAT,
+    radius = 2,
+    color = "red",
+    popup = ~paste("Operador:", Network, "<br>MCC:", MCC, "| MNC:", MNC)
+  ) %>%
+  addControl("Torres celulares en Sydney (muestra de 1000)", position = "topright")
+```
+
+De una inspección visual se puede afirmar que la distribución de torres de celulares tiene regiones en las que se concentra, por lo que un modelo de Poisson homogéneo en toda la región seleccionada no parece apropiado. Esto se puede sustentar con la prueba quadrat.
+
+```{r, message=FALSE, warning=FALSE}
+quadrat_test <- quadrat.test(sydney_ppp, nx = 6, ny = 6)
+print(quadrat_test)
+```
+
+Como el $p$-value es prácticamente 0, no existe evidencia que sustente la hipótesis de ser CSR. La función $K$ de Ripley estimada para estos datos refuerza esta afirmación.
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(123)
+K_env <- envelope(sydney_ppp, Kest, nsim = 20, correction = "Ripley")
+plot(K_env, main = "Función K con bandas de confianza de 20 simulaciones")
+```
+
+Más aún, como se mantiene por arriba de la teórica, existen regiones de agrupamiento en el territorio considerado. Ahora que se verificó que el modelo de CSR no es apropiado, es razonable buscar estimar qué función de intensidad podría describir a estos datos.
+
+- *Estimación por kernel.* Se utiliza un suavizamiento por kernel Gaussiano a la distribución empírica de la ubicación de los datos. El ancho de banda se elige a partir del criterio de Diggle que está implementado en **R**.
+
+```{r, message=FALSE, warning=FALSE}
+h_opt <- bw.diggle(sydney_ppp)
+lambda_kernel <- density(sydney_ppp, sigma = h_opt)
+plot(lambda_kernel, main = "Intensidad estimada por kernel Gaussiano")
+```
+
+Si bien el campo aproximado para la función de intensidad representa de manera apropiada a la distribución de puntos en el espacio, tiene la desventaja de que los parámetros no son directamente interpretables. Lo destacable es que la parte iluminada de naranja es la parte donde en promedio se concentran más puntos. Revisando un mapa de Sydney, este punto de concentración corresponde a la zona aldeaña a la Universidad de Sydney.
+
+- *Estimación por modelo Log-Lineal.* Para hacer esta regresión Poisson, de la gráfica de la distribución de puntos se puede hacer la observación de que en el centro de la región de estudio están particularmente concentrados los puntos. Elegimos como covariable espacial la distancia al centro, así, si $(x_0,y_0)$ es el centro de la región de estudio, el modelo a ajustar es
+
+$$\log\lambda(x,y)=\beta_0+\beta_1\sqrt{{(x-x_0)}^2+{(y-y_0)}^2}.$$
+
+Al ajustar este modelo se obtiene el siguiente campo.
+
+```{r, message=FALSE, warning=FALSE}
+centro <- centroid.owin(sydney_ppp$window)
+dist_center <- function(x, y) {
+  sqrt((x - centro$x)^2 + (y - centro$y)^2)
+}
+
+model <- ppm(sydney_ppp ~ dist_center)
+summary(model)
+```
+
+Gráficamente, esta intensidad se puede representar como el siguiente mapa de calor.
+
+```{r, message=FALSE, warning=FALSE}
+plot(predict(model, type = "trend"), main = "Intensidad estimada Log-Lineal dependiente de la distancia al centro")
+```
+
+Combinando la información obtenida de ambos ajustes, se afirma que la intensidad decrece al alejarse del centro, y que en este contexto el *centro* sería la región cercana a la Universidad de Sydney.
+
+Del mapa interactivo, al revisar la distribución de los puntos, se aprecia que estos puntos están concentrados en zonas habitables. La razón por la cual no se verificó la hipótesis de [@Celulares] puede ser que la región a considerar no se limitó exclusivamente a la zona habitable de la región. Una revisión a esta técnica de reducir el estudio a calles y casas puede revisarse en [@Moraga], donde la función de intensidad se ajusta a nivel calle.
+
+En atención a los comentarios hechos en la sección del proceso Poisson no homogéneo espacial, el proceso de inferencia podría mejorar si se consideraran otro tipo de covariables. En este contexto serían de relevancia variables socioeconómicas.

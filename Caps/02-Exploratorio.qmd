@@ -75,10 +75,11 @@ Este tipo de datos se obtienen con mediciones de infiltrómetros revisando la ca
 
 En este tipo de datos, las ubicaciones de muestreo son generalmente irregulares y se tiene como objetivo predecir la variable en ubicaciones no observadas. Esto se hace bajo la hipótesis de continuidad espacial del campo y que la correlación entre observaciones depende de la distancia.
 
-### Patrones puntuales
+### Patrones puntuales {#sec-puntuales}
 En este tipo de datos se centra el estudio en capítulos posteriores y en el caso de estudio. Aquí el dominio $A$ se toma como aleatorio y las variables en $Z$ sólo valen 1 o 0, indicando la ocurrencia o no de un evento. Estos patrones surgen de *ubicar* eventos, tales como aparición de enfermedades, nacimiento de especies, ubicación de viviendas, entre otros.
 
 Como ejemplo, se presentan los datos de *pinos de hoja larga en Georgia*, los cuales se pueden encontrar en la biblioteca **spatstat** de R. Lo que se mide es la presencia de pinos con longitud de hoja mayor a cierto parámetro. El objetivo del estudio era ver si los árboles con estas características están distribuidos uniformemente al azar en la región o si se tiene algún tipo de agrupamiento o regularidad.
+
 ```{r, message=FALSE, warning=FALSE}
 library(spatstat)
 
@@ -93,7 +94,142 @@ La característica principal de este tipo de datos es que el interés está cent
 
 ## Herramientas descriptivas
 
-### El variograma
+Para el caso de datos puntuales, es posible dar una noción de media y de varianza para datos en cualquier dimensión $d\geq 1$.
+
+::: {#def-centroidedispersion}
+
+### Centroide y dispersión de una muestra
+
+Sean $x=\{x_1,\ldots,x_n\}\subseteq\mathbb{R}^d$ puntos en el espacio, donde $x_i=(x_i^{(1)},\ldots,x_i^{(d)})$, con $i=1,\ldots,n$.
+
+- El *centroide espacial* de $x$ está dado por
+
+$$\overline{x}=\frac{1}{n}\sum_{i=1}^nx_i=\left(\frac{1}{n}\sum_{i=1}^nx_i^{(1)},\ldots,\frac{1}{n}\sum_{i=1}^nx_i^{(d)}\right).$$
+
+- La *dispersión espacial* de $x$ está dada por
+
+$$\sigma^2=\frac{1}{n}\sum_{i=1}^n{\|x_i-\overline{x}\|}^2,$$
+
+donde $\|\cdot\|$ es la norma euclidiana de $\mathbb{R}^d$.
+
+- La *matriz de dispersión espacial* de $x$ está dada por
+
+$$\Sigma=\frac{1}{n}\sum_{i=1}^n(x_i-\overline{x}){(x_i-\overline{x})}^T.$$
+
+:::
+
+Para patrones de puntos más complejos como en el caso de los datos del río Meuse, se puede hablar de *centros de masa* ya que se considera que cada punto en el mapa tiene un valor asignado.
+
+::: {#def-centroidedispersion}
+
+### Centroide de masa y dispersión de masa de una muestra
+
+Sean $x=\{x_1,\ldots,x_n\}\subseteq\mathbb{R}^d$ puntos en el espacio, donde $x_i=(x_i^{(1)},\ldots,x_i^{(d)})$ con pesos $w_i\neq 0$, con $i=1,\ldots,n$.
+
+- El *centroide de masa espacial* de $x$ está dado por
+
+$$\overline{x}_w=\frac{1}{W}\sum_{i=1}^nw_ix_i=\left(\frac{1}{n}\sum_{i=1}^nw_ix_i^{(1)},\ldots,\frac{1}{n}\sum_{i=1}^nw_ix_i^{(d)}\right)\quad\text{donde}\quad W=\sum_{i=1}^nw_i.$$
+
+- La *dispersión de masa espacial* de $x$ está dada por
+
+$$\sigma^2_w=\frac{1}{W}\sum_{i=1}^nw_i{\|x_i-\overline{x}_w\|}^2,$$
+
+donde $\|\cdot\|$ es la norma euclidiana de $\mathbb{R}^d$.
+
+- La *matriz de dispersión de masa espacial* de $x$ está dada por
+
+$$\Sigma=\frac{1}{W}\sum_{i=1}^nw_i(x_i-\overline{x}_w){(x_i-\overline{x}_w)}^T.$$
+
+:::
+
+Este tipo de estadísticos capturan no sólo *dónde* están los eventos, sino *dónde se concentra el fenómeno*. Siguiendo con los datos de Meuse, los centroides y las dispersiones para los datos de plomo se muestran a continuación.
+
+```{r, message=FALSE, warning=FALSE}
+library(sp)
+library(sf)
+library(mapview)
+library(dplyr)
+
+data(meuse)
+meuse_sf <- st_as_sf(meuse, coords = c("x", "y"), crs = 28992)
+coords <- st_coordinates(meuse_sf)
+weights <- meuse_sf$lead
+
+centroide <- colMeans(coords)
+W <- sum(weights)
+centro_masa <- colSums(weights * coords) / W
+
+disp_espacial <- mean(rowSums((coords - centroide)^2))
+disp_masa <- sum(weights * rowSums((coords - centro_masa)^2)) / W
+
+p_centroide <- st_sf(tipo = "Centroide", geometry = st_sfc(st_point(centroide)), crs = 28992)
+p_masa <- st_sf(tipo = "Centro de masa", geometry = st_sfc(st_point(centro_masa)), crs = 28992)
+
+mapview(meuse_sf, zcol = "lead", map.types = "CartoDB.Voyager") +
+  mapview(p_centroide, color = "blue", col.region = "blue", label = "Centroide") +
+  mapview(p_masa, color = "red", col.region = "red", label = "Centro de masa")
+
+library(knitr)
+data.frame(
+  Medida = c("Centroide X", "Centroide Y", "Centro de masa X", "Centro de masa Y",
+             "Dispersión espacial", "Dispersión ponderada"),
+  Valor = c(round(centroide[1], 1), round(centroide[2], 1),
+            round(centro_masa[1], 1), round(centro_masa[2], 1),
+            round(disp_espacial, 2), round(disp_masa, 2))
+) %>%
+  kable(caption = "Resumen de características espaciales de los datos.")
+
+```
+
+Si se tratara con datos a una escala muy grande, digamos datos en los que los datos están distribuidos a lo largo de todo el continente americano, es necesario tomar consideraciones topológicas de curvatura y restricciones a estar sobre el mapa. Esto ya que con las definiciones dadas podría ser que los puntos ni siquiera estén sobre el mapa (basta tomar el polo norte y el polo sur para tener un ejemplo de esto).
+
+### Visualización de datos
+Aunque las estadísticas anteriores sí capturan información relevante para los datos, se pierde mucha información sobre la estructura espacial del fenómeno. Existen diversos recursos gráficos para poder discutir sobre datos espaciales, algunos de éstos se presentan en las siguientes secciones. Más sobre éstos y otros tipos de representaciones gráficas de datos espaciales se pueden ver en [@Bivand] y en [@Baddeley].
+
+
+#### Mapa de símbolos proporcionales
+
+Un mapa de símbolos proporcionales es un tipo de gráfico que representa la magnitud de una variable en ubicaciones puntuales mediante símbolos cuyo tamaño es proporcional al valor observado.
+
+Otra manera de visualizar los datos de pinos de hoja larga de la sección [@sec-puntuales] es la siguiente
+
+```{r, message=FALSE, warning=FALSE}
+library(spatstat)
+
+data(longleaf)
+
+plot(longleaf, maxsize=15, main = "Pinos de hoja larga en Georgia con diámetro")
+```
+
+Los diámetros de los árboles no están a escala: la leyenda muestra los diámetros en centímetros.
+
+#### Mapas de color
+Muestra la densidad o intensidad de eventos sobre una superficie. Siguiendo el ejemplo de los pinos de hoja larga
+
+```{r, message=FALSE, warning=FALSE}
+library(spatstat)
+
+data(longleaf)
+
+A <- colourmap(heat.colors(128), range=range(marks(longleaf)))
+
+plot(longleaf,  pch=21, bg=A, cex=1, main = "Pinos de hoja larga en Georgia con diámetro")
+```
+
+#### Mapa de contornos
+Un mapa de contorno (o gráfico de curvas de nivel) es una representación visual de una superficie tridimensional (como una montaña, un terreno o cualquier variable continua) en un plano bidimensional. Conecta con curvas de nivel los puntos que tienen el mismo valor en una magnitud medida (altitud, temperatura, presión, etc.).
+
+A continuación se presenta un mapa de contorno del volcán Monte Edén de Auckland.
+
+```{r, message=FALSE, warning=FALSE}
+data(volcano)
+contour(volcano, 
+        main = "Altitudes de Maunga Whau",,
+        col = "blue", 
+        lwd = 2)
+```
+
+### El variograma {#sec-variograma}
 Una herramienta de gran utilidad en el análisis de este tipo de procesos con estructura adicional es el *variograma*. La idea de este estadístico es estudiar empíricamente la estructura de covarianza del proceso espacial.
 
 La idea se toma del contexto de series de tiempo, donde se busca medir la influencia de tiempos anteriores en el instante de estudio. Algunas de las definiciones de interés en el contexto de las series de tiempo se presentan a continuación, como se enuncian en [@Rincon].
@@ -179,10 +315,3 @@ Los números sobre cada punto en el mapa representan el número de pares de obse
 
 - Dan un criterio para medir la confiabilidad de cada punto: si un punto se basa en pocos pares, la estimación es menos confiable.
 - Ayudan a evaluar la dispersión de las distancias: muchos pares en una banda significa que esa distancia es común en el diseño del experimento.
-
-
-
-
-
-
-

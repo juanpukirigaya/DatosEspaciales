@@ -1,0 +1,7 @@
+# Campos Gaussianos
+
+Esto es una deuda que traigo conmigo, tal vez algún día quede bien jaja.
+
+## Generalidades de los campos Gaussianos
+
+## El estimador de Kriging y el variograma
