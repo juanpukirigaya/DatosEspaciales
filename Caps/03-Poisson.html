@@ -552,7 +552,22 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="fu">Kest</span>(X, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>K_env <span class="ot">&lt;-</span> <span class="fu">envelope</span>(X, Kest, <span class="at">nsim=</span><span class="dv">99</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generating 99 simulations of CSR  ...
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 
+99.
+
+Done.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_env, <span class="at">main =</span> <span class="st">"Función K con bandas de confianza de 99 simulaciones"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -566,8 +581,23 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>L<span class="ot">&lt;-</span><span class="fu">Lest</span>(X, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>L<span class="ot">&lt;-</span><span class="fu">Lest</span>(X, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>L_env <span class="ot">&lt;-</span> <span class="fu">envelope</span>(X, Lest, <span class="at">nsim=</span><span class="dv">99</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generating 99 simulations of CSR  ...
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 
+99.
+
+Done.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L_env, <span class="at">main =</span> <span class="st">"Función L con bandas de confianza de 99 simulaciones"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -582,7 +612,7 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quadrat.test</span>(X, <span class="at">nx =</span> <span class="dv">4</span>, <span class="at">ny =</span> <span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quadrat.test</span>(X, <span class="at">nx =</span> <span class="dv">4</span>, <span class="at">ny =</span> <span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -598,32 +628,32 @@ Quadrats: 4 by 4 grid of tiles</code></pre>
 </div>
 <p>Para ejemplificar cuándo no ocurre el CSR, tenemos otro ejemplo artificial donde la intensidad es muy alta cerca del <span class="math inline">\((0,0)\)</span>.</p>
 <div id="exm-KLartificialnh" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 3.3</strong></span> Primero generamos un proceso Poisson no homogéneo de intensidad <span class="math inline">\(\displaystyle\lambda(x,y)={(x^2+y^2)}^{-1/2}\Bbb{1}_{\{x^2+y^2&gt;0\}}\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 3.3</strong></span> Primero generamos un proceso Poisson no homogéneo de intensidad <span class="math inline">\(\displaystyle\lambda(x,y)=100{(x^2+y^2)}^{-1/2}\Bbb{1}_{\{x^2+y^2&gt;0\}}\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) { <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span>)) }</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">lambda</span>(grid<span class="sc">$</span>x, grid<span class="sc">$</span>y)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>lambda_im <span class="ot">&lt;-</span> <span class="fu">as.im</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> grid<span class="sc">$</span>x, <span class="at">y =</span> grid<span class="sc">$</span>y, <span class="at">z =</span> grid<span class="sc">$</span>lambda), </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">W =</span> <span class="fu">owin</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)))</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">612000</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X_nhpp <span class="ot">&lt;-</span> <span class="fu">rpoispp</span>(lambda_im)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X_nhpp, </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proceso de Poisson no Homogéneo"</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">20</span>,                      </span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">cols =</span> <span class="st">"blue"</span>,                  </span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">show.window =</span> <span class="cn">TRUE</span>,             </span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,                    </span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"X"</span>,          </span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Y"</span>        </span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) { <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">100</span> <span class="sc">/</span> <span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span>)) }</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">lambda</span>(grid<span class="sc">$</span>x, grid<span class="sc">$</span>y)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>lambda_im <span class="ot">&lt;-</span> <span class="fu">as.im</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> grid<span class="sc">$</span>x, <span class="at">y =</span> grid<span class="sc">$</span>y, <span class="at">z =</span> grid<span class="sc">$</span>lambda), </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">W =</span> <span class="fu">owin</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">612003</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>X_nhpp <span class="ot">&lt;-</span> <span class="fu">rpoispp</span>(lambda_im)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X_nhpp, </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proceso de Poisson no Homogéneo"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">20</span>,                      </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">cols =</span> <span class="st">"blue"</span>,                  </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">show.window =</span> <span class="cn">TRUE</span>,             </span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,                    </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"X"</span>,          </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Y"</span>        </span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -637,8 +667,24 @@ Quadrats: 4 by 4 grid of tiles</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>K_empirica <span class="ot">&lt;-</span> <span class="fu">Kest</span>(X_nhpp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_empirica)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>K_empirica <span class="ot">&lt;-</span> <span class="fu">Kest</span>(X_nhpp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>K_empenv <span class="ot">&lt;-</span> <span class="fu">envelope</span>(X_nhpp, Kest, <span class="at">nsim=</span><span class="dv">99</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generating 99 simulations of CSR  ...
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 
+99.
+
+Done.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_empenv, <span class="at">main =</span> <span class="st">"Función K con bandas de confianza de 99 simulaciones"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -652,8 +698,24 @@ Quadrats: 4 by 4 grid of tiles</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>L_empirica <span class="ot">&lt;-</span> <span class="fu">Lest</span>(X_nhpp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L_empirica)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>L_empirica <span class="ot">&lt;-</span> <span class="fu">Lest</span>(X_nhpp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>L_empenv <span class="ot">&lt;-</span> <span class="fu">envelope</span>(X_nhpp, Lest, <span class="at">nsim=</span><span class="dv">99</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generating 99 simulations of CSR  ...
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 
+99.
+
+Done.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L_empenv, <span class="at">main =</span> <span class="st">"Función L con bandas de confianza de 99 simulaciones"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -668,14 +730,14 @@ Quadrats: 4 by 4 grid of tiles</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quadrat.test</span>(X_nhpp, <span class="at">nx =</span> <span class="dv">4</span>, <span class="at">ny =</span> <span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quadrat.test</span>(X_nhpp, <span class="at">nx =</span> <span class="dv">4</span>, <span class="at">ny =</span> <span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Chi-squared test of CSR using quadrat counts
 
 data:  X_nhpp
-X2 = 15, df = 15, p-value = 0.9028
+X2 = 146.13, df = 15, p-value &lt; 2.2e-16
 alternative hypothesis: two.sided
 
 Quadrats: 4 by 4 grid of tiles</code></pre>
