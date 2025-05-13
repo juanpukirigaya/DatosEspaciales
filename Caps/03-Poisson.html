@@ -379,7 +379,7 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 <p>donde</p>
 <p><span class="math display">\[\Lambda(t)=\int_0^t\lambda(u)du\]</span></p>
 <p>es la intensidad acumulada. Más aún, dado que han ocurrido <span class="math inline">\(n\)</span> eventos en el intervalo <span class="math inline">\((0,T]\)</span>, los tiempos de ocurrencia de éstos son tales que</p>
-<p><span class="math display">\[f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,t_n|n)\propto\frac{1}{\Lambda(t)}\prod_{i=1}^n\lambda(w_i).\]</span></p>
+<p><span class="math display">\[f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,t_n|n)\propto\frac{1}{{(\Lambda(t))}^n}\prod_{i=1}^n\lambda(w_i).\]</span></p>
 </div>
 <p>Es importante notar que ahora se busca estimar <em>una función</em>. La función de verosimilitud de este problema es</p>
 <p><span class="math display">\[L(\lambda(t))=\left[\prod_{i=1}^n\lambda(t_i)\right]\exp\left(-\Lambda(T)\right).\]</span></p>
@@ -412,7 +412,7 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 <li>Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes.</li>
 <li>Dado que <span class="math inline">\(N(A)=n\)</span>, las ubicaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> de los eventos son tales que</li>
 </ul>
-<p><span class="math display">\[ f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{\Lambda(A)}\prod_{i=1}^n\lambda(x_i). \]</span></p>
+<p><span class="math display">\[ f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{{(\Lambda(A))}^n}\prod_{i=1}^n\lambda(x_i). \]</span></p>
 </div>
 <p>En este caso, la función de intensidad en realidad se toma como densidad para una medida, a la cual se le llama también <em>medida de Poisson</em>. Detalles teóricos sobre estos procesos de Poisson con intensidades <span class="math inline">\(\lambda\)</span> generales se pueden revisar en <span class="citation" data-cites="Kingman">(<a href="../references.html#ref-Kingman" role="doc-biblioref">Kingman 2007</a>)</span>.</p>
 <div id="exm-medarea" class="theorem example">
