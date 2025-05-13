@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -300,7 +335,12 @@ window.Quarto = {
 </div>
 <div class="proof">
 <p><span class="proof-title"><em>Prueba</em>. </span>Siguiendo la idea del caso temporal, la función de verosimilitud de <span class="math inline">\(\lambda\)</span> se puede calcular con las distribuciones conocidas como</p>
-<p><span class="math display">\[L(\lambda;\underline{x})\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\mathbb{P}[N(A_0)=n]=e^{-\lambda|A_0|}\frac{{(\lambda|A_0|)}^n}{n!}\frac{1}{{|A_0|}^n}=\frac{\lambda^n}{n!}e^{-\lambda|A|}.\]</span></p>
+<p><span class="math display">\[
+\begin{align*}
+L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\mathbb{P}[N(A_0)=n]\\
+&amp;=e^{-\lambda|A_0|}\frac{{(\lambda|A_0|)}^n}{n!}\frac{1}{{|A_0|}^n}=\frac{\lambda^n}{n!}e^{-\lambda|A|}.
+\end{align*}
+\]</span></p>
 <p>La log-verosimilitud es</p>
 <p><span class="math display">\[\ell(\lambda;\underline{x})=n\ln\lambda-\lambda|A_0|\]</span></p>
 <p>El punto crítico de esta función lo encontramos como</p>
@@ -361,7 +401,7 @@ window.Quarto = {
 <h2 data-number="3.4" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson espacial no homogéneo</h2>
 <p>Con las ideas de la sección anterior, un proceso Poisson espacial no homogéneo, intuitivamente, es uno en que la intensidad depende del punto del espacio en el que uno se encuentre. Teóricamente, la extensión no es tan directa como se pensaría en primera instancia.</p>
 <div id="def-pPenh" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\lambda(A)\)</span>, donde</p>
+<p><span class="theorem-title"><strong>Definición 3.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\lambda(A))\)</span>, donde</p>
 <p><span class="math display">\[\Lambda(A)=\int_A\lambda(x)dx.\]</span></p>
 <ul>
 <li>Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes.</li>
@@ -369,8 +409,47 @@ window.Quarto = {
 </ul>
 <p><span class="math display">\[ f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{\Lambda(A)}\prod_{i=1}^n\lambda(x_i). \]</span></p>
 </div>
-<p>En este caso, la función de intensidad en realidad se toma como densidad para una medida, a la cual se le llama también <em>medida de Poisson</em>.</p>
+<p>En este caso, la función de intensidad en realidad se toma como densidad para una medida, a la cual se le llama también <em>medida de Poisson</em>. Detalles teóricos sobre estos procesos de Poisson con intensidades <span class="math inline">\(\lambda\)</span> generales se pueden revisar en <span class="citation" data-cites="Kingman">(<a href="../references.html#ref-Kingman" role="doc-biblioref">Kingman 2007</a>)</span>.</p>
+<div id="exm-medarea" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 3.1</strong></span> Sean <span class="math inline">\(S\subseteq\mathbb{R}^2\)</span> y <span class="math inline">\(\lambda(x,y)=e^{-(x^2+y^2)}\)</span>. Entonces, si <span class="math inline">\(A=\{(x,y)\ :\ x^2+y^2\leq r^2\}\)</span>, la medida de <span class="math inline">\(A\)</span> respecto a <span class="math inline">\(\lambda\)</span> es</p>
+<p><span class="math display">\[\Lambda(A)=\int_A e^{-(x^2+y^2)}dxdy=\pi(1-e^{-r^2}).\]</span></p>
+</div>
+<p>La manera en la que se puede hacer inferencia sobre la función <span class="math inline">\(\lambda\)</span> es la misma que en el caso temporal. La función de verosimilitud sobre la región <span class="math inline">\(A\)</span> de este modelo es</p>
+<p><span class="math display">\[L(\lambda(t))=\left[\prod_{i=1}^n\lambda(x_i)\right]\exp(-\Lambda(A)).\]</span></p>
+<p>El modelo Log-Lineal en este caso es</p>
+<p><span class="math display">\[\log\lambda(s)=\beta_0(s)+\beta_1Z(s).\]</span></p>
+<p>Una hipótesis usual es considerar que <span class="math inline">\(Z={(Z(s))}_{s\in A}\)</span> es un campo Gaussiano de media 0. Dos métodos clásicos para la estimación son los siguientes:</p>
+<ul>
+<li>Con una discretización del espacio en una rejilla de <span class="math inline">\(n_1\times n_2=N\)</span> celdas <span class="math inline">\({(s_{ij})}_{(i,j)\in\{1,\ldots,n_1\}\times\{1,\ldots,n_2\}}\)</span>. El número promedio de eventos por celda es</li>
+</ul>
+<p><span class="math display">\[\Lambda_{ij}=\int_{s_{ij}}\exp(\eta(s))ds\approx|s_{ij}|\exp(\eta_{ij}).\]</span></p>
+<p>Entonces, dado un campo latente <span class="math inline">\(\eta_{ij}\)</span>, el número de observaciones en la rejilla es tal que</p>
+<p><span class="math display">\[(y_{ij}|\eta_{ij})\sim\text{Poi}(|s_{ij}|\exp(\eta_{ij})),\]</span></p>
+<p>El campo latente puede estimarse a partir de otras covariables y efectos aleatorios como</p>
+<p><span class="math display">\[\eta_{ij}=c(s_{ij})\beta+f_s(s_{ij})+f_u(s_{ij}),\]</span></p>
+<p>donde <span class="math inline">\(\beta=(\beta_0,\beta_1,\ldots,\beta_p),\ c(s_{ij})=(1,c_1(s_{ij}),\ldots,c_p(s_{ij})),\ f_s\)</span> es un ruido dependiente de la estructura espacial y <span class="math inline">\(f_u\)</span> es un ruido no necesariamente dependiente del espacio.</p>
+<ul>
+<li>Con un proceso análogo al autorregresivo de las series de tiempo</li>
+</ul>
+<p><span class="math display">\[Z(s)=\sum_{i=1}^nZ_i\phi_i(s),\]</span></p>
+<p>donde <span class="math inline">\((Z_1,\ldots,Z_n)\)</span> es un vector Gaussiano y <span class="math inline">\({(\phi_i(s))}_{i=1}^n\)</span> es una base de funciones deterministas. Una alternativa usual es considerar que el campo Gaussiano tiene matriz de covarianza como en el variograma de Mathéron presentado en la sección <a href="02-Exploratorio.html#sec-variograma" class="quarto-xref"><span>Sección 2.2.1</span></a>.</p>
 <p>Este modelo no se limita únicamente a que tome valores de puntos en el espacio. La definición contempla casos en los que la función de intensidad sea de la forma <span class="math inline">\(\lambda:[0,\infty)\times\mathbb{R}^d\to\mathbb{R}_+\)</span> como <span class="math inline">\(\lambda=\lambda(t,x)\)</span>, es decir, que la intensidad dependa del instante y de la ubicación. Un problema para ilustrar esta forma de <span class="math inline">\(\lambda\)</span> es el de las lluvias, que su intensidad puede depender de la hora del día y del lugar del mundo del que se trate.</p>
+<p>De la misma manera que con el análisis de procesos temporales, es posible usar suavizamiento por kernel para estimar <span class="math inline">\(\lambda\)</span> a partir de una medida empírica. Como se mencionó en el caso temporal, la función <span class="math inline">\(\lambda\)</span> no necesariamente es una densidad, pero la función</p>
+<p><span class="math display">\[f(x)=\frac{1}{\Lambda(A)}\lambda(x)\]</span></p>
+<p>sí es una densidad en la región <span class="math inline">\(A\)</span>. Entonces, los estimadores de kernel para <span class="math inline">\(f\)</span> y <span class="math inline">\(\lambda\)</span> basados en un conjunto de observaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> están dados por</p>
+<p><span class="math display">\[
+\begin{align*}
+\widehat{f}(x)&amp;=\frac{1}{n}\sum_{i=1}^n\frac{1}{h^2}K\left(\frac{x-x_i}{h}\right),\\
+\widehat{\lambda}(x)&amp;=\sum_{i=1}^n\frac{1}{h^2}K\left(\frac{x-x_i}{h}\right),
+\end{align*}
+\]</span></p>
+<p>donde <span class="math inline">\(h\)</span> es un ancho de banda. Una elección usual para <span class="math inline">\(K\)</span> es la normal multivariada.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ims/Kernel.jpg" class="img-fluid figure-img"></p>
+<figcaption>Manera en la que se pueden agrupar los eventos para suavizar por Kernel</figcaption>
+</figure>
+</div>
 </section>
 <section id="pruebas-de-clústering" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</h2>
@@ -383,9 +462,141 @@ window.Quarto = {
 <p><span class="math display">\[X^2=\sum_{i=1}^m\frac{{(n_i-n^*)}^2}{n^*}.\]</span></p>
 <p>Se puede verificar que, bajo <span class="math inline">\(H_0\)</span>, entonces <span class="math inline">\(X^2\sim\chi^2_{m-1}\)</span>.</p>
 <p>Es muy importante destacar que este método depende de la configuración de quadrats (puede haber regiones sin puntos). También esta prueba no puede distinguir entre distintos patrones localmente.</p>
+<p>En <strong>R</strong> se tiene la función <strong>quadrat.test()</strong> para probar la hipótesis de CSR. La interpretación es de acuerdo a la siguiente clave:</p>
+<ul>
+<li><strong>alternative = “two.sided”</strong> prueba <span class="math inline">\(H_0:\)</span> CSR vs.&nbsp;<span class="math inline">\(H_a:\)</span> no CSR (regular o clusterizada).</li>
+<li><strong>alternative = “regular”</strong> prueba <span class="math inline">\(H_0:\)</span> CSR o clusterizada vs.&nbsp;<span class="math inline">\(H_a:\)</span> regular.</li>
+<li><strong>alternative = “clustered”</strong> prueba <span class="math inline">\(H_0:\)</span> CSR o regular vs.&nbsp;<span class="math inline">\(H_a:\)</span> clusterizada.</li>
+</ul>
 </section>
 <section id="las-funciones-k-y-l-de-ripley" class="level3" data-number="3.5.2">
 <h3 data-number="3.5.2" class="anchored" data-anchor-id="las-funciones-k-y-l-de-ripley"><span class="header-section-number">3.5.2</span> Las funciones K y L de Ripley</h3>
+<p>Pensando en datos puntuales sobre regiones del espacio <span class="math inline">\(S\subseteq\mathbb{R}^2\)</span>, se puede usar otro estadístico para probar la homogeneidad del proceso puntual.</p>
+<div id="def-KRipley" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 3.6 (Funciones K y L de Ripley)</strong></span> Sea <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> un proceso Poisson espacial en <span class="math inline">\(\mathbb{R}^2\)</span> con función de intensidad <span class="math inline">\(\lambda\)</span>.</p>
+<ul>
+<li>La función <em>K de Ripley</em> es la función dada por</li>
+</ul>
+<p><span class="math display">\[K(s)=\frac{1}{\lambda}\mathbb{E}_0[N(B_r(0)\backslash\{0\})],\]</span></p>
+<p>donde <span class="math inline">\(\mathbb{E}_0\)</span> es la esperanza condicionada a que haya un punto en el origen y <span class="math inline">\(B_r(0)\)</span> es la bola de radio <span class="math inline">\(r\)</span> centrada en el origen.</p>
+<ul>
+<li>La función <em>L de Ripley</em> es la función dada por</li>
+</ul>
+<p><span class="math display">\[L(r)=\sqrt{\frac{K(r)}{\pi}}.\]</span></p>
+</div>
+<p>Notemos que bajo la hipótesis de CSR, la función <span class="math inline">\(\lambda\)</span> es constante y las funciones de Ripley están dadas explícitamente por</p>
+<p><span class="math display">\[
+\begin{align*}
+K(r)&amp;=\frac{1}{\lambda}\mathbb{E}_0[N(B_r(0)\backslash\{0\})]=\frac{1}{\lambda}\mathbb{E}_0[N(B_r(0))]\\
+&amp;=\frac{|B_r(0)|\lambda}{\lambda}=\pi r^2,\\
+L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
+\end{align*}
+\]</span></p>
+<p>Dada la forma de la función <span class="math inline">\(K\)</span> bajo CSR, se tiene el siguiente criterio:</p>
+<ul>
+<li>Si <span class="math inline">\(K(r)&gt;\pi r^2\)</span> o, equivalentemente, <span class="math inline">\(L(r)&gt;r\)</span>, la función de intensidad favorece el clústering.</li>
+<li>Si <span class="math inline">\(K(r)&lt;\pi r^2\)</span> o, equivalentemente, <span class="math inline">\(L(r)&lt;r\)</span>, la función de intensidad favorece la dispersión.</li>
+</ul>
+<p>Una manera de estimar la función <span class="math inline">\(K\)</span> es utilizando que es un conteo. Para hacer éste, es necesario tomar en cuenta que los eventos contados cerca de la frontera de una región <span class="math inline">\(A\)</span> pueden ser bajos. Por ello s eintroduce un peso <span class="math inline">\(w_{ij}\)</span> correspondiente al recíproco a la proporción del círculo con centro en <span class="math inline">\(x_i\)</span> y radio <span class="math inline">\(d_{ij}\)</span> contenido en <span class="math inline">\(A\)</span>.</p>
+<div id="def-KLRipleyestiadas" class="theorem definition">
+<p><span class="theorem-title"><strong>Definición 3.7 (Estimadores de las funciones de Ripley)</strong></span> Sea <span class="math inline">\(X=\{X_1,\ldots,X_n\}\)</span> un patrón de puntos en <span class="math inline">\(S\)</span>. La <em>función <span class="math inline">\(K\)</span> de Ripley empírica</em> está dada por</p>
+<p><span class="math display">\[\widehat{K}(r)=\frac{1}{\widehat{\lambda}n}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{d_{ij}\leq r}.\]</span></p>
+<p>Bajo la hipótesis de CSR, el estimador de <span class="math inline">\(\lambda\)</span> es <span class="math inline">\(\displaystyle\widehat{\lambda}=\frac{n-1}{|S|}\)</span>, entonces la función <span class="math inline">\(K\)</span> empírica es</p>
+<p><span class="math display">\[\widehat{K}(r)=\frac{|S|}{n(n-1)}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{d_{ij}\leq r}.\]</span></p>
+<p>Del mismo modo, la <em>la función <span class="math inline">\(L\)</span> de Ripley empírica</em> está dada por</p>
+<p><span class="math display">\[\widehat{L}(r)=\sqrt{\frac{\widehat{K}(r)}{\pi}}.\]</span></p>
+</div>
+<p>Los intervalos de confianza para estas funciones empíricas típicamente son intervalos bootstrap. La idea de utilizar las funciones de Ripley es parecida a la de las gráficas QQ en inferencia de distribuciones: <em>entre más cerca esté el proceso de ser homogéneo en el espacio, más parecidas serán las funciones teórica y empírica</em>.</p>
+<p>En el siguiente ejemplo se muestra un ejemplo del uso de estas funciones con datos simulados directamente de un proceso Poisson homogéneo.</p>
+<div id="exm-KLartificial" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 3.2</strong></span> Primero generamos un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=100\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">612000</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rpoispp</span>(<span class="at">lambda =</span> <span class="dv">100</span>, <span class="at">win =</span> <span class="fu">owin</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proceso de Poisson Homogéneo"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">20</span>,                      </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">cols =</span> <span class="st">"blue"</span>,                  </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">show.window =</span> <span class="cn">TRUE</span>,             </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,                    </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"X"</span>,          </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Y"</span>        </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-Poisson_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A partir de la simulación, calculamos el estimador de <span class="math inline">\(\lambda\)</span> bajo el supuesto de CSR.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lambda_hat<span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">"lambda_hat="</span>,<span class="fu">intensity</span>(X)) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lambda_hat</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  X.lambda_hat.. intensity.X.
+1    lambda_hat=           94</code></pre>
+</div>
+</div>
+<p>Este estimador sí es bastante parecido al valor real utilizado. Así, la función <span class="math inline">\(K\)</span> empírica superpuesta a la teórica se ve como</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="fu">Kest</span>(X, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-Poisson_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O, más claramente con la función <span class="math inline">\(L\)</span>, se ve como</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>L<span class="ot">&lt;-</span><span class="fu">Lest</span>(X, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-Poisson_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Al ser las funciones empíricas parecidas a las funciones teóricas, podemos afirmar que los datos trabajados sí corresponden a un CSR.</p>
+<p>Para sustentar esta última afirmación, podemos utilizar la prueba quadrat, la cual también da evidencia a favor de la hipótesis de CSR.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quadrat.test</span>(X, <span class="at">nx =</span> <span class="dv">4</span>, <span class="at">ny =</span> <span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test of CSR using quadrat counts
+
+data:  X
+X2 = 10.17, df = 15, p-value = 0.3822
+alternative hypothesis: two.sided
+
+Quadrats: 4 by 4 grid of tiles</code></pre>
+</div>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
