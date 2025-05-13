@@ -382,26 +382,25 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 <p>ahora sí tenemos una función de densidad en el intervalo <span class="math inline">\([0,T]\)</span>. Hay muchas maneras de resolver este problema de estimación de funciones. La manera más directa y como secuencia natural al <a href="http://personal.cimat.mx:8181/~leticia.ramirez/Modelos_Estadisticos_I/Cap5.html#estructura-de-los-modelos-lineales-generalizados">Curso de Modelos Estadísticos</a>, más específicamente al tema de <em>regresión Poisson</em>. Entonces, utilizando una función de enlace <span class="math inline">\(\log\)</span>, se tiene el <em>modelo Log-Lineal</em></p>
 <p><span class="math display">\[\log\lambda(t)=\beta_0+\beta_1Z_1(t)+\cdots+\beta_pZ_p(t),\]</span></p>
 <p>donde <span class="math inline">\(Z_1,\ldots,Z_p\)</span> son covariables temporales y <span class="math inline">\(\beta_0,\ldots,\beta_p\)</span> son los coeficientes a estimar (podría verse como un problema de estimación de tendencia y estacionalidad de una serie de tiempo, por ejemplo). Otra manera sería considerar la versión empírica de <span class="math inline">\(\lambda\)</span> que se tiene por los tiempos <span class="math inline">\(t_1,\ldots,t_n\)</span> y utilizar algún método de suavizamiento por kernel de modo que se tendría</p>
-<p><span class="math display">\[\widehat{\lambda}(t)=\sum_{i=1}^n\frac{1}{h}K\left(\frac{t-t_i}{h}\right),\]</span></p>
-<p>para <span class="math inline">\(K\)</span> un kernel Gaussiano y un ancho de banda <span class="math inline">\(h\)</span>.</p>
+<p><span class="math display">\[\widehat{\lambda}(t)=\sum_{i=1}^n\frac{1}{h}\kappa\left(\frac{t-t_i}{h}\right),\]</span></p>
+<p>para <span class="math inline">\(\kappa\)</span> un kernel Gaussiano y un ancho de banda <span class="math inline">\(h\)</span>.</p>
 <p>Una manera de validar modelos de procesos Poisson no homogéneos y también de simularlos es el siguiente, que relaciona un proceso Poisson homogéneo con uno no homogéneo a partir de un cambio de tiempo determinista.</p>
 <div id="thm-pPhtopPnh" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 3.4 (Relación entre procesos Poisson homogéneos y no homogéneos)</strong></span> &nbsp;</p>
 <ul>
 <li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson no homogéneo con funciones de intensidad <span class="math inline">\(\lambda\)</span> y de intensidad acumulada <span class="math inline">\(\Lambda\)</span>, con inversa generalizada <span class="math inline">\(\Lambda^{-1}\)</span>. Entonces el proceso <span class="math inline">\({(N_{\Lambda^{-1}(t)})}_{t\geq 0}\)</span> es un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span>.</li>
-<li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span> y sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función no negativa tal que</li>
+<li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span> y sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función no negativa tal que <span class="math inline">\(\displaystyle\int_0^\infty\lambda(t)dt=\infty\)</span>. Definimos la función <span class="math inline">\(\Lambda\)</span> como <span class="math inline">\(\displaystyle\Lambda(t)=\int_0^t\lambda(u)du\)</span>. Entonces el proceso <span class="math inline">\({(N_{\Lambda(t)})}_{t\geq 0}\)</span> es un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>.</li>
 </ul>
-<p><span class="math display">\[\int_0^\infty\lambda(t)dt=\infty.\]</span></p>
-<p>Definimos la función <span class="math inline">\(\Lambda\)</span> como</p>
-<p><span class="math display">\[\Lambda(t)=\int_0^t\lambda(u)du.\]</span></p>
-<p>Entonces el proceso <span class="math inline">\({(N_{\Lambda(t)})}_{t\geq 0}\)</span> es un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>.</p>
 </div>
 </section>
 <section id="proceso-poisson-espacial-no-homogéneo" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson espacial no homogéneo</h2>
 <p>Con las ideas de la sección anterior, un proceso Poisson espacial no homogéneo, intuitivamente, es uno en que la intensidad depende del punto del espacio en el que uno se encuentre. Teóricamente, la extensión no es tan directa como se pensaría en primera instancia.</p>
 <div id="def-pPenh" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\Lambda(A))\)</span>, donde</p>
+<p><span class="theorem-title"><strong>Definición 3.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si</p>
+<ul>
+<li>Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\Lambda(A))\)</span>, donde</li>
+</ul>
 <p><span class="math display">\[\Lambda(A)=\int_A\lambda(x)dx.\]</span></p>
 <ul>
 <li>Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes.</li>
@@ -439,17 +438,11 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 <p>sí es una densidad en la región <span class="math inline">\(A\)</span>. Entonces, los estimadores de kernel para <span class="math inline">\(f\)</span> y <span class="math inline">\(\lambda\)</span> basados en un conjunto de observaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> están dados por</p>
 <p><span class="math display">\[
 \begin{align*}
-\widehat{f}(x)&amp;=\frac{1}{n}\sum_{i=1}^n\frac{1}{h^2}K\left(\frac{x-x_i}{h}\right),\\
-\widehat{\lambda}(x)&amp;=\sum_{i=1}^n\frac{1}{h^2}K\left(\frac{x-x_i}{h}\right),
+\widehat{f}(x)&amp;=\frac{1}{n}\sum_{i=1}^n\frac{1}{h^2}\kappa\left(\frac{x-x_i}{h}\right),\\
+\widehat{\lambda}(x)&amp;=\sum_{i=1}^n\frac{1}{h^2}\kappa\left(\frac{x-x_i}{h}\right),
 \end{align*}
 \]</span></p>
-<p>donde <span class="math inline">\(h\)</span> es un ancho de banda. Una elección usual para <span class="math inline">\(K\)</span> es la normal multivariada.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Ims/kernel.jpg" class="img-fluid figure-img"></p>
-<figcaption>Manera en la que se pueden agrupar los eventos para suavizar por Kernel</figcaption>
-</figure>
-</div>
+<p>donde <span class="math inline">\(h\)</span> es un ancho de banda. Una elección usual para <span class="math inline">\(\kappa\)</span> es la normal multivariada.</p>
 </section>
 <section id="pruebas-de-clústering" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</h2>
@@ -484,6 +477,12 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 </ul>
 <p><span class="math display">\[L(r)=\sqrt{\frac{K(r)}{\pi}}.\]</span></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ims/kemp.jpg" class="img-fluid figure-img"></p>
+<figcaption>Visualización del cálculo de la función de Ripley empírica.</figcaption>
+</figure>
+</div>
 <p>Notemos que bajo la hipótesis de CSR, la función <span class="math inline">\(\lambda\)</span> es constante y las funciones de Ripley están dadas explícitamente por</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -500,9 +499,9 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 <p>Una manera de estimar la función <span class="math inline">\(K\)</span> es utilizando que es un conteo. Para hacer éste, es necesario tomar en cuenta que los eventos contados cerca de la frontera de una región <span class="math inline">\(A\)</span> pueden ser bajos. Por ello s eintroduce un peso <span class="math inline">\(w_{ij}\)</span> correspondiente al recíproco a la proporción del círculo con centro en <span class="math inline">\(x_i\)</span> y radio <span class="math inline">\(d_{ij}\)</span> contenido en <span class="math inline">\(A\)</span>.</p>
 <div id="def-KLRipleyestiadas" class="theorem definition">
 <p><span class="theorem-title"><strong>Definición 3.7 (Estimadores de las funciones de Ripley)</strong></span> Sea <span class="math inline">\(X=\{X_1,\ldots,X_n\}\)</span> un patrón de puntos en <span class="math inline">\(S\)</span>. La <em>función <span class="math inline">\(K\)</span> de Ripley empírica</em> está dada por</p>
-<p><span class="math display">\[\widehat{K}(r)=\frac{1}{\widehat{\lambda}n}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{d_{ij}\leq r}.\]</span></p>
+<p><span class="math display">\[\widehat{K}(r)=\frac{1}{\widehat{\lambda}n}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{\{d_{ij}\leq r\}}.\]</span></p>
 <p>Bajo la hipótesis de CSR, el estimador de <span class="math inline">\(\lambda\)</span> es <span class="math inline">\(\displaystyle\widehat{\lambda}=\frac{n-1}{|S|}\)</span>, entonces la función <span class="math inline">\(K\)</span> empírica es</p>
-<p><span class="math display">\[\widehat{K}(r)=\frac{|S|}{n(n-1)}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{d_{ij}\leq r}.\]</span></p>
+<p><span class="math display">\[\widehat{K}(r)=\frac{|S|}{n(n-1)}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{\{d_{ij}\leq r\}}.\]</span></p>
 <p>Del mismo modo, la <em>la función <span class="math inline">\(L\)</span> de Ripley empírica</em> está dada por</p>
 <p><span class="math display">\[\widehat{L}(r)=\sqrt{\frac{\widehat{K}(r)}{\pi}}.\]</span></p>
 </div>
@@ -591,6 +590,92 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 
 data:  X
 X2 = 10.17, df = 15, p-value = 0.3822
+alternative hypothesis: two.sided
+
+Quadrats: 4 by 4 grid of tiles</code></pre>
+</div>
+</div>
+</div>
+<p>Para ejemplificar cuándo no ocurre el CSR, tenemos otro ejemplo artificial donde la intensidad es muy alta cerca del <span class="math inline">\((0,0)\)</span>.</p>
+<div id="exm-KLartificialnh" class="theorem example">
+<p><span class="theorem-title"><strong>Ejemplo 3.3</strong></span> Primero generamos un proceso Poisson no homogéneo de intensidad <span class="math inline">\(\displaystyle\lambda(x,y)={(x^2+y^2)}^{-1/2}\Bbb{1}_{\{x^2+y^2&gt;0\}}\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spatstat)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) { <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> y <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span> <span class="sc">/</span> <span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span>)) }</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lambda <span class="ot">&lt;-</span> <span class="fu">lambda</span>(grid<span class="sc">$</span>x, grid<span class="sc">$</span>y)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>lambda_im <span class="ot">&lt;-</span> <span class="fu">as.im</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> grid<span class="sc">$</span>x, <span class="at">y =</span> grid<span class="sc">$</span>y, <span class="at">z =</span> grid<span class="sc">$</span>lambda), </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">W =</span> <span class="fu">owin</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">612000</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X_nhpp <span class="ot">&lt;-</span> <span class="fu">rpoispp</span>(lambda_im)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X_nhpp, </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proceso de Poisson no Homogéneo"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">20</span>,                      </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">cols =</span> <span class="st">"blue"</span>,                  </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">show.window =</span> <span class="cn">TRUE</span>,             </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,                    </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"X"</span>,          </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Y"</span>        </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-Poisson_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Así, la función <span class="math inline">\(K\)</span> empírica superpuesta a la teórica se ve como</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>K_empirica <span class="ot">&lt;-</span> <span class="fu">Kest</span>(X_nhpp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(K_empirica)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-Poisson_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O, más claramente con la función <span class="math inline">\(L\)</span>, se ve como</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>L_empirica <span class="ot">&lt;-</span> <span class="fu">Lest</span>(X_nhpp, <span class="at">correction =</span> <span class="st">"border"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L_empirica)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03-Poisson_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Al ser las funciones empíricas muy distintas a las funciones teóricas, podemos afirmar que los datos trabajados no corresponden a un CSR.</p>
+<p>Para sustentar esta última afirmación, podemos utilizar la prueba quadrat, la cual también da evidencia en contra de la hipótesis de CSR.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quadrat.test</span>(X_nhpp, <span class="at">nx =</span> <span class="dv">4</span>, <span class="at">ny =</span> <span class="dv">4</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test of CSR using quadrat counts
+
+data:  X_nhpp
+X2 = 15, df = 15, p-value = 0.9028
 alternative hypothesis: two.sided
 
 Quadrats: 4 by 4 grid of tiles</code></pre>
