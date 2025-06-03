@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Caso de estudio: torres de telefonía – Introducción al análisis de datos espaciales</title>
+<title>6&nbsp; Caso de estudio: torres de telefonía – Introducción al análisis de datos espaciales</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../references.html" rel="next">
-<link href="../Caps/03-Poisson.html" rel="prev">
+<link href="../Caps/04-Gaussiano.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -186,7 +186,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/05-Ejemplo.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/05-Ejemplo.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -231,14 +231,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Caps/02-Visualizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualización de datos espaciales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Caps/03-Poisson.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Caps/04-Gaussiano.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Campos Gaussianos</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Caps/05-Ejemplo.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -257,7 +269,7 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#datos-de-sydney" id="toc-datos-de-sydney" class="nav-link active" data-scroll-target="#datos-de-sydney"><span class="header-section-number">4.1</span> Datos de Sydney</a></li>
+  <li><a href="#datos-de-sydney" id="toc-datos-de-sydney" class="nav-link active" data-scroll-target="#datos-de-sydney"><span class="header-section-number">6.1</span> Datos de Sydney</a></li>
   </ul>
 </nav>
     </div>
@@ -266,7 +278,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></h1>
 </div>
 
 
@@ -286,8 +298,8 @@ window.Quarto = {
 <p>La motivación para hacer este ejemplo viene de una observación curiosa que se dio al investigar para el capítulo <span class="citation" data-cites="cap-Pois">(<a href="../references.html#ref-cap-Pois" role="doc-biblioref"><strong>cap-Pois?</strong></a>)</span>.</p>
 <p>En la <a href="https://en.wikipedia.org/wiki/Poisson_point_process">página de Wikipedia sobre los procesos de Poisson puntuales</a>, al hablar de la aleatoriedad espacial completa (CSR), se menciona que la posición de celulares en Sydney, Australia, cumple aproximadamente con la propiedad de ser CSR, comparando con otros territorios. Al revisar el artículo donde se publicó este resultado <span class="citation" data-cites="Celulares">(<a href="../references.html#ref-Celulares" role="doc-biblioref">Lee, Shih, y Chen 2013</a>)</span>, se puede ver que se utilizan herramientas un tanto más complejas que las desarrolladas aquí pero el espíritu es el mismo: examinar la posibilidad de un proceso Poisson espacial.</p>
 <p>Un trabajo similar que se revisó es el artículo <span class="citation" data-cites="CelularesArg">(<a href="../references.html#ref-CelularesArg" role="doc-biblioref">Fattori, Groisman, y Sarraute 2018</a>)</span>, en el que se hace el estudio en el territorio de Buenos Aires, Argentina. El objetivo de este artículo es comparar distintos estimadores de funciones de intensidad y métodos para probar la propiedad CSR.</p>
-<section id="datos-de-sydney" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="datos-de-sydney"><span class="header-section-number">4.1</span> Datos de Sydney</h2>
+<section id="datos-de-sydney" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="datos-de-sydney"><span class="header-section-number">6.1</span> Datos de Sydney</h2>
 <p>Es imposible replicar el resultado del artículo <span class="citation" data-cites="Celulares">(<a href="../references.html#ref-Celulares" role="doc-biblioref">Lee, Shih, y Chen 2013</a>)</span> ya que el criterio es distinto. El conjunto de datos utilizado es el cual se recuperó de <a href="https://www.kaggle.com/datasets/zakariaeyoussefi/cell-towers-worldwide-location-data-by-continent/code">OpenCellId (versión sin API)</a>, que tiene los datos de las torres de celulares hasta el 2024.</p>
 <p>El número de torres de celulares registradas en el conjunto de datos para la región de Sydney (aproximada por un rectángulo), tras eliminar datos repetidos y faltantes, es grande <span class="math inline">\(N=147743\)</span>. La distribución de puntos se muestra a continuación.</p>
 <div class="cell">
@@ -378,22 +390,28 @@ Quadrats: 6 by 6 grid of tiles</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Generating 20 simulations of CSR  ...
 1, 2, 
-[15:14 remaining, estimate finish 2025-05-13 10:44:33]
+[18:51 remaining, estimate finish 2025-06-02 22:37:11]
 3, 
-[14:25 remaining, estimate finish 2025-05-13 10:44:36]
+[17:18 remaining, estimate finish 2025-06-02 22:36:38]
 4, 
-[13:39 remaining, estimate finish 2025-05-13 10:44:41]
+[16:41 remaining, estimate finish 2025-06-02 22:37:07]
 5, 
-[13:02 remaining, estimate finish 2025-05-13 10:44:59]
+[15:46 remaining, estimate finish 2025-06-02 22:37:16]
 6, 
-[12:14 remaining, estimate finish 2025-05-13 10:45:04]
+[15:00 remaining, estimate finish 2025-06-02 22:37:39]
 7, 
-[12:07 remaining, estimate finish 2025-05-13 10:46:12]
+[14:08 remaining, estimate finish 2025-06-02 22:37:57]
 8, 
-[11:16 remaining, estimate finish 2025-05-13 10:46:19]
+[13:05 remaining, estimate finish 2025-06-02 22:38:01]
 9, 
-[10:11 remaining, estimate finish 2025-05-13 10:46:04]
-10,  [9:09 remaining] 11,  [8:09 remaining] 12,  [7:10 remaining] 13,  [6:14 remaining] 14,  [5:19 remaining] 15,  [4:24 remaining] 16,  [3:30 remaining] 17,  [2:37 remaining] 18,  [1:44 remaining] 19,  [52 sec remaining] 
+[11:39 remaining, estimate finish 2025-06-02 22:37:25]
+10, 
+[10:23 remaining, estimate finish 2025-06-02 22:37:01]
+11,  [9:12 remaining] 12,  [8:04 remaining] 13,  [7:02 remaining] 14,  [6:12 remaining] 15,  [5:12 remaining] 16,  [4:12 remaining] 17,  [3:10 remaining] 18, 
+[1:32:29 remaining, estimate finish 2025-06-03 12:55:54]
+19, 
+[43:46 remaining, estimate finish 2025-06-03 12:08:42]
+
 20.
 
 Done.</code></pre>
@@ -952,8 +970,8 @@ Moraga, Paula. 2023. <em>Spatial Statistics for Data Science: Theory and Practic
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Caps/03-Poisson.html" class="pagination-link" aria-label="Procesos de Poisson">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span>
+      <a href="../Caps/04-Gaussiano.html" class="pagination-link" aria-label="Campos Gaussianos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Campos Gaussianos</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Introducción – Introducción al análisis de datos espaciales</title>
+<title>3&nbsp; Visualización de datos espaciales – Introducción al análisis de datos espaciales</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Caps/02-Exploratorio.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../Caps/03-Poisson.html" rel="next">
+<link href="../Caps/02-Exploratorio.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -70,35 +70,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -111,7 +82,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/01-Introduccion.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/02-Visualizacion.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualización de datos espaciales</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -144,7 +115,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Caps/01-Introduccion.html" class="sidebar-item-text sidebar-link active">
+  <a href="../Caps/01-Introduccion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
   </div>
 </li>
@@ -156,7 +127,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../Caps/02-Visualizacion.html" class="sidebar-item-text sidebar-link">
+  <a href="../Caps/02-Visualizacion.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualización de datos espaciales</span></span></a>
   </div>
 </li>
@@ -189,22 +160,15 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tabla de contenidos</h2>
-   
-  <ul>
-  <li><a href="#motivación" id="toc-motivación" class="nav-link active" data-scroll-target="#motivación"><span class="header-section-number">1.1</span> Motivación</a></li>
-  <li><a href="#antecedentes-históricos" id="toc-antecedentes-históricos" class="nav-link" data-scroll-target="#antecedentes-históricos"><span class="header-section-number">1.2</span> Antecedentes históricos</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></h1>
+<h1 class="title"><span id="cap-visual" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualización de datos espaciales</span></span></h1>
 </div>
 
 
@@ -221,30 +185,9 @@ window.Quarto = {
 </header>
 
 
-<section id="motivación" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="motivación"><span class="header-section-number">1.1</span> Motivación</h2>
-<p>Gran parte del desarrollo clásico de la estadística se basa en la suposición de que las observaciones corresponden a realizaciones <em>independientes e idénticamente distribuidas</em>. Esta hipótesis es sensata en muestreos aleatorios o en experimentos controlados, y en particular implica que las observaciones no se influencían entre sí. La hipótesis es poco realista en muchos contextos donde las observaciones están influenciadas por su <em>tiempo de ocurrencia</em>, su <em>ubicación en el espacio</em> o alguna relación estructural propia del fenómeno.</p>
-<p>Para la incorporación de estructura espacial, podemos pensar en varias situaciones:</p>
-<ul>
-<li>Los lugares donde se puede encontrar agua en un país.</li>
-<li>La popularidad de cierto artista en distintos lugares del mundo.</li>
-<li>Playas susceptibles a tener problemas por huracanes.</li>
-<li>La distribución de distintos recursos naturales (como recursos mineros).</li>
-<li>La calidad de vida de la población en determinado territorio.</li>
-</ul>
-<p>Las herramientas con las que se cuenta hasta el momento son para preguntas del tipo <em>quiero saber cómo se explica(n) la(s) propiedad(es) <span class="math inline">\(Y\)</span> a partir de la(s) variable(s) <span class="math inline">\(X\)</span></em>, lo cual se planteó como un problema de regresión. Sin descartar esta herramienta, el considerar datos distribuidos en el espacio agrega una capa de complejidad al tener una estructura intrínseca a los fenómenos. Dicha estructura surge precisamente de considerar la ubicación del fenómeno y las condiciones de dicha ubicación. Los modelos espaciales surgen al reconocer que los datos están asociados a ubicaciones y que observaciones cercanas tienden a estar correlacionadas.</p>
-<p>Podemos considerar que entre las motivaciones principales para considerar modelos espaciales que muchos fenómenos reales como el clima, ecosistemas, epidemias, por mencionar algunos, no se comportan de manera independiente y la ubicación tiene un papel fundamental en su variabilidad. Basta pensar en que es más probable que sea parecida la temperatura entre dos puntos cercanos que entre dos puntos lejanos o que la prevalencia de una enfermedad dependa de factores ambientales o socioeconómicos.</p>
-</section>
-<section id="antecedentes-históricos" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="antecedentes-históricos"><span class="header-section-number">1.2</span> Antecedentes históricos</h2>
-<p>El interés por los datos espaciales se remonta a siglos atrás, cuando se comenzaron a representar fenómenos geográficos mediante mapas. Un ejemplo temprano es el trabajo de Halley (1686), quien superpuso en un mapa terrestre las direcciones de los vientos alisios y monzones, con el objetivo de comprender sus causas físicas.</p>
-<p>Aunque estas representaciones eran esencialmente descriptivas, los modelos estadísticos espaciales surgieron mucho después. Student (1907) fue uno de los primeros en cuantificar datos espaciales al analizar conteos de partículas por unidad de área, encontrando que el número de células de levadura por cuadrado seguía una distribución de Poisson.</p>
-<p>Fisher reconoció explícitamente la existencia de correlación espacial en experimentos agrícolas y de muestreo. En la <em>Estación Experimental de Rothamsted</em>, en las décadas de 1920 y 1930, promovió técnicas como aleatorización, bloqueo y replicación para controlar los efectos de la dependencia espacial. No obstante, estas estrategias sólo son eficaces para escalas espaciales comparables a las dimensiones experimentales; la correlación a otras escalas persiste.</p>
-<p>Fairfield Smith (1938) también abordó la dependencia espacial al estudiar cómo el tamaño de las parcelas influye en la varianza del error, reconociendo implícitamente la necesidad de modelar la estructura espacial. Sin embargo, nso fue hasta trabajos como el de Whittle (1954) que comenzaron a desarrollarse modelos formales para describir procesos espaciales.</p>
-<p>Hoy en día, el análisis de datos espaciales es fundamental en disciplinas como la geología, la ecología, las ciencias ambientales y la medicina. En muchos de estos contextos, no es viable aplicar métodos experimentales clásicos, lo que impulsa la necesidad de modelos estadísticos que reconozcan explícitamente la dependencia espacial.</p>
+<p>Como el título lo indica, en este capítulo se presentan algunas herramientas de visualización de datos espaciales. El material base es el mini curso de <em>Análisis de datos espaciales con R</em> impartido por Noé Osorio García. Se asume que el lector está familiarizado con las funciones básicas de R.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -648,13 +591,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link" aria-label="Presentación">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Presentación</span>
+      <a href="../Caps/02-Exploratorio.html" class="pagination-link" aria-label="Análisis Exploratorio">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análisis Exploratorio</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Caps/02-Exploratorio.html" class="pagination-link" aria-label="Análisis Exploratorio">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análisis Exploratorio</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Caps/03-Poisson.html" class="pagination-link" aria-label="Procesos de Poisson">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
