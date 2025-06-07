@@ -5,14 +5,15 @@ lang: es
 
 book:
   title: "Introducción al análisis de datos espaciales"
-  author: "Juan Pablo, Luz María y El Chino"
+  author: "Juan Pablo Rodríguez Villagrán"
   date: "2025-05-13"
   chapters:
     - index.qmd
     - Caps/01-Introduccion.qmd
     - Caps/02-Exploratorio.qmd
+    - Caps/02-Visualizacion.qmd
     - Caps/03-Poisson.qmd
-    #- Caps/04-Gaussiano.qmd
+    - Caps/04-Gaussiano.qmd
     - Caps/05-Ejemplo.qmd
     - references.qmd
 

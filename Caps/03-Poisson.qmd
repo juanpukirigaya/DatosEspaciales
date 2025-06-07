@@ -181,7 +181,7 @@ $$\Lambda(t)=\int_0^t\lambda(u)du$$
 
 es la intensidad acumulada. Más aún, dado que han ocurrido $n$ eventos en el intervalo $(0,T]$, los tiempos de ocurrencia de éstos son tales que
 
-$$f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,t_n|n)\propto\frac{1}{{(\Lambda(t))}^n}\prod_{i=1}^n\lambda(w_i).$$
+$$f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,w_n|n)\propto\frac{1}{{(\Lambda(t))}^n}\prod_{i=1}^n\lambda(w_i).$$
 
 :::
 

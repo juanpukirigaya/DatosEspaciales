@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Procesos de Poisson – Introducción al análisis de datos espaciales</title>
+<title>4&nbsp; Procesos de Poisson – Introducción al análisis de datos espaciales</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,8 +85,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../Caps/05-Ejemplo.html" rel="next">
-<link href="../Caps/02-Exploratorio.html" rel="prev">
+<link href="../Caps/04-Gaussiano.html" rel="next">
+<link href="../Caps/02-Visualizacion.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -166,7 +166,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/03-Poisson.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../Caps/03-Poisson.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -211,14 +211,26 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../Caps/02-Visualizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualización de datos espaciales</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../Caps/03-Poisson.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../Caps/04-Gaussiano.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Campos Gaussianos</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../Caps/05-Ejemplo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -237,14 +249,14 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#proceso-poisson-homogéneo" id="toc-proceso-poisson-homogéneo" class="nav-link active" data-scroll-target="#proceso-poisson-homogéneo"><span class="header-section-number">3.1</span> Proceso Poisson homogéneo</a></li>
-  <li><a href="#proceso-poisson-espacial-homogéneo" id="toc-proceso-poisson-espacial-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-homogéneo"><span class="header-section-number">3.2</span> Proceso Poisson espacial homogéneo</a></li>
-  <li><a href="#proceso-poisson-no-homogéneo" id="toc-proceso-poisson-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson no homogéneo</a></li>
-  <li><a href="#proceso-poisson-espacial-no-homogéneo" id="toc-proceso-poisson-espacial-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson espacial no homogéneo</a></li>
-  <li><a href="#pruebas-de-clústering" id="toc-pruebas-de-clústering" class="nav-link" data-scroll-target="#pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</a>
+  <li><a href="#proceso-poisson-homogéneo" id="toc-proceso-poisson-homogéneo" class="nav-link active" data-scroll-target="#proceso-poisson-homogéneo"><span class="header-section-number">4.1</span> Proceso Poisson homogéneo</a></li>
+  <li><a href="#proceso-poisson-espacial-homogéneo" id="toc-proceso-poisson-espacial-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-homogéneo"><span class="header-section-number">4.2</span> Proceso Poisson espacial homogéneo</a></li>
+  <li><a href="#proceso-poisson-no-homogéneo" id="toc-proceso-poisson-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-no-homogéneo"><span class="header-section-number">4.3</span> Proceso Poisson no homogéneo</a></li>
+  <li><a href="#proceso-poisson-espacial-no-homogéneo" id="toc-proceso-poisson-espacial-no-homogéneo" class="nav-link" data-scroll-target="#proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">4.4</span> Proceso Poisson espacial no homogéneo</a></li>
+  <li><a href="#pruebas-de-clústering" id="toc-pruebas-de-clústering" class="nav-link" data-scroll-target="#pruebas-de-clústering"><span class="header-section-number">4.5</span> Pruebas de clústering</a>
   <ul class="collapse">
-  <li><a href="#prueba-con-quadrat" id="toc-prueba-con-quadrat" class="nav-link" data-scroll-target="#prueba-con-quadrat"><span class="header-section-number">3.5.1</span> Prueba con quadrat</a></li>
-  <li><a href="#las-funciones-k-y-l-de-ripley" id="toc-las-funciones-k-y-l-de-ripley" class="nav-link" data-scroll-target="#las-funciones-k-y-l-de-ripley"><span class="header-section-number">3.5.2</span> Las funciones K y L de Ripley</a></li>
+  <li><a href="#prueba-con-quadrat" id="toc-prueba-con-quadrat" class="nav-link" data-scroll-target="#prueba-con-quadrat"><span class="header-section-number">4.5.1</span> Prueba con quadrat</a></li>
+  <li><a href="#las-funciones-k-y-l-de-ripley" id="toc-las-funciones-k-y-l-de-ripley" class="nav-link" data-scroll-target="#las-funciones-k-y-l-de-ripley"><span class="header-section-number">4.5.2</span> Las funciones K y L de Ripley</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -254,7 +266,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="cap-Pois" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></h1>
+<h1 class="title"><span id="cap-Pois" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Procesos de Poisson</span></span></h1>
 </div>
 
 
@@ -272,25 +284,25 @@ window.Quarto = {
 
 
 <p>En este capítulo se presenta uno de los modelos básicos para el tratamiento de datos puntuales: <strong>el proceso Poisson</strong>. Para motivar su uso en problemas espaciales, primero recordaremos la génesis de éste en el contexto de los procesos en el tiempo.</p>
-<section id="proceso-poisson-homogéneo" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="proceso-poisson-homogéneo"><span class="header-section-number">3.1</span> Proceso Poisson homogéneo</h2>
+<section id="proceso-poisson-homogéneo" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="proceso-poisson-homogéneo"><span class="header-section-number">4.1</span> Proceso Poisson homogéneo</h2>
 <p>Uno de los objetivos principales en el análisis de datos puntuales, es caracterizar conteos de eventos que ocurren de manera (presuntamente) aleatoria. Primero recordemos qué es un proceso de conteo.</p>
 <div id="def-conteo" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.1 (Proceso de conteo)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso estocástico. <span class="math inline">\(N\)</span> es un <em>proceso de conteo</em> si toma valores en <span class="math inline">\(\mathbb{N}\cup\{0\}\)</span> y si <span class="math inline">\(s&lt;t\)</span>, entonces, <span class="math inline">\(N_s\leq N_t\)</span>.</p>
+<p><span class="theorem-title"><strong>Definición 4.1 (Proceso de conteo)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso estocástico. <span class="math inline">\(N\)</span> es un <em>proceso de conteo</em> si toma valores en <span class="math inline">\(\mathbb{N}\cup\{0\}\)</span> y si <span class="math inline">\(s&lt;t\)</span>, entonces, <span class="math inline">\(N_s\leq N_t\)</span>.</p>
 </div>
 <p>Hay diversas variables aleatorias de conteo, pero la <em>ley de eventos raros de Poisson</em> (ver por ejemplo, <span class="citation" data-cites="Klenke">(<a href="../references.html#ref-Klenke" role="doc-biblioref">Klenke 2020</a>)</span>), sugiere que para el conteo de eventos con probabilidad ‘’baja’’ de ocurrir, es razonable utilizar variables aleatorias Poisson.</p>
 <div id="def-pPh" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.2 (Proceso Poisson homogéneo)</strong></span> Un proceso de conteo <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> es un <em>proceso Poisson homogéneo</em> de intensidad <span class="math inline">\(\lambda&gt;0\)</span> si cumple que</p>
+<p><span class="theorem-title"><strong>Definición 4.2 (Proceso Poisson homogéneo)</strong></span> Un proceso de conteo <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> es un <em>proceso Poisson homogéneo</em> de intensidad <span class="math inline">\(\lambda&gt;0\)</span> si cumple que</p>
 <ol type="1">
 <li><span class="math inline">\(N_0=0\)</span>, casi seguramente.</li>
 <li>Tiene incrementos independientes y estacionarios, casi seguramente.</li>
 <li>Para <span class="math inline">\(s&lt;t\)</span>, un incremento es tal que <span class="math inline">\((N_t-N_s)\sim\text{Poi}(\lambda(t-s))\)</span>.</li>
 </ol>
 </div>
-<p>Existen definiciones del proceso Poisson homogéneo equivalentes a <a href="#def-pPh" class="quarto-xref">Definición&nbsp;<span>3.2</span></a>, pero ésta es de particular utilidad porque nos proporciona una manera de calcular explícitamente las distribuciones finito dimensionales de un proceso Poisson homogéneo y además éstas únicamente dependen de la longitud de los incrementos.</p>
+<p>Existen definiciones del proceso Poisson homogéneo equivalentes a <a href="#def-pPh" class="quarto-xref">Definición&nbsp;<span>4.2</span></a>, pero ésta es de particular utilidad porque nos proporciona una manera de calcular explícitamente las distribuciones finito dimensionales de un proceso Poisson homogéneo y además éstas únicamente dependen de la longitud de los incrementos.</p>
 <p>Con estas propiedades, tenemos el siguiente estimador de máxima verosimilitud para el parámetro de intensidad <span class="math inline">\(\lambda\)</span>.</p>
 <div id="thm-emvpPh" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 3.1 (Distribución conjunta y estimador máximo verosímil)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo con intensidad <span class="math inline">\(\lambda&gt;0\)</span> observado en el intervalo <span class="math inline">\((0,T_0]\)</span>. Supongamos que se registran <span class="math inline">\(n\)</span> eventos en los tiempos <span class="math inline">\(0&lt;w_1&lt;w_2&lt;\cdots&lt;w_n\leq T_0\)</span>. Entonces</p>
+<p><span class="theorem-title"><strong>Teorema 4.1 (Distribución conjunta y estimador máximo verosímil)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo con intensidad <span class="math inline">\(\lambda&gt;0\)</span> observado en el intervalo <span class="math inline">\((0,T_0]\)</span>. Supongamos que se registran <span class="math inline">\(n\)</span> eventos en los tiempos <span class="math inline">\(0&lt;w_1&lt;w_2&lt;\cdots&lt;w_n\leq T_0\)</span>. Entonces</p>
 <ul>
 <li>Dado que <span class="math inline">\(N_{T_0}=n\)</span>, la densidad conjunta de los tiempos de ocurrencia es</li>
 </ul>
@@ -326,17 +338,17 @@ window.Quarto = {
 </div>
 <p>El valor del estimador es intuitivo ya que dice que <em>la intensidad estimada es el número de eventos por unidad de tiempo</em>, lo cual es consistente con la intuición tras la palabra <em>tasa</em>. Además, se puede verificar que este es un estimador consistente e insesgado que además alcanza la cota de Cramér-Rao.</p>
 </section>
-<section id="proceso-poisson-espacial-homogéneo" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="proceso-poisson-espacial-homogéneo"><span class="header-section-number">3.2</span> Proceso Poisson espacial homogéneo</h2>
+<section id="proceso-poisson-espacial-homogéneo" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="proceso-poisson-espacial-homogéneo"><span class="header-section-number">4.2</span> Proceso Poisson espacial homogéneo</h2>
 <p>Siguiendo la idea de que un proceso de Poisson sobre el tiempo cuenta cuántos puntos caen en cada intervalo de <span class="math inline">\(\mathbb{R}_+\)</span> tras arrojarlos a una intensidad <span class="math inline">\(\lambda&gt;0\)</span>, es posible extender la noción del proceso Poisson a espacios más generales.</p>
 <div id="def-pPhesp" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.3 (Proceso Poisson espacial homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson homogéneo</em> de intensidad <span class="math inline">\(\lambda&gt;0\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\lambda|A|)\)</span>, donde <span class="math inline">\(|A|\)</span> representa la medida de Lebesgue del conjunto <span class="math inline">\(A\)</span>. - Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes. - Dado que <span class="math inline">\(N(A)=n\)</span>, las ubicaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> de los eventos son uniformes en <span class="math inline">\(A\)</span>, es decir</p>
+<p><span class="theorem-title"><strong>Definición 4.3 (Proceso Poisson espacial homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson homogéneo</em> de intensidad <span class="math inline">\(\lambda&gt;0\)</span> en la región <span class="math inline">\(S\)</span> si - Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\lambda|A|)\)</span>, donde <span class="math inline">\(|A|\)</span> representa la medida de Lebesgue del conjunto <span class="math inline">\(A\)</span>. - Para todos <span class="math inline">\(A_1,\ldots,A_n\in\mathcal{A}\)</span> disjuntos, las variables aleatorias <span class="math inline">\(N(A_1),\ldots,N(A_n)\)</span> son independientes. - Dado que <span class="math inline">\(N(A)=n\)</span>, las ubicaciones <span class="math inline">\(X_1,\ldots,X_n\)</span> de los eventos son uniformes en <span class="math inline">\(A\)</span>, es decir</p>
 <p><span class="math display">\[f_{X_1,\ldots,X_n|N(A)}(x_1,\ldots,x_n|n)=\frac{1}{{|A|}^n}.\]</span></p>
 </div>
 <p>Así, un proceso Poisson espacial homogéneo es un proceso donde la intensidad con la que se arrojan puntos a una región <span class="math inline">\(A\)</span> del espacio, es proporcional al tamaño de éste. Esto hace sentido con la idea intuitiva de que ‘’es más probable que contemos más puntos si el área es más grande’’.</p>
 <p>En analogía, metodológica e intuitivamente, al caso temporal, tenemos el siguiente estimador para la intensidad de un proceso Poisson espacial homogéneo.</p>
 <div id="thm-emvpPhe" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 3.2 (Estimador máximo verosímil)</strong></span> Sea <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> un proceso Poisson espacial homogéneo con intensidad <span class="math inline">\(\lambda&gt;0\)</span> observado en la región <span class="math inline">\(A_0\)</span>, de tamaño <span class="math inline">\(|A_0|\)</span>. Supongamos que se registran <span class="math inline">\(n\)</span> eventos en las posiciones <span class="math inline">\(x_1,x_2,\ldots,x_n\in A_0\)</span>. Entonces el estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</p>
+<p><span class="theorem-title"><strong>Teorema 4.2 (Estimador máximo verosímil)</strong></span> Sea <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> un proceso Poisson espacial homogéneo con intensidad <span class="math inline">\(\lambda&gt;0\)</span> observado en la región <span class="math inline">\(A_0\)</span>, de tamaño <span class="math inline">\(|A_0|\)</span>. Supongamos que se registran <span class="math inline">\(n\)</span> eventos en las posiciones <span class="math inline">\(x_1,x_2,\ldots,x_n\in A_0\)</span>. Entonces el estimador máximo verosímil de <span class="math inline">\(\lambda\)</span> es</p>
 <p><span class="math display">\[\widehat{\lambda}=\frac{N(A_0)}{|A_0|}.\]</span></p>
 </div>
 <div class="proof">
@@ -358,11 +370,11 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 </div>
 <p>El valor del estimador es intuitivo ya que dice que <em>la intensidad estimada es el número de eventos por unidad de volumen</em>, lo cual es consistente con la intuición tras la palabra <em>tasa</em>. Además, se puede verificar que este es un estimador consistente e insesgado que además alcanza la cota de Cramér-Rao.</p>
 </section>
-<section id="proceso-poisson-no-homogéneo" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="proceso-poisson-no-homogéneo"><span class="header-section-number">3.3</span> Proceso Poisson no homogéneo</h2>
+<section id="proceso-poisson-no-homogéneo" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="proceso-poisson-no-homogéneo"><span class="header-section-number">4.3</span> Proceso Poisson no homogéneo</h2>
 <p>Regresamos al contexto temporal para motivar el siguiente modelo. Una de las principales debilidades del proceso Poisson homogéneo viene de la <em>homogeneidad</em>. El asumir que la intensidad es constante puede llevar a ideas como que los accidentes de tránsito ocurren a la misma tasa en la madrugada que en la tarde, y eso no es una hipótesis razonable, en general. La manera más inmediata de resolver esto es considerando que la intensidad ahora también varía en el tiempo.</p>
 <div id="def-pPnh" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.4 (Proceso Poisson no homogéneo)</strong></span> Sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función tal que</p>
+<p><span class="theorem-title"><strong>Definición 4.4 (Proceso Poisson no homogéneo)</strong></span> Sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función tal que</p>
 <p><span class="math display">\[\int_0^\infty\lambda(t)dt=\infty.\]</span></p>
 <p>Un proceso de contar <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda(t)\)</span> si satisface que</p>
 <ol type="1">
@@ -374,12 +386,12 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 </div>
 <p>Como consecuencia de esta formulación infinitesimal, se tiene el siguiente resultado, el cual da la función de densidad de los incrementos de un proceso Poisson no homogéneo.</p>
 <div id="thm-denspPnh" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 3.3 (Densidad de los incrementos)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>. Entonces, para cada <span class="math inline">\(n\geq 0\)</span> y <span class="math inline">\(0\leq s&lt;t\)</span>, se tiene que</p>
+<p><span class="theorem-title"><strong>Teorema 4.3 (Densidad de los incrementos)</strong></span> Sea <span class="math inline">\(N={(N_t)}_{t\geq 0}\)</span> un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>. Entonces, para cada <span class="math inline">\(n\geq 0\)</span> y <span class="math inline">\(0\leq s&lt;t\)</span>, se tiene que</p>
 <p><span class="math display">\[\mathbb{P}[N_{t+s}-N_t=n]=\exp\left[-(\Lambda(t+s)-\Lambda(t))\right]\frac{{(\Lambda(t+s)-\Lambda(t))}^n}{n!},\]</span></p>
 <p>donde</p>
 <p><span class="math display">\[\Lambda(t)=\int_0^t\lambda(u)du\]</span></p>
 <p>es la intensidad acumulada. Más aún, dado que han ocurrido <span class="math inline">\(n\)</span> eventos en el intervalo <span class="math inline">\((0,T]\)</span>, los tiempos de ocurrencia de éstos son tales que</p>
-<p><span class="math display">\[f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,t_n|n)\propto\frac{1}{{(\Lambda(t))}^n}\prod_{i=1}^n\lambda(w_i).\]</span></p>
+<p><span class="math display">\[f_{W_1,\ldots,W_n|N_t}(w_1,\ldots,w_n|n)\propto\frac{1}{{(\Lambda(t))}^n}\prod_{i=1}^n\lambda(w_i).\]</span></p>
 </div>
 <p>Es importante notar que ahora se busca estimar <em>una función</em>. La función de verosimilitud de este problema es</p>
 <p><span class="math display">\[L(\lambda(t))=\left[\prod_{i=1}^n\lambda(t_i)\right]\exp\left(-\Lambda(T)\right).\]</span></p>
@@ -392,18 +404,18 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 <p>para <span class="math inline">\(\kappa\)</span> un kernel Gaussiano y un ancho de banda <span class="math inline">\(h\)</span>.</p>
 <p>Una manera de validar modelos de procesos Poisson no homogéneos y también de simularlos es el siguiente, que relaciona un proceso Poisson homogéneo con uno no homogéneo a partir de un cambio de tiempo determinista.</p>
 <div id="thm-pPhtopPnh" class="theorem">
-<p><span class="theorem-title"><strong>Teorema 3.4 (Relación entre procesos Poisson homogéneos y no homogéneos)</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Teorema 4.4 (Relación entre procesos Poisson homogéneos y no homogéneos)</strong></span> &nbsp;</p>
 <ul>
 <li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson no homogéneo con funciones de intensidad <span class="math inline">\(\lambda\)</span> y de intensidad acumulada <span class="math inline">\(\Lambda\)</span>, con inversa generalizada <span class="math inline">\(\Lambda^{-1}\)</span>. Entonces el proceso <span class="math inline">\({(N_{\Lambda^{-1}(t)})}_{t\geq 0}\)</span> es un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span>.</li>
 <li>Sea <span class="math inline">\({(N_t)}_{t\geq 0}\)</span> un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=1\)</span> y sea <span class="math inline">\(\lambda:[0,\infty)\to[0,\infty)\)</span> una función no negativa tal que <span class="math inline">\(\displaystyle\int_0^\infty\lambda(t)dt=\infty\)</span>. Definimos la función <span class="math inline">\(\Lambda\)</span> como <span class="math inline">\(\displaystyle\Lambda(t)=\int_0^t\lambda(u)du\)</span>. Entonces el proceso <span class="math inline">\({(N_{\Lambda(t)})}_{t\geq 0}\)</span> es un proceso Poisson no homogéneo con función de intensidad <span class="math inline">\(\lambda\)</span>.</li>
 </ul>
 </div>
 </section>
-<section id="proceso-poisson-espacial-no-homogéneo" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">3.4</span> Proceso Poisson espacial no homogéneo</h2>
+<section id="proceso-poisson-espacial-no-homogéneo" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="proceso-poisson-espacial-no-homogéneo"><span class="header-section-number">4.4</span> Proceso Poisson espacial no homogéneo</h2>
 <p>Con las ideas de la sección anterior, un proceso Poisson espacial no homogéneo, intuitivamente, es uno en que la intensidad depende del punto del espacio en el que uno se encuentre. Teóricamente, la extensión no es tan directa como se pensaría en primera instancia.</p>
 <div id="def-pPenh" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si</p>
+<p><span class="theorem-title"><strong>Definición 4.5 (Proceso Poisson espacial no homogéneo)</strong></span> Sea <span class="math inline">\(S\subseteq\mathbb{R}^d\)</span> un conjunto Lebesgue-medible y <span class="math inline">\(\mathcal{A}\)</span> una familia de subconjuntos Lebesgue-medibles de <span class="math inline">\(S\)</span> cerrada bajo uniones e intersecciones finitas. Decimos que un proceso espacial <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> es un <em>proceso Poisson no homogéneo</em> con función de intensidad <span class="math inline">\(\lambda:S\to[0,\infty)\)</span> en la región <span class="math inline">\(S\)</span> si</p>
 <ul>
 <li>Para todo <span class="math inline">\(A\in\mathcal{A}\)</span> se tiene que <span class="math inline">\(N(A)\sim\text{Poi}(\Lambda(A))\)</span>, donde</li>
 </ul>
@@ -416,7 +428,7 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 </div>
 <p>En este caso, la función de intensidad en realidad se toma como densidad para una medida, a la cual se le llama también <em>medida de Poisson</em>. Detalles teóricos sobre estos procesos de Poisson con intensidades <span class="math inline">\(\lambda\)</span> generales se pueden revisar en <span class="citation" data-cites="Kingman">(<a href="../references.html#ref-Kingman" role="doc-biblioref">Kingman 2007</a>)</span>.</p>
 <div id="exm-medarea" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 3.1</strong></span> Sean <span class="math inline">\(S\subseteq\mathbb{R}^2\)</span> y <span class="math inline">\(\lambda(x,y)=e^{-(x^2+y^2)}\)</span>. Entonces, si <span class="math inline">\(A=\{(x,y)\ :\ x^2+y^2\leq r^2\}\)</span>, la medida de <span class="math inline">\(A\)</span> respecto a <span class="math inline">\(\lambda\)</span> es</p>
+<p><span class="theorem-title"><strong>Ejemplo 4.1</strong></span> Sean <span class="math inline">\(S\subseteq\mathbb{R}^2\)</span> y <span class="math inline">\(\lambda(x,y)=e^{-(x^2+y^2)}\)</span>. Entonces, si <span class="math inline">\(A=\{(x,y)\ :\ x^2+y^2\leq r^2\}\)</span>, la medida de <span class="math inline">\(A\)</span> respecto a <span class="math inline">\(\lambda\)</span> es</p>
 <p><span class="math display">\[\Lambda(A)=\int_A e^{-(x^2+y^2)}dxdy=\pi(1-e^{-r^2}).\]</span></p>
 </div>
 <p>La manera en la que se puede hacer inferencia sobre la función <span class="math inline">\(\lambda\)</span> es la misma que en el caso temporal. La función de verosimilitud sobre la región <span class="math inline">\(A\)</span> de este modelo es</p>
@@ -450,12 +462,12 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 \]</span></p>
 <p>donde <span class="math inline">\(h\)</span> es un ancho de banda. Una elección usual para <span class="math inline">\(\kappa\)</span> es la normal multivariada.</p>
 </section>
-<section id="pruebas-de-clústering" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="pruebas-de-clústering"><span class="header-section-number">3.5</span> Pruebas de clústering</h2>
-<p>La última propiedad enunciada en la definición <a href="#def-pPhesp" class="quarto-xref">Definición&nbsp;<span>3.3</span></a> hace que al proceso Poisson espacial homogéneo también se le llame el modelo de <em>aleatoriedad espacial completa</em> o <em>CSR</em> por sus siglas en inglés (<strong>c</strong>omplete <strong>s</strong>patial <strong>r</strong>andomness). Si bien la mayoría de procesos están lejos de ser CSR, éste ayuda a diferenciar entre patrones regulares y conglomerados (o clusterizados).</p>
+<section id="pruebas-de-clústering" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="pruebas-de-clústering"><span class="header-section-number">4.5</span> Pruebas de clústering</h2>
+<p>La última propiedad enunciada en la definición <a href="#def-pPhesp" class="quarto-xref">Definición&nbsp;<span>4.3</span></a> hace que al proceso Poisson espacial homogéneo también se le llame el modelo de <em>aleatoriedad espacial completa</em> o <em>CSR</em> por sus siglas en inglés (<strong>c</strong>omplete <strong>s</strong>patial <strong>r</strong>andomness). Si bien la mayoría de procesos están lejos de ser CSR, éste ayuda a diferenciar entre patrones regulares y conglomerados (o clusterizados).</p>
 <p>Dada una muestra de puntos, un buen primer paso es preguntarse si hay evidencia para rechazar la hipótesis de que se trate de un CSR.</p>
-<section id="prueba-con-quadrat" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="prueba-con-quadrat"><span class="header-section-number">3.5.1</span> Prueba con quadrat</h3>
+<section id="prueba-con-quadrat" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="prueba-con-quadrat"><span class="header-section-number">4.5.1</span> Prueba con quadrat</h3>
 <p>Un método para dar evidencia a favor o en contra de la hipótesis nula <span class="math inline">\(H_0\)</span> ser CSR es con una prueba <span class="math inline">\(\chi^2\)</span> (ver <span class="citation" data-cites="Moraga">(<a href="../references.html#ref-Moraga" role="doc-biblioref">Moraga 2023</a>)</span>). El <em>método quadrat</em> coincide en particionar la región de estudio en <span class="math inline">\(r\)</span> renglones y <span class="math inline">\(c\)</span> columnas, de modo que se obtenga una retícula de regiones disjuntas de la misma área (quadrats). Así, bajo <span class="math inline">\(H_0\)</span>, el número esperado de observaciones en cualquier región de la retícula es el mismo: sean <span class="math inline">\(n\)</span> el número de observaciones, <span class="math inline">\(m\)</span> el número de quadrats y <span class="math inline">\(n_i\)</span> el número de puntos en el <span class="math inline">\(i\)</span>-ésimo quadrat; entonces el número esperado de puntos en cada quadrat es <span class="math inline">\(n^*=n/m\)</span>.</p>
 <p>Dado lo anterior, el estadístico de prueba se puede calcular por</p>
 <p><span class="math display">\[X^2=\sum_{i=1}^m\frac{{(n_i-n^*)}^2}{n^*}.\]</span></p>
@@ -468,11 +480,11 @@ L(\lambda;\underline{x})&amp;\propto f_{X_1,\ldots,X_n|N(A_0)}(x_1,\ldots,x_n)\m
 <li><strong>alternative = “clustered”</strong> prueba <span class="math inline">\(H_0:\)</span> CSR o regular vs.&nbsp;<span class="math inline">\(H_a:\)</span> clusterizada.</li>
 </ul>
 </section>
-<section id="las-funciones-k-y-l-de-ripley" class="level3" data-number="3.5.2">
-<h3 data-number="3.5.2" class="anchored" data-anchor-id="las-funciones-k-y-l-de-ripley"><span class="header-section-number">3.5.2</span> Las funciones K y L de Ripley</h3>
+<section id="las-funciones-k-y-l-de-ripley" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="las-funciones-k-y-l-de-ripley"><span class="header-section-number">4.5.2</span> Las funciones K y L de Ripley</h3>
 <p>Pensando en datos puntuales sobre regiones del espacio <span class="math inline">\(S\subseteq\mathbb{R}^2\)</span>, se puede usar otro estadístico para probar la homogeneidad del proceso puntual.</p>
 <div id="def-KRipley" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.6 (Funciones K y L de Ripley)</strong></span> Sea <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> un proceso Poisson espacial en <span class="math inline">\(\mathbb{R}^2\)</span> con función de intensidad <span class="math inline">\(\lambda\)</span>.</p>
+<p><span class="theorem-title"><strong>Definición 4.6 (Funciones K y L de Ripley)</strong></span> Sea <span class="math inline">\(N={(N(A))}_{A\in\mathcal{A}}\)</span> un proceso Poisson espacial en <span class="math inline">\(\mathbb{R}^2\)</span> con función de intensidad <span class="math inline">\(\lambda\)</span>.</p>
 <ul>
 <li>La función <em>K de Ripley</em> es la función dada por</li>
 </ul>
@@ -504,7 +516,7 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 </ul>
 <p>Una manera de estimar la función <span class="math inline">\(K\)</span> es utilizando que es un conteo. Para hacer éste, es necesario tomar en cuenta que los eventos contados cerca de la frontera de una región <span class="math inline">\(A\)</span> pueden ser bajos. Por ello s eintroduce un peso <span class="math inline">\(w_{ij}\)</span> correspondiente al recíproco a la proporción del círculo con centro en <span class="math inline">\(x_i\)</span> y radio <span class="math inline">\(d_{ij}\)</span> contenido en <span class="math inline">\(A\)</span>.</p>
 <div id="def-KLRipleyestiadas" class="theorem definition">
-<p><span class="theorem-title"><strong>Definición 3.7 (Estimadores de las funciones de Ripley)</strong></span> Sea <span class="math inline">\(X=\{X_1,\ldots,X_n\}\)</span> un patrón de puntos en <span class="math inline">\(S\)</span>. La <em>función <span class="math inline">\(K\)</span> de Ripley empírica</em> está dada por</p>
+<p><span class="theorem-title"><strong>Definición 4.7 (Estimadores de las funciones de Ripley)</strong></span> Sea <span class="math inline">\(X=\{X_1,\ldots,X_n\}\)</span> un patrón de puntos en <span class="math inline">\(S\)</span>. La <em>función <span class="math inline">\(K\)</span> de Ripley empírica</em> está dada por</p>
 <p><span class="math display">\[\widehat{K}(r)=\frac{1}{\widehat{\lambda}n}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{\{d_{ij}\leq r\}}.\]</span></p>
 <p>Bajo la hipótesis de CSR, el estimador de <span class="math inline">\(\lambda\)</span> es <span class="math inline">\(\displaystyle\widehat{\lambda}=\frac{n-1}{|S|}\)</span>, entonces la función <span class="math inline">\(K\)</span> empírica es</p>
 <p><span class="math display">\[\widehat{K}(r)=\frac{|S|}{n(n-1)}\sum_{i=1}^n\sum_{j\neq i}w_{ij}^{-1}\Bbb{1}_{\{d_{ij}\leq r\}}.\]</span></p>
@@ -514,7 +526,7 @@ L(r)&amp;=\sqrt{\frac{K(r)}{\pi}}=\sqrt{\frac{\pi r^2}{\pi}}=r.
 <p>Los intervalos de confianza para estas funciones empíricas típicamente son intervalos bootstrap. La idea de utilizar las funciones de Ripley es parecida a la de las gráficas QQ en inferencia de distribuciones: <em>entre más cerca esté el proceso de ser homogéneo en el espacio, más parecidas serán las funciones teórica y empírica</em>.</p>
 <p>En el siguiente ejemplo se muestra un ejemplo del uso de estas funciones con datos simulados directamente de un proceso Poisson homogéneo.</p>
 <div id="exm-KLartificial" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 3.2</strong></span> Primero generamos un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=100\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 4.2</strong></span> Primero generamos un proceso Poisson homogéneo de intensidad <span class="math inline">\(\lambda=100\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
@@ -634,7 +646,7 @@ Quadrats: 4 by 4 grid of tiles</code></pre>
 </div>
 <p>Para ejemplificar cuándo no ocurre el CSR, tenemos otro ejemplo artificial donde la intensidad es muy alta cerca del <span class="math inline">\((0,0)\)</span>.</p>
 <div id="exm-KLartificialnh" class="theorem example">
-<p><span class="theorem-title"><strong>Ejemplo 3.3</strong></span> Primero generamos un proceso Poisson no homogéneo de intensidad <span class="math inline">\(\displaystyle\lambda(x,y)=100{(x^2+y^2)}^{-1/2}\Bbb{1}_{\{x^2+y^2&gt;0\}}\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
+<p><span class="theorem-title"><strong>Ejemplo 4.3</strong></span> Primero generamos un proceso Poisson no homogéneo de intensidad <span class="math inline">\(\displaystyle\lambda(x,y)=100{(x^2+y^2)}^{-1/2}\Bbb{1}_{\{x^2+y^2&gt;0\}}\)</span> y revisamos la región <span class="math inline">\(A=[0,1]\times[0,1]\)</span>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Código</summary>
@@ -1171,13 +1183,13 @@ Moraga, Paula. 2023. <em>Spatial Statistics for Data Science: Theory and Practic
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../Caps/02-Exploratorio.html" class="pagination-link" aria-label="Análisis Exploratorio">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análisis Exploratorio</span></span>
+      <a href="../Caps/02-Visualizacion.html" class="pagination-link" aria-label="Visualización de datos espaciales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualización de datos espaciales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../Caps/05-Ejemplo.html" class="pagination-link" aria-label="Caso de estudio: torres de telefonía">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Caso de estudio: torres de telefonía</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../Caps/04-Gaussiano.html" class="pagination-link" aria-label="Campos Gaussianos">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Campos Gaussianos</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

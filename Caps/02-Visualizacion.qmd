@@ -1,0 +1,3 @@
+# Visualización de datos espaciales {#cap-visual}
+
+Como el título lo indica, en este capítulo se presentan algunas herramientas de visualización de datos espaciales. El material base es el mini curso de *Análisis de datos espaciales con R* impartido por Noé Osorio García. Se asume que el lector está familiarizado con las funciones básicas de R.
