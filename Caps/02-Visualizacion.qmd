@@ -1,3 +1,505 @@
 # Visualización de datos espaciales {#cap-visual}
 
-Como el título lo indica, en este capítulo se presentan algunas herramientas de visualización de datos espaciales. El material base es el mini curso de *Análisis de datos espaciales con R* impartido por Noé Osorio García. Se asume que el lector está familiarizado con las funciones básicas de R.
+Como el título lo indica, en este capítulo se presentan algunas herramientas de visualización de datos espaciales. El material base es el mini curso de *Análisis de datos espaciales con `R`* impartido por [Noé Osorio García](https://www.linkedin.com/in/noe-osorio-garcia-979a1818a). Se asume que el lector está familiarizado con las funciones básicas de R.
+
+Las recomendaciones técnicas para seguir el material son:
+
+- [`R` con versión igual o superior a 4.4.2](https://cran.itam.mx/)
+- [RStudio](https://posit.co/download/rstudio-desktop/)
+- [QGIS](https://qgis.org/download/)
+- [Geoda](https://geodacenter.github.io/download)
+
+El temario propuesto es
+
+1. Introducción a `R`
+2. Manipulación y transformación de los datos
+3. Entorno gráfico
+4. Fuentes de información
+5. Proyecciones
+6. Visualización estática y dinámica
+7. Operaciones espaciales
+8. Procesos espaciales, isocronas, isodistance, ruteo y proximidad
+9. Manejo de APIs para generación de información: INEGI, MapBox y OSM
+10. Geocoding y reverse geocoding
+11. Manejo de BigData
+12. Análisis geoestadístico y análisis espacio-temporal
+13. Algoritmos de QGIS y Geoda desde R
+14. Modelos de lenguaje y análisis espacial
+
+## Clase 1
+El objetivo de la primera sesión fue dar nociones básicas de R: operaciones de aritmética, tipos de datos y estructuras básicas de datos; y una aproximación en visualización con un mapa dinámico elaborado con `leaflet`.
+
+### Introducción a `R`
+
+### RStudio
+
+### Objetos y tipos de datos en `R`
+
+#### Vector
+
+#### Matriz
+
+#### Data Frame
+
+### Funciones de aritmética
+
+### Condiciones lógicas
+
+### Asignación
+
+### Operaciones con vectores
+
+### Cargado de datasets
+Normalmente se trabaja con información ya existente de sitios web, libros de Excel, información de encuestas, bases gubernamentales, entre otros. Con `R` el crear bases de datos no es el objetivo primario, sino analizar la información existente.
+
+| Formato    | Función base   | Función tidyverse | Paquete requerido |
+|------------|----------------|-------------------|-------------------|
+| CSV        | read.csv()     | read_csv()        | readr             |
+| Excel      | -              | read_excel()      | readxl            |
+| SPSS       | read.spss()    | -                 | foreign           |
+| Stata      | read.dta()     | -                 | foreign           |
+| SAS        | -              | read_sas()        | haven             |
+| DBF        | read.dbf()     | -                 | foreign           |
+| Shapefile  | -              | st_read()         | sf                |
+| gpkg       | -              | st_read()         | sf                |
+| kml        | -              | st_read()         | sf                |
+| raster,tiff| -              | rast()            | terra             |
+| JSON       | -              | fromJSON()        | jsonlite          |
+| XML        | -              | read_xml()        | xml2              |
+
+Las dos librerías fundamentales para facilitar el procesamiento y la visualización de datos que se consideran son
+
+- `tidyverse`: conjunto de paquetes para análisis de datos
+  - `dplyr`: manipulación y transformación de datos
+  - `ggplot2`: visualización a través de la gramática de grafos
+  - `tidyr`: ordenar y limpiar datos
+  - `readr`: importación de archivos CSV/TSV
+  - `purrr`: programación funcional
+  - `stringr`: manipulación de cadenas de texto
+  - `forcats`: manejo de factores (variables categóricas)
+- `leaflet`: librería para crear mapas interactivos. Es la implementación en `R` de la biblioteca `leaflet` de `JavaScript`
+  - `leaflet.extras`
+  - `leaflet.extras2`
+  - `leafsync`
+  
+### Ejemplo trabajado
+  
+En esta primera sesión se trabaja con datos de la [Fiscalía General de Justicia de la Ciudad de México](https://datos.cdmx.gob.mx/dataset/victimas-en-carpetas-de-investigacion-fgj). Más específicamente, con datos de *víctimas en carpetas de investigación (2024)*. La función `read_csv`` puede recibir una URL o una ruta de archivo local. Con la función `glimpse` es posible saber qué tipo de dato tiene cada columna y algunos valores de los que contiene.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+base = read_csv("https://archivo.datos.cdmx.gob.mx/FGJ/victimas/victimasFGJ_2024.csv")
+
+glimpse(base)
+```
+  
+#### Estructura de la base
+
+Para explorar datos, un buen primer paso es realizar conteos para entender la distribución de las variables. La manera más simple de hacerla es con el operador `$` y la función `table()` para obtener frecuencias. Para el caso de la columna `categoria_delito`, por ejemplo:
+  
+```{r, message=FALSE, warning=FALSE}
+table(base$categoria_delito)
+```
+  
+Es importante notar que esta función omite los valores `NA` dentro de la columna, pero se pueden agregar con un `ìfany`
+
+```{r, message=FALSE, warning=FALSE}
+table(base$sexo)
+```
+  
+```{r, message=FALSE, warning=FALSE}
+table(base$sexo,useNA="ifany")
+```
+
+#### Filtrado de la base de datos
+
+Es común que sólo nos interese una parte del data set. Para filtrar es necesario poner el término clave tal y como está escrito, esto en la función `filter()`. Se pueden utilizar las funciones `table()` y `unique()` para poder ver cómo están escritos los datos.
+
+```{r, message=FALSE, warning=FALSE}
+unique(base$categoria_delito)
+```
+
+Se crearán cuatro bases con distintas categorías de delito y se asignarán a nuevos objetos: `delito_1`, `delito_2`, `delito_3` y `delito_4`.
+
+```{r, message=FALSE, warning=FALSE}
+delito_1 = base %>%
+  filter(categoria_delito=="ROBO A NEGOCIO CON VIOLENCIA")
+delito_2 = base %>%
+  filter(categoria_delito=="HOMICIDIO DOLOSO")
+delito_3 = base %>%
+  filter(categoria_delito=="ROBO A CASA HABITACIÓN CON VIOLENCIA")
+delito_4 = base %>%
+  filter(categoria_delito=="VIOLACIÓN")
+```
+
+#### Primeros mapas en `R`
+Para la visualización con la biblioteca `leaflet`, el proceso es
+
+1. Llamar a la biblioteca
+2. Usar la función leaflet
+3. Elegir la geometría
+4. Guardarlo en un objeto
+
+##### Primer mapa
+El primer mapa que hacemos es con `base_1` que contiene la categoría de *ROBO A NEGOCIO CON VIOLENCIA*. Para crear el mapa necesitamos: un data set, la biblioteca `leaflet` y el tipo de mapa. Los pasos, en este caso, son:
+
+1. Llamar a `leaflet`
+2. Agregar un mapa base. Hay distintos proveedores, dentro del vector `providers$` se puede cambiar
+3. Agregar el objeto que queremos ver. Usualmente se añade con `add +` el tipo de objeto. Si son polígonos, usamos `addPolygons`. Si son datos de latitud y longitud (`latlong`), usamos `addCircles`, recibe tres parámetros obligatorios: `data`, `lng` y `lat`. Para líneas, usamos `addpolylines`.
+
+```{r, message=FALSE, warning=FALSE}
+library(leaflet)
+
+mapa_1 = leaflet() %>%
+  addProviderTiles(provider = providers$CartoDB) %>%
+  addCircles(data=delito_1,
+  lng = ~longitud,
+  lat = ~latitud)
+
+mapa_1
+```
+
+##### Segundo mapa
+
+El segundo mapa que hacemos es con `base_2`. Para este mapa, hacemos que los puntos sean de color rojo con `red`. En [colorbrewer2](https://colorbrewer2.org/#type=diverging&scheme=BrBG&n=3) se pueden consultar paletas.
+
+```{r, message=FALSE, warning=FALSE}
+mapa_2 = leaflet() %>%
+    addProviderTiles(provider = providers$OpenStreetMap) %>%
+    addCircles(data=delito_2,
+    lng = ~longitud,
+    lat = ~latitud,
+    opacity = 1,
+    color = "red")
+
+mapa_2
+```
+
+##### Tercer mapa
+
+El tercer mapa que hacemos es con `base_4`. En `leaflet` se pueden agregar geometrías conectando con el operador `%>%` después de `addCircle`. En este caso, agregamos `addCircleMarkers`, el cual agrega el parámetro de `clusterOptions`.
+
+```{r, message=FALSE, warning=FALSE}
+mapa_3 = leaflet() %>%
+    addProviderTiles(provider = providers$Esri.WorldGrayCanvas) %>%
+    addCircles(data=delito_3,
+        lng = ~longitud,
+        lat = ~latitud,
+        opacity = 1,
+        color = "black") %>%
+    addCircleMarkers(data=delito_3,
+        lng = ~longitud,
+        lat = ~latitud,
+        color = "black",
+        clusterOptions = TRUE)
+
+mapa_3
+```
+
+Resaltamos la diferencia entre `CartoDB`, `OpenStreetMap` y `Esri.WorldGrayCanvas`.
+
+##### Cuarto mapa
+
+El mensaje de error que dice *Aviso: Data contains 175 rows with either missing or invalid lat/lng values and will be ignored*. Este mensaje indica que el data set contiene $x$ cantidad de renglones con entradas lat y lng con valor `NA`. No pasa nada si no los quitamos, pero se pueden filtrar con la condición `!is.na()`. La función `heatmap` tiene los mismos tres parámetros obligatorios pero tambié tiene `radius`, la cual está en metros para cada punto y `minOpacity` con rango de 0 a 1, donde 1 es *sin transparencia*.
+
+```{r, message=FALSE, warning=FALSE}
+library(leaflet.extras)
+
+delito_4 = delito_4 %>%
+    filter(!is.na(longitud),
+           !is.na(latitud))
+
+mapa_4 = leaflet() %>%
+    addProviderTiles(provider = providers$CartoDB) %>%
+    addHeatmap(data=delito_4,
+        lng = ~longitud,
+        lat = ~latitud,
+        radius = 15,
+        minOpacity = 1) %>%
+    addCircleMarkers(data=delito_4,
+        lng = ~longitud,
+        lat = ~latitud,
+        clusterOptions = TRUE)
+
+mapa_4
+```
+
+##### Visualización simultánea
+
+Algunas veces puede ser útil visualizar un mapa de distintas variables en la misma zona, e igual analizarlos al mismo tiempo. Una opción es sincronizar los mapas. Para esto, utilizamos la biblioteca `leafsync`.
+
+```{r, message=FALSE, warning=FALSE}
+library(leafsync)
+
+leafsync::sync(
+    mapa_1,mapa_2,mapa_3,mapa_4,
+    ncol = 2
+    )
+```
+
+También se pueden visualizar simultáneamente sin estar sincronizados, esto con `crosstalk` (aunque esto prácticamente crea el arreglo de las cuatro figuras).
+
+```{r, message=FALSE, warning=FALSE}
+library(crosstalk)
+
+crosstalk::bscols(
+  mapa_1, mapa_2,
+  mapa_3, mapa_4,
+  widths = c(6, 6)
+)
+```
+
+Para publicar mapas en la web usando RStudio, hay que tener cuenta de `rpubs` y de ahí dar un publish.
+
+### Referencias
+
+En esta clase se utilizaron principalmente el capítulo 5 de [@R4DS] y la introducción de [@GeoR].
+
+## Clase 2
+
+El objetivo de la segunda sesión fue conocer funciones de R para manejar data frames: agregar columnas, filtros y conteos básicos. También se visualizaron datos no sólo en mapas, se presenta una manera de pasar de puntos a polígonos creando un mapa de hexbin. Para visualización dinámica se usa `leaflet` y para visualización estática se usa `ggplot`.
+
+Los datos utilizados en esta clase fueron también de la FGJ, pero en esta ocasión se utilizó el acumulado, para poder utilizar el tiempo como parámetero para comparar alguna evolución.
+
+En el sitio de la fiscalía, basta cargar el acumulado utilizando `tidyverse` como anteriormente.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+base = read_csv("https://archivo.datos.cdmx.gob.mx/FGJ/victimas/victimasFGJ_acumulado_2024_09.csv")
+```
+
+Las variables y sus tipos, con los que contamos desde ahora, se muestran a continuación.
+
+```{r, message=FALSE, warning=FALSE}
+base %>% glimpse()
+```
+
+### Conteos y su visualización
+
+Al hacer un análisis exploratorio, un buen primer paso para entender la distribución de variables es haciendo conteos de éstas. Con la función `count()` se puede hacer esto fácilmente, e igualmente se puede agregar el parámetro `sort` para ordenar de mayor a menor.
+
+```{r, message=FALSE, warning=FALSE}
+base %>% count(sexo)
+```
+
+```{r, message=FALSE, warning=FALSE}
+base %>% count(categoria_delito,sort=TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+base %>% count(categoria_delito,sexo)
+```
+
+Notemos que se tienen registros desde el supuesto año 222 o 1917, podemos filtrar esto en los conteos.
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    count(anio_hecho)
+```
+
+Esto ya se puede graficar. Una gráfica sencilla en `ggplot` se haría con los siguientes pasos
+
+- Filtrar y contar los datos (ya se hizo)
+- Iniciar el gráfico con `ggplot()`
+- Indicar con `geom_col()` que se quiere una gráfica de columnas
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    count(anio_hecho) %>%
+    ggplot(aes(x=anio_hecho,y=n))+
+    geom_col()
+```
+
+Cuando se realiza el conteo con más de una variable, se pueden empezar a empalmar (somehow) las columnas. Esto se puede resolver con `position` o con facetas. A continuación se muestran dos gráficas de lo mismo: una en la que se empalman los distintos tipos de delito (que es exactamente igual a la anterior...) y otra donde sí se diferencían.
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    count(anio_hecho,categoria_delito)
+```
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    count(anio_hecho,categoria_delito) %>%
+    ggplot(aes(anio_hecho,n))+
+    geom_col()
+```
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    count(anio_hecho,categoria_delito) %>%
+    ggplot(aes(anio_hecho,n,fill=categoria_delito))+
+    geom_col()+
+    theme(legend.position = "top")
+```
+
+La opción de hacer un `facet` crea una gráfica para cada delito a través del tiempo.
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    count(anio_hecho,categoria_delito) %>%
+    ggplot(aes(anio_hecho,n,fill=categoria_delito))+
+    geom_col()+
+    facet_wrap(~categoria_delito,
+        scales = "free_y")
+```
+
+### Hexbins y el algoritmo `H3`
+
+A partir de aquí se utiliza el delito de *violación*, anonimizando posiciones con un mapa de hexbin e indexándolo con el algoritmo `H3`. Para comparar años, se consideran únicamente del año 2019 al 2023.
+
+```{r, message=FALSE, warning=FALSE}
+base %>%
+    filter(anio_hecho>2018) %>%
+    filter(anio_hecho<2024) %>%
+    count(anio_hecho,categoria_delito) %>%
+    filter(categoria_delito=="VIOLACIÓN") %>%
+    ggplot(aes(anio_hecho,n))+
+    geom_col()
+```
+
+Creamos un objeto que contiene sólo esta información, quedándonos únicamente con los datos que sí tienen latitud y longitud (todo se puede hacer en un solo `filter`).
+
+```{r, message=FALSE, warning=FALSE}
+delito = base %>%
+    filter(anio_hecho>2018,
+        anio_hecho<2024,
+        categoria_delito=="VIOLACIÓN",
+        !is.na(longitud),
+        !is.na(latitud)
+        )
+```
+
+Un `heatmap` indica dónde se concentran los eventos sin decir claramente la relación de magnitudes entre zonas. Los parámetros de `addHexbin` permiten indicar la escala de colores a utilizar y el tamaño de éstos, siendo 10 para indicar que todos los hexágonos sean del mismo tamaño.
+
+```{r, message=FALSE, warning=FALSE}
+library(leaflet.extras2)
+
+leaflet() %>%
+    addProviderTiles(providers$Esri) %>%
+    addHexbin(data=delito,
+        lng =~longitud,
+        lat =~latitud,
+        options = hexbinOptions(radiusRange = 10,
+        colorRange = c('#fee8c8',
+        '#fdbb84',
+        '#e34a33')),
+
+        opacity = 1
+        )
+```
+
+En el hexbin no hay una geometría tal cual, por lo que no permite hacer comparaciones. El algoritmo `H3` ([Uber's Hexagonal Hierarchical Spatial Index](https://www.uber.com/en-MX/blog/h3/)) ofrece un sistema geoespacial completo que permite consideraciones jerárquicas, por lo que cada punto cae en una zona y en esa zona podemos cuantificar. Cuenta con 16 niveles: del 0 al 15; para los cuales va decreciendo el tamaño del hexágono. Una manera de trabajar con esta herramienta es conjuntando las bibliotecas `sf` y `h3jsr`.
+
+Para el ejemplo, se utilizan tres columnas y se agrega una (con fines de ejemplo) con el valor de 50.
+
+```{r, message=FALSE, warning=FALSE}
+library(sf)
+library(h3jsr)
+
+delito %>%
+    select(anio_hecho,longitud,latitud) %>%
+    mutate(nueva_columna=50)
+```
+
+Ahora se agrega el índice geoespacial `H3` en el que cae cada punto.
+
+```{r, message=FALSE, warning=FALSE}
+delito %>%
+    select(anio_hecho,longitud,latitud) %>%
+    mutate(nueva_columna=50) %>%
+    st_as_sf(coords = c("longitud","latitud"),crs=4326) %>%
+    mutate(id_h3 =point_to_cell(geometry,res=7))
+```
+
+Lo anterior agregó la columna `id_h3`, la cual permite visualizar el `idhex` en el que se cae. Con esto se puede realizar el conteo básico para conocer la distribución o dar un seguimiento temporal. También notemos que se usó una transformación a coordenadas a un objeto espacial usando `st_as_sf()`, lo cual viene del paquete `sf`. El argumento `coords=c("longitud","latitud")` indica qué columnas contienen las coordenadas, `crs=4326` especifica el sistema de coordenadas WGS84 (el estándar para GPS y mapas web), y con ello asigna cada punto a una celda hexagonal usando `point_to_cell()` que lo almacena en la columna `id_h3`. La función `as_tibble()` hace que se tenga un formato de tabla ya que con el `idhex` se prescinde de la columna de `geometry`.
+
+```{r, message=FALSE, warning=FALSE}
+delito %>%
+    select(anio_hecho,longitud,latitud) %>%
+    mutate(nueva_columna=50) %>%
+    st_as_sf(coords = c("longitud","latitud"),crs=4326) %>%
+    mutate(id_h3 =point_to_cell(geometry,res=8)) %>%
+    as_tibble() %>%
+    select(-geometry)
+```
+
+El conteo por hexágono es el siguiente.
+
+```{r, message=FALSE, warning=FALSE}
+delito %>%
+    select(anio_hecho,longitud,latitud) %>%
+    mutate(nueva_columna=50) %>%
+    st_as_sf(coords = c("longitud","latitud"),crs=4326) %>%
+    mutate(id_h3 =point_to_cell(geometry,res=7)) %>%
+    as_tibble() %>%
+    select(-geometry) %>%
+    count(id_h3)
+```
+
+Finalmente, con lo anterior se crea el data frame que graficaremos.
+
+```{r, message=FALSE, warning=FALSE}
+data_set_con_h3 = delito %>%
+    select(anio_hecho,longitud,latitud) %>%
+    mutate(nueva_columna=50) %>%
+    st_as_sf(coords = c("longitud","latitud"),crs=4326) %>%
+    mutate(id_h3 =point_to_cell(geometry,res=7)) %>%
+    as_tibble() %>%
+    select(-geometry) %>%
+    count(id_h3) %>%
+    mutate(geometry=h3jsr::cell_to_polygon(id_h3)) %>%
+    sf::st_as_sf()
+```
+
+#### Visualización
+
+Para ver, fuera de un mapa, el `H3`, la función de `ggplot` llamada `geom_sf` permite graficar objetos creados con `sf`.
+
+```{r, message=FALSE, warning=FALSE}
+library(viridis)
+
+ggplot()+
+    geom_sf(data=data_set_con_h3,aes(fill=n))+
+    viridis::scale_fill_viridis()+
+    theme_bw()
+```
+
+También es posible ver cómo está distribuida la intensidad de los hexágonos. Notemos que los colores se corresponden.
+
+```{r, message=FALSE, warning=FALSE}
+data_set_con_h3 %>%
+    ggplot(aes(n))+
+    geom_histogram(aes(fill=..x..))+
+    theme_bw()+
+    viridis::scale_fill_viridis()
+```
+
+Pero nos gusta verlo sobre el mapa... Como los hexágonos cambian el objeto de punto a polígono, se debe indicar esto al crear el objeto de `leaflet`. Es necesario indicar: la paleta de colores (por consistencia se usa `viridis`) y la variable a la que se aplica el valor con `domain`.
+
+```{r, message=FALSE, warning=FALSE}
+colores = colorNumeric(
+    palette = "viridis",
+    domain = data_set_con_h3$n
+    )
+
+leaflet() %>%
+    addProviderTiles(providers$OpenStreetMap) %>%
+    addPolygons(data=data_set_con_h3,
+    weight = 1,
+    fillColor = ~colores(n),
+    fillOpacity = 1
+    )
+```
+
+
+
+
+

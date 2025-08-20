@@ -13,8 +13,8 @@ book:
     - Caps/02-Exploratorio.qmd
     - Caps/02-Visualizacion.qmd
     - Caps/03-Poisson.qmd
-    - Caps/04-Gaussiano.qmd
-    - Caps/05-Ejemplo.qmd
+    #- Caps/04-Gaussiano.qmd
+    #- Caps/05-Ejemplo.qmd
     - references.qmd
 
 bibliography: references.bib
